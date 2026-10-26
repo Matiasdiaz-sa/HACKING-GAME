@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/themes.css">
 </head>
 <body class="crt-enabled">
   <!-- Capa de líneas de exploración CRT y resplandor fosfórico -->
@@ -29,6 +30,15 @@
     </div>
 
     <div class="header-right">
+      <div class="header-badge-group">
+        <div class="economy-badge" id="btn-open-market" title="Abrir The Black Market">
+          <span>🪙</span> <span id="header-bytecoins-val">200</span> ฿
+        </div>
+        <div class="rank-badge" id="header-rank-badge">
+          <span id="header-rank-text">Byte 0 • 1000 ELO</span>
+        </div>
+      </div>
+      <button class="cyber-btn btn-sm btn-market" id="btn-header-market" title="Abrir The Black Market" style="border-color: var(--color-amber); color: var(--color-amber);">MARKET [฿]</button>
       <button class="cyber-btn btn-sm" id="btn-toggle-crt" title="Activar/Desactivar efecto CRT">CRT: ON</button>
       <button class="cyber-btn btn-sm" id="btn-toggle-sound" title="Silenciar / Activar sonido">AUDIO: 🔊</button>
       <button class="cyber-btn btn-sm" id="btn-open-help" title="Ver guía de comandos">MANUAL [?]</button>
@@ -44,6 +54,9 @@
       </div>
 
       <div class="lobby-body">
+        <!-- Banner de Reto Directo por Link (si entra con ?room=XXXX) -->
+        <div id="challenge-banner-container" style="display: none;"></div>
+
         <div class="form-group">
           <label for="input-nickname" class="cyber-label">&gt; INGRESA TU ALIAS / CODICENAME:</label>
           <input type="text" id="input-nickname" class="cyber-input" placeholder="Ej: ZeroCool, Neo, Cipher" maxlength="15" autocomplete="off" autofocus>
@@ -67,6 +80,10 @@
             <div class="room-input-group">
               <input type="text" id="input-room-code" class="cyber-input" placeholder="CÓDIGO (ej: AX79)" maxlength="4" style="text-transform: uppercase;">
               <button class="cyber-btn btn-secondary" id="btn-join-room">UNIRSE / CREAR</button>
+            </div>
+            <div class="share-viral-group" style="margin-top: 10px;">
+              <button class="cyber-btn btn-sm btn-viral-link" id="btn-copy-challenge-link" style="flex: 1;" title="Copiar enlace directo a esta sala">COPIAR LINK DE RETO</button>
+              <button class="cyber-btn btn-sm btn-viral-wa" id="btn-share-whatsapp" style="flex: 1;" title="Retar a un amigo por WhatsApp">RETAR X WHATSAPP</button>
             </div>
           </div>
         </div>
@@ -384,13 +401,54 @@
       </div>
       <div class="gameover-body">
         <p class="gameover-reason" id="gameover-reason">El sistema enemigo fue comprometido exitosamente.</p>
-        <div class="gameover-stats" id="gameover-stats">
-          <!-- Estadísticas dinámicas -->
+        
+        <!-- Desglose de Recompensas, Bytecoins y ELO -->
+        <div class="victory-card-details" id="gameover-rewards-box">
+          <div class="victory-stat-row">
+            <span class="victory-stat-label">DURACIÓN DEL DUELO:</span>
+            <span class="victory-stat-val" id="gameover-duration">--</span>
+          </div>
+          <div class="victory-stat-row">
+            <span class="victory-stat-label">RATING ELO & DIVISIÓN:</span>
+            <span class="victory-stat-val" id="gameover-elo-change">--</span>
+          </div>
+          <div class="victory-rewards-list" id="gameover-rewards-list">
+            <!-- Desglose dinámico de Bytecoins -->
+          </div>
         </div>
+
+        <div class="share-viral-group" style="margin-bottom: 12px;">
+          <button class="cyber-btn btn-sm btn-viral-wa btn-block" id="btn-share-victory-wa">
+            📲 COMPARTIR VICTORIA POR WHATSAPP
+          </button>
+        </div>
+
         <div class="gameover-actions">
           <button class="cyber-btn btn-primary" id="btn-rematch">SOLICITAR REVANCHA</button>
           <button class="cyber-btn btn-secondary" id="btn-return-lobby">VOLVER AL LOBBY</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: THE BLACK MARKET (TIENDA CLANDESTINA) -->
+  <div class="cyber-modal market-modal" id="modal-market" style="display: none;">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h2>THE BLACK MARKET // TIENDA CLANDESTINA</h2>
+          <span style="font-size: 12px; color: var(--color-amber);">SALDO DISPONIBLE: <strong id="market-modal-coins-val">200</strong> ฿</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-market">&times;</button>
+      </div>
+      <div class="market-header-tabs">
+        <button class="market-tab-btn active" data-category="theme">🎨 TEMAS VISUALES</button>
+        <button class="market-tab-btn" data-category="sound">🔊 SOUNDPACKS TECLADO</button>
+        <button class="market-tab-btn" data-category="title">🏷️ TÍTULOS DE HACKER</button>
+      </div>
+      <div class="market-items-grid" id="market-items-grid">
+        <!-- Renderizado dinámico desde market.js -->
       </div>
     </div>
   </div>
@@ -402,6 +460,8 @@
   <!-- Scripts -->
   <script src="/socket.io/socket.io.js"></script>
   <script src="js/audio.js"></script>
+  <script src="js/economy.js"></script>
+  <script src="js/market.js"></script>
   <script src="js/client.js"></script>
 </body>
 </html>

@@ -27,7 +27,8 @@
       'connect', 'submit', 'ps', 'kill', 'firewall', 'patch', 'clearlogs',
       'clear', 'cls', 'ls', 'cd', 'cat', 'rm', 'exit', 'test',
       'popup', 'alert', 'freeze', 'glitch', 'invert', 'flip', 'chaos', 'mousechaos',
-      'say', 'msg', 'gane', 'win', 'pwn', 'pwned', 'gg', 'deface'
+      'say', 'msg', 'gane', 'win', 'pwn', 'pwned', 'gg', 'deface',
+      'market', 'shop', 'tienda'
     ],
     commonPaths: [
       '/boot/kernel.sys', '/etc/passwd', '/home/admin/flag.txt', '/home/admin/notas.txt',
@@ -141,6 +142,77 @@
       }, 2000);
     });
   });
+
+  // Detección de Reto Directo por Parámetro de URL (?room=XXXX o ?join=XXXX)
+  const urlParams = new URLSearchParams(window.location.search);
+  const challengeRoom = (urlParams.get('room') || urlParams.get('join') || '').trim().toUpperCase();
+
+  if (challengeRoom && challengeRoom.length <= 6) {
+    if (dom.inputRoomCode) dom.inputRoomCode.value = challengeRoom;
+    const bannerContainer = document.getElementById('challenge-banner-container');
+    if (bannerContainer) {
+      bannerContainer.style.display = 'flex';
+      bannerContainer.className = 'challenge-banner';
+      bannerContainer.innerHTML = `
+        <div>
+          <strong>⚔️ ¡DESAFÍO DIRECTO RECIBIDO!</strong><br>
+          Has sido retado a combatir en la sala privada <strong>[${challengeRoom}]</strong>.
+        </div>
+        <button class="cyber-btn btn-sm" id="btn-quick-accept-challenge" style="background: var(--color-cyan); color: #000; font-weight: 700;">ACEPTAR RETO</button>
+      `;
+      document.getElementById('btn-quick-accept-challenge')?.addEventListener('click', () => {
+        joinMatch(challengeRoom);
+      });
+    }
+  }
+
+  // Botón Copiar Link de Reto Directo
+  const btnCopyChallenge = document.getElementById('btn-copy-challenge-link');
+  if (btnCopyChallenge) {
+    btnCopyChallenge.addEventListener('click', () => {
+      let code = dom.inputRoomCode.value.trim().toUpperCase();
+      if (!code) {
+        code = Math.random().toString(36).substring(2, 6).toUpperCase();
+        dom.inputRoomCode.value = code;
+      }
+      const challengeUrl = `${window.location.origin}/?join=${code}`;
+      navigator.clipboard.writeText(challengeUrl).then(() => {
+        const orig = btnCopyChallenge.textContent;
+        btnCopyChallenge.textContent = '¡LINK COPIADO!';
+        btnCopyChallenge.style.background = '#00ff77';
+        btnCopyChallenge.style.color = '#000';
+        if (window.cyberAudio) window.cyberAudio.playSuccess();
+        setTimeout(() => {
+          btnCopyChallenge.textContent = orig;
+          btnCopyChallenge.style.background = '';
+          btnCopyChallenge.style.color = '';
+        }, 2000);
+      });
+    });
+  }
+
+  // Botón Retar por WhatsApp
+  const btnShareWa = document.getElementById('btn-share-whatsapp');
+  if (btnShareWa) {
+    btnShareWa.addEventListener('click', () => {
+      let code = dom.inputRoomCode.value.trim().toUpperCase();
+      if (!code) {
+        code = Math.random().toString(36).substring(2, 6).toUpperCase();
+        dom.inputRoomCode.value = code;
+      }
+      const challengeUrl = `${window.location.origin}/?join=${code}`;
+      const msg = `⚔️ Te desafío a un combate de hacking 1v1 en HackWars. Haz clic aquí para entrar a mi sala privada: ${challengeUrl}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+    });
+  }
+
+  // Botón en Header para abrir The Black Market
+  const btnHeaderMarket = document.getElementById('btn-header-market');
+  if (btnHeaderMarket) {
+    btnHeaderMarket.addEventListener('click', () => {
+      if (window.blackMarket) window.blackMarket.open();
+    });
+  }
 
   // Guardar alias en localStorage
   const savedName = localStorage.getItem('hackwars_alias');
@@ -261,6 +333,12 @@
     const trimmed = raw.trim().toLowerCase();
     if (trimmed === 'clear' || trimmed === 'cls') {
       clearTerminal();
+      return;
+    }
+
+    if (trimmed === 'market' || trimmed === 'shop' || trimmed === 'tienda') {
+      if (window.blackMarket) window.blackMarket.open();
+      printToTerminal('[+] Abriendo The Black Market...', 'info');
       return;
     }
 
@@ -821,6 +899,16 @@
   });
 
   // ==========================================================================
+  // RECOMPENSAS DURANTE EL COMBATE (FIRST BLOOD, DEFENSA EXITOSA)
+  // ==========================================================================
+  socket.on('bounty_reward', (data) => {
+    if (window.hackWarsEconomy) {
+      window.hackWarsEconomy.addBytecoins(data.reward, data.message);
+    }
+    printToTerminal(`\n🪙 ${data.message}`, 'highlight');
+  });
+
+  // ==========================================================================
   // FIN DE PARTIDA (GAME OVER)
   // ==========================================================================
   socket.on('game_over', (data) => {
@@ -842,6 +930,46 @@
     }
 
     dom.gameoverReason.textContent = data.reason;
+
+    // Liquidar recompensas en economía y actualizar estadísticas
+    if (window.hackWarsEconomy) {
+      const summary = window.hackWarsEconomy.recordMatch({
+        isWinner,
+        winType: data.winType || 'VICTORY',
+        durationSec: data.durationSec || 0,
+        isBot: !!data.isBotMatch
+      });
+
+      const durEl = document.getElementById('gameover-duration');
+      if (durEl) durEl.textContent = `${data.durationSec || 0} segundos`;
+
+      const eloEl = document.getElementById('gameover-elo-change');
+      if (eloEl) {
+        const sign = summary.eloResult.delta >= 0 ? '+' : '';
+        eloEl.textContent = `${summary.rank.name} (${sign}${summary.eloResult.delta} ELO -> ${summary.eloResult.newElo})`;
+        eloEl.style.color = isWinner ? '#00ff77' : '#ff2a5f';
+      }
+
+      const rewardsList = document.getElementById('gameover-rewards-list');
+      if (rewardsList) {
+        rewardsList.innerHTML = summary.rewards.map(r => `
+          <div class="reward-item">
+            <span>• ${r.label}</span>
+            <span>+${r.amount} ฿</span>
+          </div>
+        `).join('');
+      }
+
+      // Configurar botón compartir en WhatsApp
+      const btnShareWa = document.getElementById('btn-share-victory-wa');
+      if (btnShareWa) {
+        btnShareWa.onclick = () => {
+          const outcome = isWinner ? '¡Acabo de ganar un duelo 1v1' : '¡Acabo de jugar una partida intensa';
+          const msg = `⚔️ ${outcome} en HackWars en ${data.durationSec || 0}s! ¿Te atreves a desafiarme en terminal? Entra aquí: ${window.location.origin}`;
+          window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+        };
+      }
+    }
   });
 
   // Revancha

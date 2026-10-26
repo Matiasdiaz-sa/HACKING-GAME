@@ -1,0 +1,456 @@
+/* ==========================================================================
+   HACKWARS // THE BLACK MARKET & THEMES SYSTEM
+   Variables CSS modulares para personalización visual completa
+   ========================================================================== */
+
+/* --- TEMA 1: MATRIX PHOSPHOR (Default) --- */
+[data-theme="theme_matrix"] {
+  --bg-dark: #07090e;
+  --bg-card: rgba(13, 18, 27, 0.92);
+  --bg-card-secondary: rgba(18, 26, 38, 0.75);
+  --bg-input: rgba(6, 10, 16, 0.95);
+  
+  --color-green: #00ff77;
+  --color-green-dim: rgba(0, 255, 119, 0.4);
+  --color-green-glow: rgba(0, 255, 119, 0.22);
+  
+  --color-cyan: #00e5ff;
+  --color-cyan-glow: rgba(0, 229, 255, 0.2);
+  
+  --color-amber: #ffaa00;
+  --color-amber-glow: rgba(255, 170, 0, 0.2);
+  
+  --color-red: #ff2a5f;
+  --color-red-glow: rgba(255, 42, 95, 0.25);
+  
+  --text-main: #d4e2ed;
+  --text-muted: #6e8499;
+  --border-cyber: 1px solid rgba(0, 255, 119, 0.25);
+}
+
+/* --- TEMA 2: CYBERPUNK NIGHT CITY (500 ฿) --- */
+[data-theme="theme_cyberpunk"] {
+  --bg-dark: #0a0414;
+  --bg-card: rgba(22, 10, 38, 0.94);
+  --bg-card-secondary: rgba(36, 16, 60, 0.8);
+  --bg-input: rgba(14, 5, 25, 0.95);
+  
+  --color-green: #00f0ff; /* Cyan eléctrico como primario */
+  --color-green-dim: rgba(0, 240, 255, 0.4);
+  --color-green-glow: rgba(0, 240, 255, 0.25);
+  
+  --color-cyan: #ff007f; /* Rosa neón */
+  --color-cyan-glow: rgba(255, 0, 127, 0.3);
+  
+  --color-amber: #ffe600;
+  --color-amber-glow: rgba(255, 230, 0, 0.25);
+  
+  --color-red: #ff0055;
+  --color-red-glow: rgba(255, 0, 85, 0.35);
+  
+  --text-main: #f3e8ff;
+  --text-muted: #9b7cb6;
+  --border-cyber: 1px solid rgba(255, 0, 127, 0.4);
+}
+
+/* --- TEMA 3: AMBER RETRO 1982 (350 ฿) --- */
+[data-theme="theme_amber"] {
+  --bg-dark: #0e0802;
+  --bg-card: rgba(26, 15, 4, 0.93);
+  --bg-card-secondary: rgba(38, 23, 7, 0.8);
+  --bg-input: rgba(15, 8, 2, 0.95);
+  
+  --color-green: #ffb000; /* Ámbar cálido VT100 */
+  --color-green-dim: rgba(255, 176, 0, 0.45);
+  --color-green-glow: rgba(255, 176, 0, 0.25);
+  
+  --color-cyan: #ffd066;
+  --color-cyan-glow: rgba(255, 208, 102, 0.25);
+  
+  --color-amber: #ff7700;
+  --color-amber-glow: rgba(255, 119, 0, 0.3);
+  
+  --color-red: #ff3b30;
+  --color-red-glow: rgba(255, 59, 48, 0.3);
+  
+  --text-main: #ffdf99;
+  --text-muted: #997a47;
+  --border-cyber: 1px solid rgba(255, 176, 0, 0.35);
+}
+
+/* --- TEMA 4: DRACULA CARBON (600 ฿) --- */
+[data-theme="theme_dracula"] {
+  --bg-dark: #12131a;
+  --bg-card: rgba(26, 27, 38, 0.94);
+  --bg-card-secondary: rgba(36, 38, 54, 0.8);
+  --bg-input: rgba(18, 19, 26, 0.95);
+  
+  --color-green: #50fa7b; /* Verde Dracula */
+  --color-green-dim: rgba(80, 250, 123, 0.4);
+  --color-green-glow: rgba(80, 250, 123, 0.2);
+  
+  --color-cyan: #bd93f9; /* Púrpura Dracula */
+  --color-cyan-glow: rgba(189, 147, 249, 0.3);
+  
+  --color-amber: #ffb86c; /* Naranja Dracula */
+  --color-amber-glow: rgba(255, 184, 108, 0.2);
+  
+  --color-red: #ff5555; /* Rojo Dracula */
+  --color-red-glow: rgba(255, 85, 85, 0.3);
+  
+  --text-main: #f8f8f2;
+  --text-muted: #797c9c;
+  --border-cyber: 1px solid rgba(189, 147, 249, 0.35);
+}
+
+/* --- TEMA 5: BLOOD SYNDICATE (850 ฿) --- */
+[data-theme="theme_blood"] {
+  --bg-dark: #0f0204;
+  --bg-card: rgba(30, 8, 12, 0.94);
+  --bg-card-secondary: rgba(45, 12, 18, 0.8);
+  --bg-input: rgba(18, 4, 7, 0.95);
+  
+  --color-green: #ff1a40; /* Rojo carmesí hacker agresivo */
+  --color-green-dim: rgba(255, 26, 64, 0.45);
+  --color-green-glow: rgba(255, 26, 64, 0.3);
+  
+  --color-cyan: #ff6b81;
+  --color-cyan-glow: rgba(255, 107, 129, 0.25);
+  
+  --color-amber: #ff9f43;
+  --color-amber-glow: rgba(255, 159, 67, 0.25);
+  
+  --color-red: #ff002b;
+  --color-red-glow: rgba(255, 0, 43, 0.4);
+  
+  --text-main: #ffccd3;
+  --text-muted: #a65864;
+  --border-cyber: 1px solid rgba(255, 26, 64, 0.35);
+}
+
+/* --- TEMA 6: GHOST PROTOCOL (1,000 ฿) --- */
+[data-theme="theme_ghost"] {
+  --bg-dark: #0b0d10;
+  --bg-card: rgba(20, 24, 30, 0.94);
+  --bg-card-secondary: rgba(30, 36, 45, 0.8);
+  --bg-input: rgba(13, 16, 20, 0.95);
+  
+  --color-green: #f0f6fc; /* Monocromático blanco plata */
+  --color-green-dim: rgba(240, 246, 252, 0.4);
+  --color-green-glow: rgba(240, 246, 252, 0.25);
+  
+  --color-cyan: #8b949e;
+  --color-cyan-glow: rgba(139, 148, 158, 0.25);
+  
+  --color-amber: #d29922;
+  --color-amber-glow: rgba(210, 153, 34, 0.25);
+  
+  --color-red: #f85149;
+  --color-red-glow: rgba(248, 81, 73, 0.3);
+  
+  --text-main: #ffffff;
+  --text-muted: #8b949e;
+  --border-cyber: 1px solid rgba(240, 246, 252, 0.3);
+}
+
+/* ==========================================================================
+   COMPONENTES DE GAMIFICACIÓN, BLACK MARKET & FIN DE PARTIDA
+   ========================================================================== */
+
+/* Badges del Header */
+.header-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.economy-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--color-amber);
+  color: var(--color-amber);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 10px var(--color-amber-glow);
+}
+
+.economy-badge:hover {
+  background: var(--color-amber);
+  color: #000;
+  transform: translateY(-1px);
+}
+
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--color-cyan);
+  color: var(--color-cyan);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Floating Coin Toast */
+.coin-toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: rgba(8, 12, 18, 0.95);
+  border: 1px solid var(--color-amber);
+  color: var(--color-amber);
+  padding: 12px 20px;
+  border-radius: 6px;
+  box-shadow: 0 0 25px rgba(255, 170, 0, 0.35);
+  font-size: 14px;
+  font-weight: 700;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideToastIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes slideToastIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Modal del Black Market */
+.market-modal .modal-content {
+  max-width: 820px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.market-header-tabs {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+}
+
+.market-tab-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  padding: 6px 14px;
+  font-family: var(--font-title);
+  font-size: 11px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+  border-radius: 3px;
+}
+
+.market-tab-btn:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.market-tab-btn.active {
+  color: var(--color-green);
+  border-color: var(--color-green);
+  background: var(--color-green-glow);
+}
+
+.market-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+  padding: 16px 4px;
+  overflow-y: auto;
+  max-height: 55vh;
+}
+
+.market-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.market-card:hover {
+  border-color: var(--color-green);
+  box-shadow: 0 0 15px var(--color-green-glow);
+  transform: translateY(-2px);
+}
+
+.market-card.equipped {
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 15px var(--color-cyan-glow);
+}
+
+.market-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.market-card-title {
+  font-family: var(--font-title);
+  font-size: 13px;
+  color: var(--color-green);
+  font-weight: 700;
+}
+
+.market-card-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.market-preview-box {
+  height: 36px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin: 6px 0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.market-price {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-amber);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-market-action {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-title);
+  cursor: pointer;
+  border-radius: 3px;
+  border: 1px solid var(--color-green);
+  background: var(--color-green-glow);
+  color: var(--color-green);
+  transition: all 0.2s ease;
+}
+
+.btn-market-action:hover:not(:disabled) {
+  background: var(--color-green);
+  color: #000;
+}
+
+.btn-market-action.btn-equipped {
+  border-color: var(--color-cyan);
+  background: var(--color-cyan-glow);
+  color: var(--color-cyan);
+  cursor: default;
+}
+
+/* Tarjeta de Victoria y Fin de Partida Enriquecida */
+.victory-card-details {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 14px;
+  margin: 14px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.victory-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+  padding-bottom: 5px;
+}
+
+.victory-stat-label {
+  color: var(--text-muted);
+}
+
+.victory-stat-val {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.victory-rewards-list {
+  background: rgba(255, 170, 0, 0.08);
+  border: 1px solid rgba(255, 170, 0, 0.3);
+  border-radius: 4px;
+  padding: 10px;
+  margin-top: 6px;
+}
+
+.reward-item {
+  color: var(--color-amber);
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.share-viral-group {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn-viral-wa {
+  background: #25d366 !important;
+  color: #000 !important;
+  font-weight: 700 !important;
+  border: none !important;
+}
+
+.btn-viral-wa:hover {
+  background: #1ebc59 !important;
+}
+
+.btn-viral-link {
+  background: rgba(0, 229, 255, 0.15) !important;
+  border-color: var(--color-cyan) !important;
+  color: var(--color-cyan) !important;
+}
+
+/* Banner de Reto Directo (si entras con ?room=XXXX) */
+.challenge-banner {
+  background: rgba(0, 229, 255, 0.12);
+  border: 1px solid var(--color-cyan);
+  padding: 10px 14px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--color-cyan);
+  font-size: 13px;
+  animation: challengePulse 2s infinite ease-in-out;
+}
+
+@keyframes challengePulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(0, 229, 255, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.5); }
+}

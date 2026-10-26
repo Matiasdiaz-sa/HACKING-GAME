@@ -10,6 +10,7 @@ class GameRoom {
     this.winner = null;
     this.winReason = null;
     this.startedAt = null;
+    this.firstBloodClaimed = false;
 
     this.addPlayer(player1.socket, player1.username);
   }
@@ -72,7 +73,7 @@ class GameRoom {
       if (remaining) {
         this.winner = remaining.username;
         this.winReason = 'El oponente se ha desconectado de la red.';
-        this.broadcastGameOver(this.winner, this.winReason);
+        this.broadcastGameOver(this.winner, this.winReason, 'FORFEIT');
       }
     }
   }
@@ -110,13 +111,20 @@ class GameRoom {
     }
   }
 
-  broadcastGameOver(winnerUsername, reason) {
+  broadcastGameOver(winnerUsername, reason, winType = 'VICTORY') {
     this.status = 'FINISHED';
+    const durationSec = this.startedAt ? Math.max(1, Math.round((Date.now() - this.startedAt) / 1000)) : 0;
+    const isBotMatch = this.roomId.startsWith('BOT_');
     for (const player of this.players.values()) {
+      const isWinner = player.username === winnerUsername;
       player.socket.emit('game_over', {
         winner: winnerUsername,
+        isWinner,
         reason,
-        flagCaptured: reason.includes('FLAG')
+        winType,
+        durationSec,
+        isBotMatch,
+        flagCaptured: winType === 'FLAG_SUBMIT' || reason.includes('FLAG')
       });
     }
   }
@@ -528,6 +536,7 @@ Comando sugerido: exploit ${targetIp} ${portNum} ${portInfo.payload}
           reason: `[ATAQUE FALLIDO] La conexión fue abortada con SIGKILL por la defensa de ${targetIp}!`
         });
         opponent.vm.addLog('INFO', `Amenaza de exploit entrante en puerto ${portNum} neutralizada con éxito.`);
+        opponent.socket.emit('bounty_reward', { event: 'DEFENSE_SUCCESS', reward: 25, message: '¡DEFENSA EXITOSA! Exploit neutralizado con SIGKILL (+25 ฿)' });
       },
       { sourceIp: player.vm.virtualIp, port: portNum, taskId }
     );
@@ -574,6 +583,10 @@ Comando sugerido: exploit ${targetIp} ${portNum} ${portInfo.payload}
 
       // Éxito: Marcar comprometido
       portInfo.compromised = true;
+      if (!this.firstBloodClaimed) {
+        this.firstBloodClaimed = true;
+        player.socket.emit('bounty_reward', { event: 'FIRST_BLOOD', reward: 30, message: '¡FIRST BLOOD! Primer exploit del combate (+30 ฿)' });
+      }
       opponent.vm.addLog('CRIT', `[BRECHA DE SEGURIDAD] Servicio ${portInfo.service} (puerto ${portNum}) ha sido COMPROMETIDO por ${player.vm.virtualIp}!`);
       this.syncStates();
 
@@ -705,7 +718,8 @@ Comando sugerido: exploit ${targetIp} ${portNum} ${portInfo.payload}
           // Victoria del atacante por destrucción del sistema operativo
           this.broadcastGameOver(
             player.username,
-            `¡Victoria de ${player.username}! Destruyó el archivo crítico /boot/kernel.sys de ${opponent.username}, causando un Kernel Panic fatal.`
+            `¡Victoria de ${player.username}! Destruyó el archivo crítico /boot/kernel.sys de ${opponent.username}, causando un Kernel Panic fatal.`,
+            'KERNEL_PANIC'
           );
         }
         return res;
@@ -724,7 +738,8 @@ Comando sugerido: exploit ${targetIp} ${portNum} ${portInfo.payload}
       case 'deface':
         this.broadcastGameOver(
           player.username,
-          `¡Victoria Secreta (Easter Egg)! ${player.username} descubrió el comando oculto "GANE" en la consola remota de ${opponent.username}.`
+          `¡Victoria Secreta (Easter Egg)! ${player.username} descubrió el comando oculto "GANE" en la consola remota de ${opponent.username}.`,
+          'DEFACE_EASTER_EGG'
         );
         return {
           output: `
@@ -905,7 +920,8 @@ Usa estos comandos para probar en vivo los efectos en tu propia pantalla:
     if (submittedFlag.trim() === opponent.vm.flag.trim()) {
       this.broadcastGameOver(
         player.username,
-        `¡Victoria de ${player.username}! Capturó y entregó exitosamente la FLAG del oponente (${submittedFlag}).`
+        `¡Victoria de ${player.username}! Capturó y entregó exitosamente la FLAG del oponente (${submittedFlag}).`,
+        'FLAG_SUBMIT'
       );
       return { output: '[+] ¡BANDERA VÁLIDA! ¡HAS GANADO LA PARTIDA!' };
     } else {
