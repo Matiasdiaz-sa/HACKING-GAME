@@ -1322,7 +1322,7 @@
   const btnToggleMissions = document.getElementById('btn-toggle-missions-sidebar');
   const missionsSidebar = document.getElementById('lobby-missions-sidebar');
   if (btnToggleMissions && missionsSidebar) {
-    if (window.innerWidth < 1360) {
+    if (window.innerWidth < 1200) {
       missionsSidebar.classList.add('collapsed');
     }
 
