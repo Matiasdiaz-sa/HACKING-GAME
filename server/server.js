@@ -215,7 +215,7 @@ io.on('connection', (socket) => {
 server.listen(PORT, HOST, () => {
   console.log(`
 ╔═══════════════════════════════════════════════════════════════════════════╗
-║                   HACKWARS LAN - SERVIDOR AUTORITATIVO                    ║
+║                      HACKWARS - SERVIDOR AUTORITATIVO                     ║
 ╠═══════════════════════════════════════════════════════════════════════════╣
 ║                                                                           ║
 ║  [+] Servidor escuchando en:                                              ║

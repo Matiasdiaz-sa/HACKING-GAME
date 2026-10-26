@@ -241,7 +241,7 @@ class GameRoom {
   cmdHelp() {
     const text = `
 ╔═════════════════════════════════════════════════════════════════════════════╗
-║                  HACKWARS LAN - MANUAL COMPLETO DE COMANDOS                 ║
+║                    HACKWARS - MANUAL COMPLETO DE COMANDOS                   ║
 ╚═════════════════════════════════════════════════════════════════════════════╝
 
 [1] RECONOCIMIENTO & INFILTRACIÓN (Ofensiva)

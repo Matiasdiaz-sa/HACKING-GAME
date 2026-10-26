@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HackWars LAN // 1v1 Cyber Combat Terminal</title>
-  <meta name="description" content="Simulador de combate y hacking 1v1 multijugador en LAN con entorno 100% virtualizado en memoria.">
+  <title>HackWars // 1v1 Cyber Combat Terminal</title>
+  <meta name="description" content="Simulador de combate y hacking 1v1 multijugador con entorno 100% virtualizado en memoria.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
   <!-- Barra Superior / Header -->
   <header class="cyber-header" id="main-header">
     <div class="header-left">
-      <span class="cyber-logo"><span class="logo-bracket">[</span>HACKWARS<span class="logo-accent">_LAN</span><span class="logo-bracket">]</span></span>
+      <span class="cyber-logo"><span class="logo-bracket">[</span>HACKWARS<span class="logo-bracket">]</span></span>
       <span class="header-tag">SIMULADOR 1v1 VIRTUALIZADO</span>
     </div>
 
@@ -39,8 +39,8 @@
   <main class="view-container" id="view-lobby">
     <div class="lobby-card">
       <div class="lobby-header">
-        <h1 class="glitch-title" data-text="HACKWARS // LAN">HACKWARS // LAN</h1>
-        <p class="lobby-subtitle">TERMINAL DE ENFRENTAMIENTO CIBERNÉTICO 1v1 POR RED LOCAL</p>
+        <h1 class="glitch-title" data-text="HACKWARS">HACKWARS</h1>
+        <p class="lobby-subtitle">TERMINAL DE ENFRENTAMIENTO CIBERNÉTICO 1v1 EN TIEMPO REAL</p>
       </div>
 
       <div class="lobby-body">
@@ -52,7 +52,7 @@
         <div class="lobby-actions-grid">
           <div class="action-box">
             <h3>MODO AUTOMÁTICO</h3>
-            <p>Empareja con cualquier partida abierta en tu red o crea una automáticamente.</p>
+            <p>Empareja con cualquier partida abierta o crea una automáticamente.</p>
             <button class="cyber-btn btn-primary btn-block" id="btn-quick-match">
               <span class="btn-icon"></span> EMPAREJAMIENTO RÁPIDO
             </button>
@@ -71,15 +71,15 @@
           </div>
         </div>
 
-        <!-- Banner de Información LAN para invitar a Player 2 -->
+        <!-- Banner para invitar a Player 2 -->
         <div class="lan-share-box" id="lan-share-box">
           <div class="lan-share-header">
             <span class="lan-icon">🌐</span>
-            <strong>CÓMO JUGAR CON OTRA PERSONA EN TU MISMA RED LAN:</strong>
+            <strong>CÓMO INVITAR A OTRA PERSONA A JUGAR:</strong>
           </div>
-          <p class="lan-desc">Tu oponente debe abrir este enlace en su navegador desde su PC/Laptop conectada al mismo Wi-Fi o router:</p>
+          <p class="lan-desc">Tu oponente solo debe abrir este enlace en su navegador desde cualquier dispositivo:</p>
           <div class="lan-url-row">
-            <input type="text" id="lan-url-display" class="cyber-input lan-url-input" readonly value="Cargando IP de red...">
+            <input type="text" id="lan-url-display" class="cyber-input lan-url-input" readonly value="Cargando enlace...">
             <button class="cyber-btn btn-sm" id="btn-copy-lan-url">COPIAR ENLACE</button>
           </div>
           <span class="lan-note">100% Virtualizado en memoria. Seguro y sin riesgos para los equipos reales.</span>
@@ -124,7 +124,7 @@
         <div class="terminal-body" id="terminal-output">
           <div class="term-welcome">
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                          HACKWARS LAN OS v2.4 (x86_64)                       ║
+║                            HACKWARS OS v2.4 (x86_64)                         ║
 ║                     SISTEMA DE SIMULACIÓN CIBERNÉTICA EN MEMORIA             ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 [*] Subred virtual asignada: 10.13.37.0/24
@@ -291,7 +291,7 @@
     <div class="modal-backdrop"></div>
     <div class="modal-content">
       <div class="modal-header">
-        <h2>MANUAL DE OPERACIONES // HACKWARS LAN</h2>
+        <h2>MANUAL DE OPERACIONES // HACKWARS</h2>
         <button class="btn-close-modal" id="btn-close-help">&times;</button>
       </div>
       <div class="modal-body">
