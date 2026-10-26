@@ -31,15 +31,15 @@
 
     <div class="header-right">
       <div class="header-badge-group">
-        <div class="economy-badge" id="btn-open-market" title="Abrir The Black Market">
-          <span>🪙</span> <span id="header-bytecoins-val">200</span> ฿
-        </div>
+        <button class="economy-badge" id="btn-open-recharge" title="Recargar / Comprar Bytecoins (Simulado)">
+          <span>🪙</span> <span id="header-bytecoins-val">200</span> ฿ <span style="font-size: 9px; opacity: 0.8; margin-left: 2px;">[+]</span>
+        </button>
         <div class="rank-badge" id="header-rank-badge">
           <span id="header-rank-text">Byte 0 • 1000 ELO</span>
         </div>
       </div>
       <button class="cyber-btn btn-sm btn-market" id="btn-header-market" title="Abrir The Black Market" style="border-color: var(--color-amber); color: var(--color-amber);">MARKET [฿]</button>
-      <button class="cyber-btn btn-sm btn-bounties" id="btn-open-bounties" title="Ver Contratos y Misiones Diarias">CONTRATOS [🎯]</button>
+      <button class="cyber-btn btn-sm btn-roadmap" id="btn-open-roadmap" title="Ver Roadmap del Proyecto">ROADMAP [🗺️]</button>
       <button class="cyber-btn btn-sm btn-profile" id="btn-open-profile" title="Ver Ficha de Agente Hacker">PERFIL [🪪]</button>
       <button class="cyber-btn btn-sm" id="btn-toggle-crt" title="Activar/Desactivar efecto CRT">CRT: ON</button>
       <button class="cyber-btn btn-sm" id="btn-toggle-sound" title="Silenciar / Activar sonido">AUDIO: 🔊</button>
@@ -49,6 +49,23 @@
 
   <!-- PANTALLA 1: LOBBY & EMPAREJAMIENTO -->
   <main class="view-container" id="view-lobby">
+    <!-- COLUMNA IZQUIERDA: MISIONES Y CONTRATOS PENDIENTES CON SCROLL PROPIO -->
+    <aside class="lobby-missions-sidebar" id="lobby-missions-sidebar">
+      <div class="sidebar-header">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span>🎯</span>
+          <h3>MISIONES ACTIVAS</h3>
+        </div>
+        <span class="badge-pending" id="sidebar-pending-badge">4 PENDIENTES</span>
+      </div>
+      <p class="sidebar-sub">Contratos que faltan completar para ganar Bytecoins (฿):</p>
+      
+      <div class="sidebar-missions-list" id="sidebar-missions-list">
+        <!-- Renderizado dinámico desde client.js -->
+      </div>
+    </aside>
+
+    <!-- COLUMNA CENTRAL: TARJETA DE COMBATE Y EMPAREJAMIENTO -->
     <div class="lobby-card">
       <div class="lobby-header">
         <h1 class="glitch-title" data-text="HACKWARS">HACKWARS</h1>
@@ -518,6 +535,123 @@
           <button class="cyber-btn btn-primary btn-block" id="btn-copy-hacker-card">
             📋 COPIAR FICHA DE AGENTE PARA COMPARTIR
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: RECARGA DE BYTECOINS (STORE SIMULADA) -->
+  <div class="cyber-modal" id="modal-recharge" style="display: none;">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" style="max-width: 660px;">
+      <div class="modal-header">
+        <div>
+          <h2>RECARGA DE BYTECOINS // STORE 🪙</h2>
+          <span style="font-size: 12px; color: var(--color-amber);">Saldo actual: <strong id="recharge-current-balance">200</strong> ฿</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-recharge">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
+          Selecciona un paquete para recargar saldo inmediatamente (Modo demostración / Sandbox sin cobro real):
+        </p>
+        <div class="recharge-grid">
+          <div class="recharge-card">
+            <span class="recharge-badge-free">DEMO GRATIS</span>
+            <div class="recharge-coins-num">+500 ฿</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Pack Script Kiddie</div>
+            <button class="cyber-btn btn-primary btn-block btn-do-recharge" data-amount="500">RECARGAR (0$)</button>
+          </div>
+          <div class="recharge-card">
+            <span class="recharge-badge-free">MÁS POPULAR</span>
+            <div class="recharge-coins-num">+2,500 ฿</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Pack Mercenario</div>
+            <button class="cyber-btn btn-primary btn-block btn-do-recharge" data-amount="2500">RECARGAR (0$)</button>
+          </div>
+          <div class="recharge-card">
+            <span class="recharge-badge-free">BÓVEDA TOTAL</span>
+            <div class="recharge-coins-num">+10,000 ฿</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Bóveda Zero-Day</div>
+            <button class="cyber-btn btn-primary btn-block btn-do-recharge" data-amount="10000">RECARGAR (0$)</button>
+          </div>
+        </div>
+        <div style="font-size: 11px; color: var(--color-cyan); text-align: center; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;">
+          ⚡ Transacciones simuladas instantáneas para explorar la tienda y personalizar tu terminal.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ROADMAP DE DESARROLLO -->
+  <div class="cyber-modal" id="modal-roadmap" style="display: none;">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" style="max-width: 680px;">
+      <div class="modal-header">
+        <div>
+          <h2>HACKWARS // ROADMAP DE DESARROLLO 🗺️</h2>
+          <span style="font-size: 12px; color: var(--color-cyan);">Hitos cumplidos y próximas expansiones del simulador</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-roadmap">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="roadmap-timeline">
+          <!-- FASE 1 -->
+          <div class="roadmap-phase-card phase-done">
+            <div class="roadmap-phase-header">
+              <span class="roadmap-phase-title">FASE 1: MOTOR TÁCTICO & GAMIFICACIÓN</span>
+              <span class="roadmap-badge done">100% COMPLETADA ✓</span>
+            </div>
+            <ul class="roadmap-list">
+              <li>Motor autoritativo de subred virtual 100% en memoria RAM (Linux FHS y CVEs).</li>
+              <li>Terminal interactiva retro-futurista acelerada por GPU y sonido Web Audio API.</li>
+              <li>Duelos 1v1 online en la nube con enlace directo y WhatsApp.</li>
+              <li>Economía Bytecoins (฿), divisiones ELO y Contratos Diarios (Bounties).</li>
+              <li>The Black Market (6 Temas CRT dinámicos y 5 Soundpacks mecánicos).</li>
+              <li>Kill-Cam de Defacement con calavera ASCII y firmas personalizadas.</li>
+            </ul>
+          </div>
+
+          <!-- FASE 2 -->
+          <div class="roadmap-phase-card phase-active">
+            <div class="roadmap-phase-header">
+              <span class="roadmap-phase-title">FASE 2: MODO ACADEMIA & STORY MODE</span>
+              <span class="roadmap-badge progress">⚡ EN DESARROLLO</span>
+            </div>
+            <ul class="roadmap-list">
+              <li>Tutorial interactivo guiado paso a paso para principiantes sin experiencia.</li>
+              <li>5 Módulos prácticos: Redes, Reconocimiento, Explotación, Escalada y Blue Team.</li>
+              <li>Retos de autoevaluación con obtención de Bytecoins por lección aprendida.</li>
+              <li>Certificado digital de finalización descargable para LinkedIn.</li>
+            </ul>
+          </div>
+
+          <!-- FASE 3 -->
+          <div class="roadmap-phase-card phase-future">
+            <div class="roadmap-phase-header">
+              <span class="roadmap-phase-title">FASE 3: FREE-FOR-ALL (FFA) & KING OF THE HILL</span>
+              <span class="roadmap-badge future">🔒 PLANIFICADA</span>
+            </div>
+            <ul class="roadmap-list">
+              <li>Subred caótica multijugador con 4 a 12 participantes simultáneos.</li>
+              <li>Modo King of the Hill: Servidor central 10.13.37.254 por puntos acumulativos.</li>
+              <li>Torneos de fin de semana con tablas de clasificación mundial en vivo.</li>
+            </ul>
+          </div>
+
+          <!-- FASE 4: MASCOTAS -->
+          <div class="roadmap-phase-card phase-pets">
+            <div class="roadmap-phase-header">
+              <span class="roadmap-phase-title">FASE 4: CYBER-MASCOTAS & ACOMPAÑANTES IA</span>
+              <span class="roadmap-badge pets">🐾 A FUTURO</span>
+            </div>
+            <ul class="roadmap-list">
+              <li>Mascotas hacker virtuales que te acompañan dentro de la terminal:</li>
+              <li>🐱 <strong>Bit-Cat</strong>: Incrementa la velocidad de escaneo SYN en +15%.</li>
+              <li>🦅 <strong>Cyber-Raven</strong>: Alerta temprana de exploits entrantes con graznido sintético.</li>
+              <li>🦊 <strong>Daemon-Fox</strong>: Reduce el costo de CPU de tus herramientas en un 10%.</li>
+              <li>Alimentación con Bytecoins, animaciones ASCII en tiempo real y subida de nivel.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

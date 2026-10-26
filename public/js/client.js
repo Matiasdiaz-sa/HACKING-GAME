@@ -1218,6 +1218,106 @@
     });
   });
 
+  // --- MODAL DE RECARGA DE MONEDAS (STORE SIMULADA) ---
+  const modalRecharge = document.getElementById('modal-recharge');
+  const btnOpenRecharge = document.getElementById('btn-open-recharge');
+  const btnCloseRecharge = document.getElementById('btn-close-recharge');
+  const rechargeCurrentBalance = document.getElementById('recharge-current-balance');
+
+  btnOpenRecharge?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (!window.hackWarsEconomy) return;
+    if (rechargeCurrentBalance) {
+      rechargeCurrentBalance.textContent = window.hackWarsEconomy.profile.bytecoins.toLocaleString();
+    }
+    if (modalRecharge) modalRecharge.style.display = 'flex';
+    if (window.cyberAudio) window.cyberAudio.playSuccess();
+  });
+
+  btnCloseRecharge?.addEventListener('click', () => {
+    if (modalRecharge) modalRecharge.style.display = 'none';
+  });
+  document.querySelector('#modal-recharge .modal-backdrop')?.addEventListener('click', () => {
+    if (modalRecharge) modalRecharge.style.display = 'none';
+  });
+
+  document.querySelectorAll('.btn-do-recharge').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const amount = parseInt(btn.dataset.amount || '500', 10);
+      if (window.hackWarsEconomy) {
+        window.hackWarsEconomy.addBytecoins(amount, 'Recarga Exitosa (Demo)');
+        if (rechargeCurrentBalance) {
+          rechargeCurrentBalance.textContent = window.hackWarsEconomy.profile.bytecoins.toLocaleString();
+        }
+      }
+      setTimeout(() => {
+        if (modalRecharge) modalRecharge.style.display = 'none';
+      }, 700);
+    });
+  });
+
+  // --- MODAL DE ROADMAP ---
+  const modalRoadmap = document.getElementById('modal-roadmap');
+  const btnOpenRoadmap = document.getElementById('btn-open-roadmap');
+  const btnCloseRoadmap = document.getElementById('btn-close-roadmap');
+
+  btnOpenRoadmap?.addEventListener('click', () => {
+    if (modalRoadmap) modalRoadmap.style.display = 'flex';
+    if (window.cyberAudio) window.cyberAudio.playSuccess();
+  });
+  btnCloseRoadmap?.addEventListener('click', () => {
+    if (modalRoadmap) modalRoadmap.style.display = 'none';
+  });
+  document.querySelector('#modal-roadmap .modal-backdrop')?.addEventListener('click', () => {
+    if (modalRoadmap) modalRoadmap.style.display = 'none';
+  });
+
+  // --- RENDERIZADO DEL SIDEBAR DE MISIONES LATERAL (LOBBY) ---
+  const sidebarMissionsList = document.getElementById('sidebar-missions-list');
+  const sidebarPendingBadge = document.getElementById('sidebar-pending-badge');
+
+  function renderLobbySidebarMissions() {
+    if (!sidebarMissionsList || !window.hackWarsEconomy) return;
+    const bounties = window.hackWarsEconomy.profile.bounties || window.hackWarsEconomy.getDefaultBounties();
+    const pendingCount = bounties.filter(b => !b.completed).length;
+
+    if (sidebarPendingBadge) {
+      sidebarPendingBadge.textContent = `${pendingCount} PENDIENTES`;
+      sidebarPendingBadge.style.color = pendingCount === 0 ? 'var(--color-green)' : 'var(--color-amber)';
+      sidebarPendingBadge.style.borderColor = pendingCount === 0 ? 'var(--color-green)' : 'var(--color-amber)';
+    }
+
+    sidebarMissionsList.innerHTML = bounties.map((b) => {
+      const pct = Math.round((b.progress / b.target) * 100);
+      return `
+        <div class="sidebar-mission-card ${b.completed ? 'completed' : ''}">
+          <div class="sidebar-mission-top">
+            <span class="sidebar-mission-name">${b.title}</span>
+            <span class="sidebar-mission-reward">+${b.reward} ฿</span>
+          </div>
+          <p class="sidebar-mission-desc">${b.desc}</p>
+          <div class="sidebar-prog-bar-bg">
+            <div class="sidebar-prog-fill" style="width: ${pct}%;"></div>
+          </div>
+          <div class="sidebar-prog-text">
+            <span>Progreso: ${b.progress}/${b.target}</span>
+            <span style="color: ${b.completed ? 'var(--color-green)' : 'var(--color-cyan)'}; font-weight: 700;">
+              ${b.completed ? '✓ CUMPLIDO' : `${pct}%`}
+            </span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Inicializar sidebar y suscribir a cambios de economía
+  renderLobbySidebarMissions();
+  if (window.hackWarsEconomy) {
+    window.hackWarsEconomy.subscribe(() => {
+      renderLobbySidebarMissions();
+    });
+  }
+
   // Cargar IP LAN para compartir
   initLobbyInfo();
 

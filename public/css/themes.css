@@ -157,46 +157,360 @@
    COMPONENTES DE GAMIFICACIÓN, BLACK MARKET & FIN DE PARTIDA
    ========================================================================== */
 
-/* Badges del Header */
-.header-badge-group {
+/* ==========================================================================
+   ESTANDARIZACIÓN Y HOMOGENEIZACIÓN DE TAMAÑOS EN EL HEADER
+   Todos los botones y badges tienen exactamente la misma altura y alineación
+   ========================================================================== */
+
+.cyber-header .header-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
-.economy-badge {
-  display: inline-flex;
+.cyber-header .header-badge-group {
+  display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+}
+
+.cyber-header .economy-badge,
+.cyber-header .rank-badge,
+.cyber-header .cyber-btn {
+  height: 28px !important;
+  line-height: 26px !important;
+  min-height: 28px !important;
+  max-height: 28px !important;
+  padding: 0 10px !important;
+  font-size: 11px !important;
+  font-family: var(--font-mono) !important;
+  letter-spacing: 0.5px !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  border-radius: 3px !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
+  margin: 0 !important;
+}
+
+.cyber-header .economy-badge {
   background: rgba(0, 0, 0, 0.6);
-  border: 1px solid var(--color-amber);
-  color: var(--color-amber);
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 13px;
+  border: 1px solid var(--color-amber) !important;
+  color: var(--color-amber) !important;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 0 10px var(--color-amber-glow);
 }
 
-.economy-badge:hover {
-  background: var(--color-amber);
-  color: #000;
+.cyber-header .economy-badge:hover {
+  background: var(--color-amber) !important;
+  color: #000 !important;
   transform: translateY(-1px);
 }
 
-.rank-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+.cyber-header .rank-badge {
   background: rgba(0, 0, 0, 0.6);
-  border: 1px solid var(--color-cyan);
-  color: var(--color-cyan);
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 12px;
+  border: 1px solid var(--color-cyan) !important;
+  color: var(--color-cyan) !important;
   font-weight: 600;
+}
+
+/* Botón de Roadmap */
+.btn-roadmap {
+  border-color: #bd93f9 !important;
+  color: #bd93f9 !important;
+}
+
+/* ==========================================================================
+   SIDEBAR LATERAL DE MISIONES / CONTRATOS (LOBBY)
+   ========================================================================== */
+.lobby-missions-sidebar {
+  width: 320px;
+  max-width: 330px;
+  background: var(--bg-card);
+  border: var(--border-cyber);
+  border-radius: 6px;
+  padding: 18px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(8px);
+  max-height: 540px;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+  margin-bottom: 8px;
+}
+
+.sidebar-header h3 {
+  font-family: var(--font-title);
+  font-size: 13px;
+  color: var(--color-green);
+  letter-spacing: 1px;
+}
+
+.badge-pending {
+  font-size: 10px;
+  color: var(--color-amber);
+  border: 1px solid var(--color-amber);
+  background: rgba(255, 170, 0, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+.sidebar-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.sidebar-missions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  max-height: 420px;
+  padding-right: 4px;
+}
+
+/* Custom Scrollbars */
+.sidebar-missions-list::-webkit-scrollbar,
+.market-items-grid::-webkit-scrollbar,
+.roadmap-timeline::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar-missions-list::-webkit-scrollbar-track,
+.market-items-grid::-webkit-scrollbar-track,
+.roadmap-timeline::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.sidebar-missions-list::-webkit-scrollbar-thumb,
+.market-items-grid::-webkit-scrollbar-thumb,
+.roadmap-timeline::-webkit-scrollbar-thumb {
+  background: var(--color-green-dim);
+  border-radius: 3px;
+}
+
+.sidebar-mission-card {
+  background: var(--bg-card-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.sidebar-mission-card:hover {
+  border-color: var(--color-green);
+}
+
+.sidebar-mission-card.completed {
+  border-color: var(--color-green-dim);
+  opacity: 0.65;
+}
+
+.sidebar-mission-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-mission-name {
+  font-family: var(--font-title);
+  font-size: 11px;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.sidebar-mission-reward {
+  font-size: 11px;
+  color: var(--color-amber);
+  font-weight: 700;
+}
+
+.sidebar-mission-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.sidebar-prog-bar-bg {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  height: 8px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.sidebar-prog-fill {
+  background: var(--color-green);
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.sidebar-prog-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   MODAL DE RECARGA DE MONEDAS (SIMULADO)
+   ========================================================================== */
+.recharge-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.recharge-card {
+  background: var(--bg-card);
+  border: 1px solid var(--color-amber);
+  border-radius: 6px;
+  padding: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  box-shadow: 0 0 15px var(--color-amber-glow);
+  transition: all 0.2s ease;
+}
+
+.recharge-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(255, 170, 0, 0.35);
+}
+
+.recharge-coins-num {
+  font-family: var(--font-title);
+  font-size: 22px;
+  color: var(--color-amber);
+  font-weight: 900;
+}
+
+.recharge-badge-free {
+  font-size: 10px;
+  color: var(--color-green);
+  border: 1px solid var(--color-green);
+  padding: 2px 6px;
+  border-radius: 3px;
+  align-self: center;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   MODAL DE ROADMAP & FUTURAS MASCOTAS
+   ========================================================================== */
+.roadmap-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 55vh;
+  overflow-y: auto;
+  padding: 10px 4px;
+}
+
+.roadmap-phase-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 14px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.roadmap-phase-card.phase-done {
+  border-color: var(--color-green);
+  background: rgba(0, 255, 119, 0.04);
+}
+
+.roadmap-phase-card.phase-active {
+  border-color: var(--color-cyan);
+  background: rgba(0, 229, 255, 0.04);
+}
+
+.roadmap-phase-card.phase-future {
+  border-color: #bd93f9;
+  background: rgba(189, 147, 249, 0.04);
+}
+
+.roadmap-phase-card.phase-pets {
+  border-color: var(--color-amber);
+  background: rgba(255, 170, 0, 0.04);
+}
+
+.roadmap-phase-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.roadmap-phase-title {
+  font-family: var(--font-title);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.roadmap-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+.roadmap-badge.done {
+  background: var(--color-green);
+  color: #000;
+}
+
+.roadmap-badge.progress {
+  background: var(--color-cyan);
+  color: #000;
+}
+
+.roadmap-badge.future {
+  background: #bd93f9;
+  color: #000;
+}
+
+.roadmap-badge.pets {
+  background: var(--color-amber);
+  color: #000;
+}
+
+.roadmap-list {
+  list-style: none;
+  font-size: 12px;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.roadmap-list li::before {
+  content: "▹ ";
+  color: var(--color-green);
 }
 
 /* Floating Coin Toast */
