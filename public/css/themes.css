@@ -240,6 +240,8 @@
   flex-direction: column;
   backdrop-filter: blur(8px);
   max-height: 540px;
+  grid-column: 3;
+  justify-self: start;
 }
 
 .sidebar-header {
