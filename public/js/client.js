@@ -523,13 +523,16 @@
 
   // Actualizar el prompt dinámico de la terminal
   function updatePromptPrefix() {
+    const title = (window.hackWarsEconomy && window.hackWarsEconomy.profile && window.hackWarsEconomy.profile.equippedTitle)
+      ? `${window.hackWarsEconomy.profile.equippedTitle} `
+      : '';
     if (state.remoteHostIp) {
-      dom.promptPrefix.textContent = `[REMOTO] root@${state.remoteHostIp}:${state.currentPath}#`;
+      dom.promptPrefix.textContent = `${title}[REMOTO] root@${state.remoteHostIp}:${state.currentPath}#`;
       dom.promptPrefix.classList.add('remote');
       dom.termSessionBadge.textContent = `SESIÓN: REMOTA (${state.remoteHostIp})`;
       dom.termSessionBadge.classList.add('remote-mode');
     } else {
-      dom.promptPrefix.textContent = `root@${state.myHostname || 'local'}:${state.currentPath}#`;
+      dom.promptPrefix.textContent = `${title}root@${state.myHostname || 'local'}:${state.currentPath}#`;
       dom.promptPrefix.classList.remove('remote');
       dom.termSessionBadge.textContent = 'SESIÓN: LOCAL';
       dom.termSessionBadge.classList.remove('remote-mode');
