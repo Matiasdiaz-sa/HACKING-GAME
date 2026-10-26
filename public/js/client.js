@@ -7,6 +7,7 @@
 
   // Conexión Socket.IO
   const socket = io();
+  window.hackWarsSocket = socket;
 
   // Estado Local del Cliente
   const state = {
@@ -28,7 +29,8 @@
       'clear', 'cls', 'ls', 'cd', 'cat', 'rm', 'exit', 'test',
       'popup', 'alert', 'freeze', 'glitch', 'invert', 'flip', 'chaos', 'mousechaos',
       'say', 'msg', 'gane', 'win', 'pwn', 'pwned', 'gg', 'deface',
-      'market', 'shop', 'tienda', 'profile', 'stats', 'perfil', 'bounties', 'misiones', 'contratos', 'wallet', 'coins', 'saldo'
+      'market', 'shop', 'tienda', 'profile', 'stats', 'perfil', 'bounties', 'misiones', 'contratos', 'wallet', 'coins', 'saldo',
+      'academy', 'academia', 'story'
     ],
     commonPaths: [
       '/boot/kernel.sys', '/etc/passwd', '/home/admin/flag.txt', '/home/admin/notas.txt',
@@ -364,6 +366,12 @@
       return;
     }
 
+    if (trimmed === 'academy' || trimmed === 'academia' || trimmed === 'story') {
+      if (window.hackWarsAcademy) window.hackWarsAcademy.openModal();
+      printToTerminal('[+] Abriendo HackWars Academy...', 'info');
+      return;
+    }
+
     // Registrar evento de troyano para contratos diarios si corresponde
     if (trimmed.startsWith('freeze') || trimmed.startsWith('invert') || trimmed.startsWith('popup') || trimmed.startsWith('chaos') || trimmed.startsWith('alert') || trimmed.startsWith('flip')) {
       if (window.hackWarsEconomy) {
@@ -373,6 +381,11 @@
 
     // Imprimir comando local en terminal
     printCommandLine(raw);
+
+    // Notificar al Cyber-Mentor si hay sesión activa de Academia
+    if (window.hackWarsAcademy) {
+      window.hackWarsAcademy.handleCommand(raw);
+    }
 
     // Audio de ejecución
     if (window.cyberAudio) window.cyberAudio.playBeep(800, 0.05);
@@ -484,6 +497,7 @@
     dom.terminalOutput.appendChild(block);
     scrollTerminalToBottom();
   }
+  window.printToTerminal = printToTerminal;
 
   function clearTerminal() {
     dom.terminalOutput.innerHTML = '';

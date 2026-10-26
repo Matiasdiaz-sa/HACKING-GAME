@@ -373,7 +373,7 @@ Un script propio que genera contenido audiovisual 24/7 sin intervención humana:
 - [x] Terminal interactiva con emulación CRT, sonido Web Audio y foco inteligente.
 - [x] Duelos 1v1 en red LAN con código de sala y emparejamiento rápido.
 - [x] Suite de exploits psicológicos y trolling en vivo (`freeze`, `glitch`, `invert`, `popup`, `chaos`, `say`).
+- [x] **Modo Academia Guiado (Fase 2):** 5 módulos progresivos con Cyber-Mentor interactivo en vivo, HUD de objetivos y recompensas en Bytecoins.
 - [ ] **Modo Free-For-All (FFA):** Subred caótica de 4 a 12 jugadores simultáneos con radar de nodos.
 - [ ] **Modo "King of the Hill":** Servidor central vulnerable (`10.13.37.254`) que otorga puntos por segundo retenido.
-- [ ] **Modo Academia Guiado:** Niveles progresivos con explicaciones didácticas de cada comando y concepto del mundo real.
 - [ ] **Sistema de Cuentas y Leaderboard Global:** Perfiles de hacker, rangos (*Script Kiddie* hasta *Elite 1337*) y cosméticos de terminal.

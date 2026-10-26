@@ -38,6 +38,7 @@
           <span id="header-rank-text">Byte 0 • 1000 ELO</span>
         </div>
       </div>
+      <button class="cyber-btn btn-sm btn-academy" id="btn-header-academy" title="Modo Academia & Story Mode" style="border-color: var(--color-cyan); color: var(--color-cyan);">ACADEMIA [🎓]</button>
       <button class="cyber-btn btn-sm btn-market" id="btn-header-market" title="Abrir The Black Market" style="border-color: var(--color-amber); color: var(--color-amber);">MARKET [฿]</button>
       <button class="cyber-btn btn-sm btn-roadmap" id="btn-open-roadmap" title="Ver Roadmap del Proyecto">ROADMAP [🗺️]</button>
       <button class="cyber-btn btn-sm btn-profile" id="btn-open-profile" title="Ver Ficha de Agente Hacker">PERFIL [🪪]</button>
@@ -95,6 +96,9 @@
             </button>
             <button class="cyber-btn btn-secondary btn-block" id="btn-practice-bot" style="margin-top: 8px;">
               <span class="btn-icon"></span> SOLO VS BOT IA
+            </button>
+            <button class="cyber-btn btn-block btn-academy" id="btn-open-academy" style="margin-top: 8px; border-color: var(--color-cyan); color: var(--color-cyan);">
+              <span class="btn-icon">🎓</span> MODO ACADEMIA // STORY MODE
             </button>
           </div>
 
@@ -158,6 +162,30 @@
           <div class="panel-controls">
             <span class="session-indicator" id="term-session-badge">SESIÓN: LOCAL</span>
             <button class="cyber-btn btn-xs" id="btn-clear-term" title="Limpiar pantalla (Ctrl+L)">LIMPIAR</button>
+          </div>
+        </div>
+
+        <!-- HUD DEL CYBER-MENTOR (MODO ACADEMIA & STORY MODE) -->
+        <div class="academy-mentor-hud" id="academy-mentor-hud" style="display: none;">
+          <div class="mentor-hud-top">
+            <div class="mentor-hud-badge">
+              <span class="mentor-icon">🤖</span>
+              <span class="mentor-callsign">CYBER-MENTOR AI // MODO ACADEMIA</span>
+            </div>
+            <div class="mentor-hud-meta">
+              <span class="mentor-module-tag" id="mentor-module-tag">MÓDULO 1</span>
+              <span class="mentor-step-tag" id="mentor-step-tag">PASO 1/5</span>
+              <button class="cyber-btn btn-xs" id="btn-mentor-hint" title="Ver sugerencia">💡 PISTA</button>
+              <button class="cyber-btn btn-xs btn-exit-lesson" id="btn-exit-academy" title="Salir de la lección">SALIR ✕</button>
+            </div>
+          </div>
+          <div class="mentor-hud-content">
+            <div class="mentor-task-row">
+              <span class="mentor-arrow">▶</span>
+              <p class="mentor-task-text" id="mentor-task-text">Cargando objetivo...</p>
+            </div>
+            <p class="mentor-explanation-text" id="mentor-explanation-text"></p>
+            <div class="mentor-hint-box" id="mentor-hint-box" style="display: none;"></div>
           </div>
         </div>
 
@@ -620,13 +648,13 @@
           <div class="roadmap-phase-card phase-active">
             <div class="roadmap-phase-header">
               <span class="roadmap-phase-title">FASE 2: MODO ACADEMIA & STORY MODE</span>
-              <span class="roadmap-badge progress">⚡ EN DESARROLLO</span>
+              <span class="roadmap-badge progress">⚡ JUGABLE AHORA</span>
             </div>
             <ul class="roadmap-list">
               <li>Tutorial interactivo guiado paso a paso para principiantes sin experiencia.</li>
               <li>5 Módulos prácticos: Redes, Reconocimiento, Explotación, Escalada y Blue Team.</li>
               <li>Retos de autoevaluación con obtención de Bytecoins por lección aprendida.</li>
-              <li>Certificado digital de finalización descargable para LinkedIn.</li>
+              <li>HUD de Cyber-Mentor interactivo en vivo con retroalimentación en tiempo real.</li>
             </ul>
           </div>
 
@@ -662,6 +690,35 @@
     </div>
   </div>
 
+  <!-- MODAL: ACADEMIA // STORY MODE -->
+  <div class="cyber-modal" id="modal-academy" style="display: none;">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content modal-glow" style="max-width: 840px;">
+      <div class="modal-header">
+        <div>
+          <h2>HACKWARS ACADEMY // STORY MODE 🎓</h2>
+          <span style="font-size: 12px; color: var(--color-cyan);">Misiones prácticas guiadas para aprender ciberseguridad, redes y Linux desde cero</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-academy">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="academy-prog-bar-container">
+          <div class="academy-prog-header">
+            <span style="font-size: 11px; color: var(--text-muted); font-weight: 700;">PROGRESO GENERAL DE LA CAMPAÑA:</span>
+            <span class="academy-prog-stat" id="academy-progress-text">0/5 Módulos Completados (0%)</span>
+          </div>
+          <div class="academy-prog-track">
+            <div class="academy-prog-fill" id="academy-progress-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="academy-modules-grid" id="academy-modules-grid">
+          <!-- Renderizado dinámico desde academy.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- OVERLAY DE DEFACEMENT & KILL-CAM -->
   <div class="deface-overlay" id="deface-overlay" style="display: none;">
     <div class="deface-skull" id="deface-skull-art"></div>
@@ -678,6 +735,7 @@
   <script src="js/audio.js"></script>
   <script src="js/economy.js"></script>
   <script src="js/market.js"></script>
+  <script src="js/academy.js"></script>
   <script src="js/client.js"></script>
 </body>
 </html>
