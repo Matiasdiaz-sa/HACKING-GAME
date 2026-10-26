@@ -49,10 +49,28 @@
 
   <!-- PANTALLA 1: LOBBY & EMPAREJAMIENTO -->
   <main class="view-container" id="view-lobby">
-    <!-- COLUMNA 1: ESPACIADOR SIMÉTRICO PARA CENTRADO EXACTO -->
-    <div class="lobby-spacer" aria-hidden="true"></div>
+    <!-- SIDEBAR DE MISIONES ACTIVAS (LATERAL IZQUIERDO DOCKABLE CON TOGGLE TAB) -->
+    <aside class="lobby-missions-sidebar" id="lobby-missions-sidebar">
+      <button class="sidebar-toggle-tab" id="btn-toggle-missions-sidebar" title="Ocultar / Mostrar Misiones" aria-label="Alternar panel de misiones">
+        <span class="tab-icon">◀</span>
+        <span class="tab-hint">MISIONES</span>
+      </button>
 
-    <!-- COLUMNA 2: TARJETA DE COMBATE Y EMPAREJAMIENTO (CENTRO) -->
+      <div class="sidebar-header">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span>🎯</span>
+          <h3>MISIONES ACTIVAS</h3>
+        </div>
+        <span class="badge-pending" id="sidebar-pending-badge">4 PENDIENTES</span>
+      </div>
+      <p class="sidebar-sub">Contratos que faltan completar para ganar Bytecoins (฿):</p>
+      
+      <div class="sidebar-missions-list" id="sidebar-missions-list">
+        <!-- Renderizado dinámico desde client.js -->
+      </div>
+    </aside>
+
+    <!-- TARJETA DE COMBATE Y EMPAREJAMIENTO (CENTRO EXACTO DE PANTALLA) -->
     <div class="lobby-card">
       <div class="lobby-header">
         <h1 class="glitch-title" data-text="HACKWARS">HACKWARS</h1>
@@ -124,22 +142,6 @@
         </div>
       </div>
     </div>
-
-    <!-- COLUMNA 3: MISIONES Y CONTRATOS PENDIENTES (DERECHA) -->
-    <aside class="lobby-missions-sidebar" id="lobby-missions-sidebar">
-      <div class="sidebar-header">
-        <div style="display: flex; align-items: center; gap: 6px;">
-          <span>🎯</span>
-          <h3>MISIONES ACTIVAS</h3>
-        </div>
-        <span class="badge-pending" id="sidebar-pending-badge">4 PENDIENTES</span>
-      </div>
-      <p class="sidebar-sub">Contratos que faltan completar para ganar Bytecoins (฿):</p>
-      
-      <div class="sidebar-missions-list" id="sidebar-missions-list">
-        <!-- Renderizado dinámico desde client.js -->
-      </div>
-    </aside>
   </main>
 
   <!-- PANTALLA 2: DASHBOARD DE COMBATE (SPLIT-PANE) -->

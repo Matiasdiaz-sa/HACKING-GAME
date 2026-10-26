@@ -226,22 +226,94 @@
 }
 
 /* ==========================================================================
-   SIDEBAR LATERAL DE MISIONES / CONTRATOS (LOBBY)
+   SIDEBAR LATERAL DE MISIONES / CONTRATOS (LOBBY - DOCKABLE IZQUIERDA)
    ========================================================================== */
 .lobby-missions-sidebar {
-  width: 320px;
-  max-width: 330px;
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%) translateX(0);
+  width: 310px;
+  max-width: 320px;
   background: var(--bg-card);
   border: var(--border-cyber);
   border-radius: 6px;
   padding: 18px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7), inset 0 0 10px rgba(0, 255, 119, 0.03);
   display: flex;
   flex-direction: column;
-  backdrop-filter: blur(8px);
-  max-height: 540px;
-  grid-column: 3;
-  justify-self: start;
+  backdrop-filter: blur(10px);
+  max-height: min(540px, calc(100vh - 100px));
+  z-index: 20;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+}
+
+/* Pestaña / Handle en el lateral derecho de la barra para colapsar/desplegar */
+.sidebar-toggle-tab {
+  position: absolute;
+  right: -32px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 68px;
+  background: var(--bg-card);
+  border: var(--border-cyber);
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  color: var(--color-green);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 0;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.6), inset 0 0 8px rgba(0, 255, 119, 0.1);
+  transition: all 0.2s ease;
+  z-index: 25;
+}
+
+.sidebar-toggle-tab:hover {
+  background: rgba(0, 255, 119, 0.12);
+  color: #fff;
+  box-shadow: 6px 0 20px rgba(0, 255, 119, 0.4);
+}
+
+.sidebar-toggle-tab .tab-icon {
+  font-size: 11px;
+  transition: transform 0.3s ease;
+  line-height: 1;
+}
+
+.sidebar-toggle-tab .tab-hint {
+  font-size: 7px;
+  font-family: var(--font-title);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 1px;
+  opacity: 0.85;
+}
+
+.lobby-missions-sidebar.collapsed {
+  transform: translateY(-50%) translateX(calc(-100% - 24px));
+  box-shadow: none;
+}
+
+.lobby-missions-sidebar.collapsed .sidebar-toggle-tab {
+  box-shadow: 4px 0 16px rgba(0, 255, 119, 0.3);
+}
+
+.lobby-missions-sidebar.collapsed .sidebar-toggle-tab .tab-icon {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 1200px) {
+  .lobby-missions-sidebar {
+    left: 12px;
+  }
+  .lobby-missions-sidebar.collapsed {
+    transform: translateY(-50%) translateX(calc(-100% - 12px));
+  }
 }
 
 .sidebar-header {

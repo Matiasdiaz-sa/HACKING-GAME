@@ -1318,6 +1318,23 @@
     });
   }
 
+  // --- CONTROL DE COLAPSO / DESPLIEGUE DEL SIDEBAR DE MISIONES ---
+  const btnToggleMissions = document.getElementById('btn-toggle-missions-sidebar');
+  const missionsSidebar = document.getElementById('lobby-missions-sidebar');
+  if (btnToggleMissions && missionsSidebar) {
+    if (window.innerWidth < 1360) {
+      missionsSidebar.classList.add('collapsed');
+    }
+
+    btnToggleMissions.addEventListener('click', (e) => {
+      e.stopPropagation();
+      missionsSidebar.classList.toggle('collapsed');
+      if (window.cyberAudio && typeof window.cyberAudio.playKey === 'function') {
+        window.cyberAudio.playKey();
+      }
+    });
+  }
+
   // Cargar IP LAN para compartir
   initLobbyInfo();
 
