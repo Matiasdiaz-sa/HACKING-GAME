@@ -113,10 +113,15 @@ class EconomyManager {
   }
 
   // Actualizar ELO al finalizar partida
-  updateElo(isWin, isBot = false) {
+  updateElo(isWin, isBot = false, difficulty = 'medium') {
     let delta = 0;
     if (isBot) {
-      delta = isWin ? 10 : 0; // Contra bot solo se gana poco ELO y no se pierde
+      if (isWin) {
+        const botEloMap = { easy: 10, medium: 25, hard: 50, nightmare: 100 };
+        delta = botEloMap[difficulty] || 25;
+      } else {
+        delta = difficulty === 'nightmare' ? -10 : 0;
+      }
     } else {
       delta = isWin ? 30 : -15; // PvP estándar
     }
@@ -128,7 +133,7 @@ class EconomyManager {
 
   // Registrar resultado de combate y liquidar recompensas oficiales
   recordMatch(data) {
-    const { isWinner, winType, durationSec, isBot } = data;
+    const { isWinner, winType, durationSec, isBot, difficulty = 'medium' } = data;
     this.profile.stats.matchesPlayed++;
 
     let earnedCoins = 0;
@@ -136,9 +141,23 @@ class EconomyManager {
 
     if (isWinner) {
       this.profile.stats.wins++;
-      const baseWin = isBot ? 40 : 100;
+      let baseWin = 100;
+      let label = 'Victoria PvP';
+
+      if (isBot) {
+        const botRewardMap = {
+          easy: { coins: 40, label: 'Victoria vs Bot [FÁCIL]' },
+          medium: { coins: 80, label: 'Victoria vs Bot [NORMAL]' },
+          hard: { coins: 160, label: 'Victoria vs Bot [DIFÍCIL]' },
+          nightmare: { coins: 300, label: 'Victoria vs Bot [PESADILLA]' }
+        };
+        const config = botRewardMap[difficulty] || botRewardMap.medium;
+        baseWin = config.coins;
+        label = config.label;
+      }
+
       earnedCoins += baseWin;
-      rewards.push({ label: isBot ? 'Victoria vs Bot IA' : 'Victoria PvP', amount: baseWin });
+      rewards.push({ label, amount: baseWin });
 
       // Récord de tiempo más rápido
       if (durationSec && (!this.profile.stats.fastestWinSec || durationSec < this.profile.stats.fastestWinSec)) {
@@ -166,7 +185,7 @@ class EconomyManager {
     }
 
     this.profile.bytecoins += earnedCoins;
-    const eloResult = this.updateElo(isWinner, isBot);
+    const eloResult = this.updateElo(isWinner, isBot, difficulty);
     this.saveProfile();
 
     // Actualizar progreso de contratos diarios

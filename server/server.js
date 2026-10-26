@@ -127,8 +127,8 @@ io.on('connection', (socket) => {
     console.log(`[SALA] ${cleanUser} (${socket.id}) en sala ${targetRoomCode}. Total jugadores: ${room.players.size}`);
   });
 
-  // Modo Práctica / Simulador contra Bot IA
-  socket.on('start_bot_game', ({ username }) => {
+  // Modo Práctica / Simulador contra Bot IA con Dificultades
+  socket.on('start_bot_game', ({ username, difficulty = 'medium' }) => {
     const cleanUser = (username || `Agente_${socket.id.slice(0, 4)}`).trim().slice(0, 15);
     const botRoomCode = 'BOT_' + generateRoomCode();
 
@@ -142,10 +142,21 @@ io.on('connection', (socket) => {
       emit: () => {}
     };
 
-    room.addPlayer(botSocket, 'CyberBot_AI');
+    const diffLabels = {
+      easy: 'CyberBot [FÁCIL]',
+      medium: 'CyberBot [NORMAL]',
+      hard: 'CyberBot [DIFÍCIL]',
+      nightmare: 'CyberBot [PESADILLA]'
+    };
+    const botName = diffLabels[difficulty] || 'CyberBot_AI';
+
+    room.addPlayer(botSocket, botName);
     socketToRoom.set(socket.id, botRoomCode);
 
-    console.log(`[SIMULADOR] Partida de práctica iniciada: ${cleanUser} vs CyberBot_AI en sala ${botRoomCode}`);
+    // Iniciar el motor de IA con la dificultad elegida
+    room.initBotAI(botSocket.id, difficulty);
+
+    console.log(`[SIMULADOR] Partida iniciada: ${cleanUser} vs ${botName} en sala ${botRoomCode}`);
   });
 
   // Ejecución de comando en terminal

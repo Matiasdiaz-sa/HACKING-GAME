@@ -225,16 +225,50 @@
     joinMatch('');
   });
 
-  // Modo Práctica / Simulador contra Bot IA
+  // Modo Práctica / Simulador contra Bot IA con Selección de Dificultad
   dom.btnPracticeBot = document.getElementById('btn-practice-bot');
   if (dom.btnPracticeBot) {
     dom.btnPracticeBot.addEventListener('click', () => {
-      const username = (dom.inputNickname.value || 'Hacker_' + Math.floor(Math.random() * 900 + 100)).trim();
-      localStorage.setItem('hackwars_alias', username);
-      state.myUsername = username;
-      if (window.cyberAudio) window.cyberAudio.playSuccess();
-      socket.emit('start_bot_game', { username });
+      const modalDiff = document.getElementById('modal-bot-difficulty');
+      if (modalDiff) {
+        modalDiff.style.display = 'flex';
+        if (window.cyberAudio) window.cyberAudio.playSuccess();
+      }
     });
+  }
+
+  // Cerrar modal de dificultad
+  const btnCloseBotDiff = document.getElementById('btn-close-bot-diff');
+  if (btnCloseBotDiff) {
+    btnCloseBotDiff.addEventListener('click', () => {
+      const modalDiff = document.getElementById('modal-bot-difficulty');
+      if (modalDiff) modalDiff.style.display = 'none';
+    });
+  }
+  document.querySelector('#modal-bot-difficulty .modal-backdrop')?.addEventListener('click', () => {
+    const modalDiff = document.getElementById('modal-bot-difficulty');
+    if (modalDiff) modalDiff.style.display = 'none';
+  });
+
+  // Selección de Dificultad
+  document.querySelectorAll('#modal-bot-difficulty .btn-select-diff').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const diff = btn.dataset.diff || 'medium';
+      startBotMatchWithDifficulty(diff);
+    });
+  });
+
+  function startBotMatchWithDifficulty(difficulty) {
+    const username = (dom.inputNickname.value || localStorage.getItem('hackwars_alias') || 'Hacker_' + Math.floor(Math.random() * 900 + 100)).trim();
+    localStorage.setItem('hackwars_alias', username);
+    state.myUsername = username;
+    if (window.cyberAudio) window.cyberAudio.playSuccess();
+
+    const modalDiff = document.getElementById('modal-bot-difficulty');
+    if (modalDiff) modalDiff.style.display = 'none';
+
+    socket.emit('start_bot_game', { username, difficulty });
   }
 
   // Unirse con Código de Sala
@@ -1033,7 +1067,8 @@
           isWinner,
           winType: data.winType || 'VICTORY',
           durationSec: data.durationSec || 0,
-          isBot: !!data.isBotMatch
+          isBot: !!data.isBotMatch,
+          difficulty: data.botDifficulty || 'medium'
         });
 
         const durEl = document.getElementById('gameover-duration');

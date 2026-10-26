@@ -719,6 +719,91 @@
     </div>
   </div>
 
+  <!-- MODAL: SELECCIÓN DE DIFICULTAD BOT IA -->
+  <div class="cyber-modal" id="modal-bot-difficulty" style="display: none;">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content modal-glow" style="max-width: 680px;">
+      <div class="modal-header">
+        <div>
+          <h2>SIMULADOR // DIFICULTAD DE LA IA 🤖</h2>
+          <span style="font-size: 12px; color: var(--color-cyan);">Elige el nivel de agresividad, velocidad y recompensas del bot rival</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-bot-diff">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="bot-difficulty-grid">
+          <!-- FÁCIL -->
+          <div class="bot-diff-card diff-easy" data-diff="easy">
+            <div class="diff-header">
+              <span class="diff-icon">🟢</span>
+              <div>
+                <h3>FÁCIL // SCRIPT KIDDIE</h3>
+                <span class="diff-reward">+40 ฿ • +10 ELO</span>
+              </div>
+            </div>
+            <p class="diff-desc">IA pasiva y lenta. Ideal para principiantes, probar comandos y aprender el flujo táctico sin presión.</p>
+            <ul class="diff-features">
+              <li>Ataques pausados cada 45s+</li>
+              <li>No destruye tu kernel ni usa firewall</li>
+            </ul>
+            <button class="cyber-btn btn-sm btn-block btn-select-diff" data-diff="easy">SELECCIONAR FÁCIL ▶</button>
+          </div>
+
+          <!-- NORMAL -->
+          <div class="bot-diff-card diff-medium active-default" data-diff="medium">
+            <div class="diff-header">
+              <span class="diff-icon">🟡</span>
+              <div>
+                <h3>NORMAL // HACKER</h3>
+                <span class="diff-reward">+80 ฿ • +25 ELO</span>
+              </div>
+            </div>
+            <p class="diff-desc">Combate equilibrado. La IA explora puertos, lanza troyanos moderados y responde tácticamente.</p>
+            <ul class="diff-features">
+              <li>Escaneos y troyanos cada 20-30s</li>
+              <li>Defensa perimetral y contraataque básico</li>
+            </ul>
+            <button class="cyber-btn btn-sm btn-block btn-primary btn-select-diff" data-diff="medium">SELECCIONAR NORMAL ▶</button>
+          </div>
+
+          <!-- DIFÍCIL -->
+          <div class="bot-diff-card diff-hard" data-diff="hard">
+            <div class="diff-header">
+              <span class="diff-icon">🔴</span>
+              <div>
+                <h3>DIFÍCIL // MERCENARIO</h3>
+                <span class="diff-reward">+160 ฿ • +50 ELO</span>
+              </div>
+            </div>
+            <p class="diff-desc">IA veloz y despiadada. Inyecta malware continuo, bloquea puertos atacados e intenta eliminar tu kernel.</p>
+            <ul class="diff-features">
+              <li>Infiltración rápida en menos de 20s</li>
+              <li>Parcheo activo y troyanos agresivos</li>
+            </ul>
+            <button class="cyber-btn btn-sm btn-block btn-select-diff" data-diff="hard">SELECCIONAR DIFÍCIL ▶</button>
+          </div>
+
+          <!-- PESADILLA -->
+          <div class="bot-diff-card diff-nightmare" data-diff="nightmare">
+            <div class="diff-header">
+              <span class="diff-icon">💀</span>
+              <div>
+                <h3>PESADILLA // ZERO-DAY GOD</h3>
+                <span class="diff-reward">+300 ฿ • +100 ELO</span>
+              </div>
+            </div>
+            <p class="diff-desc">Velocidad sobrehumana. Si no blindas tu perímetro o atacas en menos de 30s, el bot te destruirá.</p>
+            <ul class="diff-features">
+              <li>Exploitation en 10-15s & caos psicológico</li>
+              <li>Mitigación instantánea de malware rival</li>
+            </ul>
+            <button class="cyber-btn btn-sm btn-block btn-select-diff" data-diff="nightmare">SELECCIONAR PESADILLA ▶</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- OVERLAY DE DEFACEMENT & KILL-CAM -->
   <div class="deface-overlay" id="deface-overlay" style="display: none;">
     <div class="deface-skull" id="deface-skull-art"></div>

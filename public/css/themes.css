@@ -1340,3 +1340,122 @@
   border-radius: 0 4px 4px 0;
 }
 
+/* ==========================================================================
+   MODAL DE SELECCIÓN DE DIFICULTAD BOT IA
+   ========================================================================== */
+.bot-difficulty-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 10px 0;
+}
+
+@media (max-width: 680px) {
+  .bot-difficulty-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bot-diff-card {
+  background: rgba(14, 20, 32, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.bot-diff-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+.bot-diff-card.diff-easy {
+  border-color: rgba(0, 255, 119, 0.3);
+}
+.bot-diff-card.diff-easy:hover {
+  border-color: var(--color-green);
+  box-shadow: 0 0 15px rgba(0, 255, 119, 0.2);
+}
+
+.bot-diff-card.diff-medium {
+  border-color: rgba(255, 170, 0, 0.3);
+}
+.bot-diff-card.diff-medium:hover {
+  border-color: var(--color-amber);
+  box-shadow: 0 0 15px rgba(255, 170, 0, 0.2);
+}
+
+.bot-diff-card.diff-hard {
+  border-color: rgba(255, 42, 95, 0.4);
+}
+.bot-diff-card.diff-hard:hover {
+  border-color: var(--color-red);
+  box-shadow: 0 0 18px rgba(255, 42, 95, 0.3);
+}
+
+.bot-diff-card.diff-nightmare {
+  border-color: rgba(189, 147, 249, 0.5);
+  background: linear-gradient(180deg, rgba(20, 10, 30, 0.95) 0%, rgba(10, 6, 18, 0.95) 100%);
+}
+.bot-diff-card.diff-nightmare:hover {
+  border-color: #bd93f9;
+  box-shadow: 0 0 25px rgba(189, 147, 249, 0.4);
+}
+
+.diff-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.diff-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.diff-header h3 {
+  font-family: var(--font-title);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+
+.diff-reward {
+  font-size: 11px;
+  color: var(--color-amber);
+  font-weight: 700;
+  display: block;
+}
+
+.diff-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  flex: 1;
+}
+
+.diff-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 10px;
+  color: var(--text-main);
+}
+
+.diff-features li {
+  margin-bottom: 3px;
+  padding-left: 12px;
+  position: relative;
+}
+
+.diff-features li::before {
+  content: '▪';
+  position: absolute;
+  left: 0;
+  color: var(--color-cyan);
+}
+

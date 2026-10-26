@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const VirtualMachine = require('./virtualMachine');
+const BotAI = require('./botAI');
 
 class GameRoom {
   constructor(roomId, player1) {
@@ -11,6 +12,8 @@ class GameRoom {
     this.winReason = null;
     this.startedAt = null;
     this.firstBloodClaimed = false;
+    this.botAI = null;
+    this.botDifficulty = 'medium';
 
     this.addPlayer(player1.socket, player1.username);
   }
@@ -59,6 +62,10 @@ class GameRoom {
     // Cancelar tareas activas
     for (const [taskId, task] of player.activeTasks.entries()) {
       clearTimeout(task.timer);
+    }
+
+    if (this.botAI) {
+      this.botAI.stop();
     }
 
     this.players.delete(socketId);
@@ -113,6 +120,9 @@ class GameRoom {
 
   broadcastGameOver(winnerUsername, reason, winType = 'VICTORY') {
     this.status = 'FINISHED';
+    if (this.botAI) {
+      this.botAI.stop();
+    }
     const durationSec = this.startedAt ? Math.max(1, Math.round((Date.now() - this.startedAt) / 1000)) : 0;
     const isBotMatch = this.roomId.startsWith('BOT_');
     for (const player of this.players.values()) {
@@ -124,9 +134,16 @@ class GameRoom {
         winType,
         durationSec,
         isBotMatch,
+        botDifficulty: this.botDifficulty || 'medium',
         flagCaptured: winType === 'FLAG_SUBMIT' || reason.includes('FLAG')
       });
     }
+  }
+
+  initBotAI(botSocketId, difficulty = 'medium') {
+    this.botDifficulty = difficulty;
+    this.botAI = new BotAI(this, botSocketId, difficulty);
+    this.botAI.start();
   }
 
   // Ejecución de comandos del juego
