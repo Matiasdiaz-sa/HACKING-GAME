@@ -92,82 +92,87 @@ class BotAI {
   }
 
   tick() {
-    if (this.isStopped || !this.room || this.room.status !== 'PLAYING') {
-      this.stop();
-      return;
-    }
-
-    this.elapsedSeconds += this.config.tickSec;
-
-    const botPlayer = this.room.getPlayer(this.botSocketId);
-    const opponent = this.room.getOpponent(this.botSocketId);
-    if (!botPlayer || !opponent) {
-      this.stop();
-      return;
-    }
-
-    this.targetIp = opponent.vm.virtualIp;
-
-    // 1. Fase de Defensa Reactiva (prioridad táctica)
-    this.performDefense(botPlayer, opponent);
-
-    // 2. Fase de Reconocimiento de Subred
-    if (this.elapsedSeconds >= this.config.reconDelay && !this.scannedNet) {
-      this.scannedNet = true;
-      this.room.handleCommand(this.botSocketId, 'netdiscover');
-      return;
-    }
-
-    // 3. Fase de Escaneo de Puertos
-    if (this.elapsedSeconds >= this.config.scanDelay && !this.scannedPorts) {
-      this.scannedPorts = true;
-      this.room.handleCommand(this.botSocketId, `nmap ${this.targetIp}`);
-      return;
-    }
-
-    // 4. Fase de Explotación Perimetral
-    if (this.elapsedSeconds >= this.config.exploitDelay && !this.compromised) {
-      if (Math.random() < this.config.attackChance) {
-        // Encontrar un puerto abierto del jugador
-        const victimPort = opponent.vm.ports.get(21) || opponent.vm.ports.get(80) || opponent.vm.ports.get(22);
-        if (victimPort && victimPort.open) {
-          this.room.handleCommand(this.botSocketId, `exploit ${this.targetIp} ${victimPort.port}`);
-          setTimeout(() => {
-            if (victimPort.compromised && !this.isStopped) {
-              this.compromised = true;
-            }
-          }, 8500);
-          return;
-        }
-      }
-    }
-
-    // 5. Fase de Conexión y Shell Remota
-    if (this.compromised && !this.connected) {
-      this.room.handleCommand(this.botSocketId, `connect ${this.targetIp}`);
-      this.connected = true;
-      return;
-    }
-
-    if (this.connected) {
-      // Destrucción del Kernel para victoria (en dificultades que lo permiten)
-      if (this.config.canDestroyKernel && this.elapsedSeconds >= this.config.kernelDestroyDelay) {
-        this.room.handleCommand(this.botSocketId, 'rm /boot/kernel.sys');
+    try {
+      if (this.isStopped || !this.room || this.room.status !== 'PLAYING') {
+        this.stop();
         return;
       }
 
-      // Inyección de Troyanos Psicológicos
-      if (Math.random() < this.config.attackChance) {
-        const types = this.config.trollingTypes;
-        const chosen = types[Math.floor(Math.random() * types.length)];
-        if (chosen === 'popup') {
-          this.room.handleCommand(this.botSocketId, `popup [ALERTA] ${botPlayer.username} ha tomado el control de tu terminal!`);
-        } else if (chosen === 'say') {
-          this.room.handleCommand(this.botSocketId, `say Auditando tus procesos en memoria...`);
-        } else {
-          this.room.handleCommand(this.botSocketId, chosen);
+      this.elapsedSeconds += this.config.tickSec;
+
+      const botPlayer = this.room.getPlayer(this.botSocketId);
+      const opponent = this.room.getOpponent(this.botSocketId);
+      if (!botPlayer || !opponent) {
+        this.stop();
+        return;
+      }
+
+      this.targetIp = opponent.vm.virtualIp;
+
+      // 1. Fase de Defensa Reactiva (prioridad táctica)
+      this.performDefense(botPlayer, opponent);
+
+      // 2. Fase de Reconocimiento de Subred
+      if (this.elapsedSeconds >= this.config.reconDelay && !this.scannedNet) {
+        this.scannedNet = true;
+        this.room.handleCommand(this.botSocketId, 'netdiscover');
+        return;
+      }
+
+      // 3. Fase de Escaneo de Puertos
+      if (this.elapsedSeconds >= this.config.scanDelay && !this.scannedPorts) {
+        this.scannedPorts = true;
+        this.room.handleCommand(this.botSocketId, `nmap ${this.targetIp}`);
+        return;
+      }
+
+      // 4. Fase de Explotación Perimetral
+      if (this.elapsedSeconds >= this.config.exploitDelay && !this.compromised) {
+        if (Math.random() < this.config.attackChance) {
+          // Encontrar un puerto abierto del jugador
+          const ports = opponent.vm.ports || {};
+          const victimPort = ports[21] || ports[80] || ports[22];
+          if (victimPort && victimPort.open) {
+            this.room.handleCommand(this.botSocketId, `exploit ${this.targetIp} ${victimPort.port}`);
+            setTimeout(() => {
+              if (victimPort.compromised && !this.isStopped) {
+                this.compromised = true;
+              }
+            }, 8500);
+            return;
+          }
         }
       }
+
+      // 5. Fase de Conexión y Shell Remota
+      if (this.compromised && !this.connected) {
+        this.room.handleCommand(this.botSocketId, `connect ${this.targetIp}`);
+        this.connected = true;
+        return;
+      }
+
+      if (this.connected) {
+        // Destrucción del Kernel para victoria (en dificultades que lo permiten)
+        if (this.config.canDestroyKernel && this.elapsedSeconds >= this.config.kernelDestroyDelay) {
+          this.room.handleCommand(this.botSocketId, 'rm /boot/kernel.sys');
+          return;
+        }
+
+        // Inyección de Troyanos Psicológicos
+        if (Math.random() < this.config.attackChance) {
+          const types = this.config.trollingTypes;
+          const chosen = types[Math.floor(Math.random() * types.length)];
+          if (chosen === 'popup') {
+            this.room.handleCommand(this.botSocketId, `popup [ALERTA] ${botPlayer.username} ha tomado el control de tu terminal!`);
+          } else if (chosen === 'say') {
+            this.room.handleCommand(this.botSocketId, `say Auditando tus procesos en memoria...`);
+          } else {
+            this.room.handleCommand(this.botSocketId, chosen);
+          }
+        }
+      }
+    } catch (err) {
+      console.error('[BOT_AI] Error durante ciclo de ejecución:', err);
     }
   }
 
@@ -175,18 +180,22 @@ class BotAI {
     if (Math.random() > this.config.defenseChance) return;
 
     // A. Neutralizar exploit entrante con kill
-    for (const [pid, proc] of botPlayer.vm.processes.entries()) {
-      if (proc.type === 'incoming_attack') {
-        this.room.handleCommand(this.botSocketId, `kill ${pid}`);
-        return;
+    if (Array.isArray(botPlayer.vm.processes)) {
+      for (const proc of botPlayer.vm.processes) {
+        if (proc.type === 'incoming_attack') {
+          this.room.handleCommand(this.botSocketId, `kill ${proc.pid}`);
+          return;
+        }
       }
     }
 
     // B. Mitigar puertos comprometidos cerrándolos con firewall
-    for (const [portNum, portInfo] of botPlayer.vm.ports.entries()) {
-      if (portInfo.compromised && portInfo.open) {
-        this.room.handleCommand(this.botSocketId, `firewall block ${portNum}`);
-        return;
+    if (botPlayer.vm.ports) {
+      for (const [portNum, portInfo] of Object.entries(botPlayer.vm.ports)) {
+        if (portInfo.compromised && portInfo.open) {
+          this.room.handleCommand(this.botSocketId, `firewall block ${portNum}`);
+          return;
+        }
       }
     }
   }

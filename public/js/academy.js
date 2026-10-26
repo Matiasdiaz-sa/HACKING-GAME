@@ -382,10 +382,10 @@ class HackWarsAcademy {
     const aliasInput = document.getElementById('input-nickname');
     const username = (aliasInput && aliasInput.value.trim()) || localStorage.getItem('hackwars_alias') || 'Hacker_Cadete';
     
-    // Iniciar el motor en modo práctica/academia
-    const socket = window.hackWarsSocket || (window.io && window.io());
+    // Iniciar el motor en modo práctica/academia con bot en dificultad fácil (aprendizaje guiado)
+    const socket = window.hackWarsSocket;
     if (socket) {
-      socket.emit('start_bot_game', { username });
+      socket.emit('start_bot_game', { username, difficulty: 'easy' });
     }
 
     // Configurar y mostrar el HUD del Cyber-Mentor

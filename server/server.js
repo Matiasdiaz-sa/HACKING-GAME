@@ -149,9 +149,8 @@ io.on('connection', (socket) => {
       nightmare: 'CyberBot [PESADILLA]'
     };
     const botName = diffLabels[difficulty] || 'CyberBot_AI';
-
-    room.addPlayer(botSocket, botName);
     socketToRoom.set(socket.id, botRoomCode);
+    room.addPlayer(botSocket, botName);
 
     // Iniciar el motor de IA con la dificultad elegida
     room.initBotAI(botSocket.id, difficulty);

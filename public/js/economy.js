@@ -6,8 +6,8 @@
 class EconomyManager {
   constructor() {
     this.storageKey = 'hackwars_player_profile_v1';
-    this.profile = this.loadProfile();
     this.listeners = new Set();
+    this.profile = this.loadProfile();
     this.checkDailyStreak();
   }
 
@@ -69,12 +69,14 @@ class EconomyManager {
 
   // Suscribirse a cambios en la economía (Reactivo)
   subscribe(callback) {
+    if (!this.listeners) this.listeners = new Set();
     this.listeners.add(callback);
     callback(this.profile);
     return () => this.listeners.delete(callback);
   }
 
   notifyListeners() {
+    if (!this.listeners) return;
     for (const cb of this.listeners) {
       try {
         cb(this.profile);
