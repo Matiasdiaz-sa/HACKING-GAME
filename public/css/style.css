@@ -1,0 +1,1397 @@
+/* ==========================================================================
+   HACKWARS LAN - ESTILOS CYBERPUNK / TERMINAL CRT
+   Diseño de alto impacto visual y bajo consumo de recursos (GPU accelerated)
+   ========================================================================== */
+
+:root {
+  --bg-dark: #07090e;
+  --bg-card: rgba(13, 18, 27, 0.88);
+  --bg-card-secondary: rgba(18, 26, 38, 0.7);
+  --bg-input: rgba(6, 10, 16, 0.9);
+  
+  --color-green: #00ff77;
+  --color-green-dim: rgba(0, 255, 119, 0.4);
+  --color-green-glow: rgba(0, 255, 119, 0.18);
+  
+  --color-cyan: #00e5ff;
+  --color-cyan-glow: rgba(0, 229, 255, 0.2);
+  
+  --color-amber: #ffaa00;
+  --color-amber-glow: rgba(255, 170, 0, 0.2);
+  
+  --color-red: #ff2a5f;
+  --color-red-glow: rgba(255, 42, 95, 0.25);
+  
+  --text-main: #d4e2ed;
+  --text-muted: #6e8499;
+  --text-dim: #445668;
+  
+  --border-cyber: 1px solid rgba(0, 255, 119, 0.22);
+  --border-cyan: 1px solid rgba(0, 229, 255, 0.25);
+  --border-red: 1px solid rgba(255, 42, 95, 0.35);
+  
+  --font-mono: 'Share Tech Mono', 'JetBrains Mono', Consolas, monospace;
+  --font-title: 'Orbitron', 'Share Tech Mono', monospace;
+}
+
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.5;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   EFECTO CRT (SCANLINES & VIGNETTE)
+   Optimizado con capas fijas y pointer-events: none (0 lag)
+   ========================================================================== */
+.crt-scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.28) 50%
+  ), 
+  linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.02),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.02)
+  );
+  background-size: 100% 3px, 6px 100%;
+  opacity: 0.85;
+}
+
+.crt-vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 998;
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.75);
+}
+
+body:not(.crt-enabled) .crt-scanlines,
+body:not(.crt-enabled) .crt-vignette {
+  display: none;
+}
+
+/* ==========================================================================
+   HEADER / BARRA SUPERIOR
+   ========================================================================== */
+.cyber-header {
+  height: 48px;
+  background: rgba(8, 12, 18, 0.95);
+  border-bottom: var(--border-cyber);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 255, 119, 0.05);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cyber-logo {
+  font-family: var(--font-title);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-green);
+  text-shadow: 0 0 8px var(--color-green-dim);
+}
+
+.logo-accent {
+  color: var(--color-cyan);
+}
+
+.logo-bracket {
+  color: var(--text-muted);
+}
+
+.header-tag {
+  font-size: 11px;
+  color: var(--text-muted);
+  border-left: 1px solid var(--text-dim);
+  padding-left: 12px;
+}
+
+.header-center {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+}
+
+.badge-pulse {
+  background: rgba(0, 255, 119, 0.15);
+  color: var(--color-green);
+  border: 1px solid var(--color-green);
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 4px var(--color-green-glow); }
+  50% { box-shadow: 0 0 12px var(--color-green-dim); }
+}
+
+.header-room-text strong,
+.header-opp-text strong {
+  color: var(--color-cyan);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ==========================================================================
+   BOTONES & COMPONENTES GENERALES
+   ========================================================================== */
+.cyber-btn {
+  background: rgba(12, 18, 28, 0.8);
+  color: var(--color-green);
+  border: 1px solid var(--color-green-dim);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 6px 14px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.15s ease;
+  position: relative;
+  text-transform: uppercase;
+}
+
+.cyber-btn:hover {
+  background: var(--color-green);
+  color: #000;
+  box-shadow: 0 0 12px var(--color-green-glow);
+}
+
+.cyber-btn.btn-sm {
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+.cyber-btn.btn-xs {
+  padding: 2px 6px;
+  font-size: 10px;
+}
+
+.cyber-btn.btn-primary {
+  background: rgba(0, 255, 119, 0.15);
+  border-color: var(--color-green);
+  font-weight: 700;
+}
+
+.cyber-btn.btn-secondary {
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
+}
+
+.cyber-btn.btn-secondary:hover {
+  background: var(--color-cyan);
+  color: #000;
+  box-shadow: 0 0 12px var(--color-cyan-glow);
+}
+
+.cyber-btn.btn-block {
+  width: 100%;
+}
+
+.cyber-input {
+  background: var(--bg-input);
+  border: 1px solid var(--text-dim);
+  color: var(--color-green);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  padding: 8px 12px;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.cyber-input:focus {
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 8px var(--color-cyan-glow);
+}
+
+/* ==========================================================================
+   VISTA 1: LOBBY & MATCHMAKING
+   ========================================================================== */
+.view-container {
+  height: calc(100vh - 48px);
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+}
+
+#view-lobby {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: radial-gradient(circle at center, #0f1624 0%, #06080d 100%);
+}
+
+.lobby-card {
+  background: var(--bg-card);
+  border: var(--border-cyber);
+  width: 100%;
+  max-width: 680px;
+  padding: 30px;
+  box-shadow: 0 0 30px rgba(0, 255, 119, 0.08), inset 0 0 15px rgba(0, 255, 119, 0.02);
+  position: relative;
+  backdrop-filter: blur(8px);
+}
+
+.lobby-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.glitch-title {
+  font-family: var(--font-title);
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--color-green);
+  text-shadow: 0 0 10px var(--color-green-glow);
+  letter-spacing: 2px;
+}
+
+.lobby-subtitle {
+  color: var(--text-muted);
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.cyber-label {
+  display: block;
+  font-size: 12px;
+  color: var(--color-cyan);
+  margin-bottom: 6px;
+}
+
+.lobby-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.action-box {
+  background: var(--bg-card-secondary);
+  border: 1px solid var(--text-dim);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.action-box h3 {
+  font-family: var(--font-title);
+  font-size: 13px;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.action-box p {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+
+.room-input-group {
+  display: flex;
+  gap: 6px;
+}
+
+.room-input-group .cyber-input {
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 6px 8px;
+}
+
+/* Banner de Ayuda LAN */
+.lan-share-box {
+  background: rgba(0, 229, 255, 0.04);
+  border: var(--border-cyan);
+  padding: 14px 16px;
+  margin-top: 10px;
+}
+
+.lan-share-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--color-cyan);
+  margin-bottom: 6px;
+}
+
+.lan-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.lan-url-row {
+  display: flex;
+  gap: 8px;
+}
+
+.lan-url-input {
+  color: var(--color-cyan);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.lan-note {
+  display: block;
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 6px;
+}
+
+/* Estado de Espera / Radar */
+.lobby-waiting {
+  text-align: center;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.radar-spinner {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 1px solid var(--color-green-dim);
+  position: relative;
+  background: radial-gradient(circle, rgba(0, 255, 119, 0.05) 0%, transparent 70%);
+}
+
+.radar-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px dashed var(--color-green-dim);
+}
+
+.circle-1 { width: 60px; height: 60px; }
+.circle-2 { width: 30px; height: 30px; }
+
+.radar-sweep {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(0, 255, 119, 0.35) 0deg, transparent 60deg);
+  animation: radar-spin 2s linear infinite;
+}
+
+@keyframes radar-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.radar-dot {
+  position: absolute;
+  top: 25%;
+  right: 25%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-green);
+  box-shadow: 0 0 8px var(--color-green);
+  animation: blink-dot 1s infinite alternate;
+}
+
+@keyframes blink-dot {
+  0% { opacity: 0.2; }
+  100% { opacity: 1; }
+}
+
+.highlight-code {
+  color: var(--color-green);
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.blink-text {
+  color: var(--color-green);
+  font-size: 12px;
+  animation: blink 1.2s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.sub-waiting {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   VISTA 2: DASHBOARD DE COMBATE (SPLIT-PANE 65% / 35%)
+   ========================================================================== */
+.battle-grid {
+  display: grid;
+  grid-template-columns: 65% 35%;
+  grid-template-rows: 100%;
+  height: 100%;
+  max-height: 100%;
+  width: 100%;
+  background: var(--bg-dark);
+  overflow: hidden;
+}
+
+/* --- Panel Izquierdo: Terminal Principal --- */
+.pane-terminal {
+  border-right: var(--border-cyber);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0; /* IMPRESCINDIBLE PARA SCROLL EN FLEXBOX */
+  background: rgba(5, 8, 12, 0.95);
+  position: relative;
+  overflow: hidden;
+}
+
+.panel-header {
+  height: 34px;
+  background: rgba(10, 16, 24, 0.9);
+  border-bottom: 1px solid rgba(0, 255, 119, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 1px;
+}
+
+.term-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-green);
+  box-shadow: 0 0 6px var(--color-green);
+}
+
+.session-indicator {
+  font-size: 10px;
+  padding: 2px 6px;
+  background: rgba(0, 255, 119, 0.1);
+  color: var(--color-green);
+  border: 1px solid var(--color-green-dim);
+  border-radius: 2px;
+}
+
+.session-indicator.remote-mode {
+  background: rgba(255, 42, 95, 0.2);
+  color: var(--color-red);
+  border-color: var(--color-red);
+  animation: pulse-glow-red 1s infinite alternate;
+}
+
+@keyframes pulse-glow-red {
+  0% { box-shadow: 0 0 4px var(--color-red-glow); }
+  100% { box-shadow: 0 0 12px var(--color-red); }
+}
+
+.terminal-body {
+  flex: 1 1 0;
+  min-height: 0; /* PERMITE SCROLL REAL */
+  height: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--color-green);
+  word-break: break-all;
+  white-space: pre-wrap;
+  user-select: text;
+  pointer-events: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-green) rgba(0, 0, 0, 0.6);
+}
+
+/* Scrollbar estilizado estilo cyberpunk - Ancho accesible y visible */
+.terminal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.6);
+  border-left: 1px solid rgba(0, 255, 119, 0.15);
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 119, 0.4);
+  border-radius: 2px;
+  border: 1px solid rgba(0, 255, 119, 0.6);
+}
+
+.terminal-body::-webkit-scrollbar-thumb:hover {
+  background: var(--color-green);
+  box-shadow: 0 0 8px var(--color-green);
+}
+
+.syslog-body::-webkit-scrollbar,
+.proc-table-wrap::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.syslog-body::-webkit-scrollbar-thumb,
+.proc-table-wrap::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 119, 0.3);
+  border-radius: 2px;
+}
+
+.syslog-body::-webkit-scrollbar-track,
+.proc-table-wrap::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.term-welcome {
+  color: var(--color-green-dim);
+  margin-bottom: 12px;
+}
+
+.term-entry {
+  margin-bottom: 8px;
+}
+
+.term-cmd-line {
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.term-cmd-prompt {
+  color: var(--color-cyan);
+}
+
+.term-output-text {
+  color: #c9e0d4;
+  margin-top: 2px;
+}
+
+.term-output-text.error {
+  color: var(--color-red);
+}
+
+.term-output-text.success {
+  color: var(--color-green);
+}
+
+/* Barra de Progreso de Tareas */
+.task-progress-box {
+  background: rgba(0, 20, 10, 0.85);
+  border-top: 1px dashed var(--color-green-dim);
+  border-bottom: 1px dashed var(--color-green-dim);
+  padding: 8px 16px;
+  font-size: 12px;
+}
+
+.task-info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.task-label {
+  color: var(--color-cyan);
+}
+
+.task-percent {
+  color: var(--color-green);
+  font-weight: 700;
+}
+
+.ascii-bar {
+  font-family: var(--font-mono);
+  color: var(--color-green);
+  letter-spacing: 1px;
+}
+
+/* Fila de Input de Terminal */
+.terminal-input-container {
+  display: flex;
+  align-items: center;
+  background: rgba(8, 12, 18, 0.98);
+  border-top: 1px solid rgba(0, 255, 119, 0.2);
+  padding: 8px 12px;
+  gap: 8px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.prompt-prefix {
+  color: var(--color-cyan);
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.prompt-prefix.remote {
+  color: var(--color-red);
+}
+
+.term-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  caret-color: var(--color-green);
+}
+
+.btn-exec {
+  background: transparent;
+  border: 1px solid var(--color-green-dim);
+  color: var(--color-green);
+  font-size: 14px;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-exec:hover {
+  background: var(--color-green);
+  color: #000;
+}
+
+/* --- Panel Derecho: Monitor de Sistema & Syslog --- */
+.pane-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: rgba(8, 12, 18, 0.9);
+}
+
+.panel-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-sysmon {
+  height: 52%;
+  border-bottom: var(--border-cyber);
+}
+
+.panel-syslog {
+  height: 48%;
+}
+
+.node-id-tag {
+  font-size: 10px;
+  color: var(--color-cyan);
+  background: rgba(0, 229, 255, 0.1);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+.sysmon-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  height: calc(100% - 34px);
+}
+
+.mon-net-row {
+  display: flex;
+  justify-content: space-between;
+  background: rgba(12, 18, 28, 0.6);
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 11px;
+}
+
+.net-lbl {
+  color: var(--text-muted);
+}
+
+.glow-cyan {
+  color: var(--color-cyan);
+  font-weight: 700;
+  text-shadow: 0 0 6px var(--color-cyan-glow);
+}
+
+/* CPU Monitor */
+.cpu-monitor-section {
+  background: rgba(12, 18, 28, 0.6);
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cpu-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+
+.cpu-lbl {
+  color: var(--text-muted);
+}
+
+.cpu-num {
+  font-weight: 700;
+  color: var(--color-green);
+}
+
+.cpu-bar-track {
+  height: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(0, 255, 119, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.cpu-bar-fill {
+  height: 100%;
+  background: var(--color-green);
+  transition: width 0.3s ease, background-color 0.3s ease;
+  box-shadow: 0 0 6px var(--color-green);
+}
+
+.cpu-bar-fill.warning {
+  background: var(--color-amber);
+  box-shadow: 0 0 6px var(--color-amber);
+}
+
+.cpu-bar-fill.danger {
+  background: var(--color-red);
+  box-shadow: 0 0 6px var(--color-red);
+}
+
+.cpu-sub {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: var(--text-dim);
+}
+
+.status-ok { color: var(--color-green); }
+.status-warn { color: var(--color-amber); }
+.status-crit { color: var(--color-red); font-weight: 700; }
+
+/* Ports Matrix */
+.matrix-title {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.ports-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.port-card {
+  background: rgba(10, 15, 24, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 6px;
+  text-align: center;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.port-card.compromised {
+  border-color: var(--color-red);
+  background: rgba(255, 42, 95, 0.12);
+  animation: pulse-glow-red 1.2s infinite alternate;
+}
+
+.port-top {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4px;
+}
+
+.port-num {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.port-srv {
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+.port-status {
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+
+.status-open {
+  color: var(--color-green);
+  background: rgba(0, 255, 119, 0.1);
+}
+
+.status-closed {
+  color: var(--color-amber);
+  background: rgba(255, 170, 0, 0.1);
+}
+
+.status-compromised {
+  color: var(--color-red);
+  background: rgba(255, 42, 95, 0.2);
+}
+
+/* Processes Section */
+.processes-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100px;
+}
+
+.proc-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.proc-count {
+  color: var(--color-cyan);
+}
+
+.proc-table-wrap {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(6, 10, 16, 0.7);
+}
+
+.proc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10px;
+  text-align: left;
+}
+
+.proc-table th {
+  background: rgba(14, 20, 30, 0.9);
+  color: var(--text-muted);
+  padding: 4px 6px;
+  font-weight: normal;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.proc-table td {
+  padding: 3px 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  color: var(--text-main);
+}
+
+.proc-row-attack {
+  background: rgba(255, 42, 95, 0.15) !important;
+  color: var(--color-red) !important;
+  font-weight: 700;
+  animation: pulse-glow-red 1s infinite alternate;
+}
+
+.btn-kill-proc {
+  background: rgba(255, 42, 95, 0.2);
+  border: 1px solid var(--color-red);
+  color: var(--color-red);
+  font-size: 9px;
+  padding: 1px 4px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.btn-kill-proc:hover {
+  background: var(--color-red);
+  color: #fff;
+}
+
+/* Syslog Feed */
+.syslog-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 12px;
+  font-size: 11px;
+  background: rgba(5, 8, 12, 0.95);
+  line-height: 1.5;
+}
+
+.log-entry {
+  margin-bottom: 4px;
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  word-break: break-all;
+}
+
+.log-time {
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.log-tag {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tag-info { color: var(--color-cyan); }
+.tag-warn { color: var(--color-amber); }
+.tag-alert { color: #ff7700; }
+.tag-crit { color: var(--color-red); animation: blink 1s infinite; }
+
+.log-msg {
+  color: var(--text-main);
+}
+
+.log-entry.log-crit .log-msg {
+  color: #ff88a3;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   MODALES (AYUDA & FIN DE PARTIDA)
+   ========================================================================== */
+.cyber-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  position: relative;
+  background: var(--bg-card);
+  border: var(--border-cyber);
+  box-shadow: 0 0 40px rgba(0, 255, 119, 0.15);
+  width: 90%;
+  max-width: 800px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 1001;
+}
+
+.modal-header {
+  padding: 14px 20px;
+  border-bottom: var(--border-cyber);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  font-family: var(--font-title);
+  font-size: 15px;
+  color: var(--color-green);
+  letter-spacing: 1px;
+}
+
+.btn-close-modal {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.btn-close-modal:hover {
+  color: var(--color-red);
+}
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.help-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.help-col h3 {
+  font-size: 13px;
+  color: var(--color-cyan);
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+  padding-bottom: 4px;
+}
+
+.help-list {
+  list-style: none;
+  font-size: 11px;
+}
+
+.help-list li {
+  margin-bottom: 8px;
+  line-height: 1.4;
+  color: var(--text-main);
+}
+
+.help-list code {
+  color: var(--color-green);
+  background: rgba(0, 255, 119, 0.1);
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+.help-tip-box {
+  margin-top: 16px;
+  background: rgba(0, 229, 255, 0.05);
+  border: var(--border-cyan);
+  padding: 10px;
+  font-size: 11px;
+}
+
+.help-tip-box strong {
+  color: var(--color-cyan);
+}
+
+/* Modal Game Over */
+.modal-glow {
+  max-width: 520px;
+  text-align: center;
+  padding: 30px;
+}
+
+.gameover-header {
+  margin-bottom: 20px;
+}
+
+.gameover-title {
+  font-family: var(--font-title);
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.gameover-title.win {
+  color: var(--color-green);
+  text-shadow: 0 0 15px var(--color-green);
+}
+
+.gameover-title.lose {
+  color: var(--color-red);
+  text-shadow: 0 0 15px var(--color-red);
+}
+
+.gameover-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  border: 1px solid currentColor;
+}
+
+.gameover-reason {
+  font-size: 14px;
+  color: var(--text-main);
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.gameover-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (Tablets & Mobile)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .battle-grid {
+    grid-template-columns: 58% 42%;
+    grid-template-rows: 100%;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+  }
+  .pane-terminal {
+    border-right: var(--border-cyber);
+    border-bottom: none;
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 720px) {
+  .battle-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 62% 38%;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+  }
+  .pane-terminal {
+    border-right: none;
+    border-bottom: var(--border-cyber);
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+}
+
+/* ==========================================================================
+   EFECTOS DE TROYANOS Y TROLLING CIBERNÉTICO
+   ========================================================================== */
+
+/* 1. Glitch & Sacudida de Pantalla */
+@keyframes screen-glitch {
+  0% { transform: translate(0); filter: none; }
+  15% { transform: translate(-6px, 4px) skewX(3deg); filter: hue-rotate(90deg) contrast(1.4); }
+  30% { transform: translate(6px, -4px) skewY(-2deg); filter: invert(0.2); }
+  50% { transform: translate(-4px, -2px) scale(1.02); filter: drop-shadow(0 0 10px red); }
+  70% { transform: translate(4px, 3px); filter: hue-rotate(-90deg); }
+  85% { transform: translate(-2px, -3px) skewX(-2deg); filter: contrast(2); }
+  100% { transform: translate(0); filter: none; }
+}
+
+body.victim-glitched #view-battle {
+  animation: screen-glitch 0.22s infinite;
+}
+
+/* 2. Pantalla Invertida y Rotada */
+body.victim-inverted #view-battle {
+  transform: rotate(180deg);
+  filter: invert(1) hue-rotate(180deg);
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+/* 3. Bloqueo de Consola / Freeze Overlay */
+.freeze-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(180, 0, 40, 0.45);
+  backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 600;
+  border: 3px solid var(--color-red);
+  box-shadow: inset 0 0 50px rgba(255, 42, 95, 0.5);
+  animation: pulse-glow-red 0.8s infinite alternate;
+  pointer-events: all;
+  cursor: not-allowed;
+}
+
+.freeze-icon {
+  font-size: 42px;
+  margin-bottom: 8px;
+  animation: blink 0.5s infinite;
+}
+
+.freeze-title {
+  font-family: var(--font-title);
+  font-size: 18px;
+  color: #fff;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px var(--color-red);
+  margin-bottom: 4px;
+}
+
+.freeze-desc {
+  font-size: 12px;
+  color: #ffccd7;
+  font-weight: 700;
+}
+
+/* 4. Carteles / Popups de Intrusión del Atacante */
+.popups-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 2000;
+}
+
+.hacker-popup-window {
+  position: absolute;
+  pointer-events: auto;
+  background: #090e17;
+  border: 2px solid var(--color-red);
+  box-shadow: 0 0 30px rgba(255, 42, 95, 0.7), inset 0 0 15px rgba(255, 42, 95, 0.2);
+  width: 340px;
+  border-radius: 4px;
+  overflow: hidden;
+  animation: pop-bounce 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pop-bounce {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.popup-header {
+  background: var(--color-red);
+  color: #fff;
+  padding: 6px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.popup-close-btn {
+  background: #000;
+  border: none;
+  color: #fff;
+  font-weight: 900;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  line-height: 16px;
+  font-size: 12px;
+}
+
+.popup-close-btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+.popup-body {
+  padding: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.popup-skull {
+  font-size: 32px;
+  animation: blink 0.6s infinite alternate;
+}
+
+.popup-text {
+  font-size: 12px;
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* 5. Caos de Punteros / Mouse Chaos */
+.chaos-cursor {
+  position: fixed;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  z-index: 2500;
+  filter: drop-shadow(0 0 6px var(--color-red));
+  transition: all 0.2s ease-out;
+}
+
+/* 6. Mensaje Intruso en Consola */
+.term-output-text.victim-msg {
+  color: #ff0077;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(255, 0, 119, 0.5);
+  background: rgba(255, 0, 119, 0.08);
+  border-left: 3px solid #ff0077;
+  padding: 6px 8px;
+  margin: 6px 0;
+}
+

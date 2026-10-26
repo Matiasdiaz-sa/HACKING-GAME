@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HackWars LAN // 1v1 Cyber Combat Terminal</title>
+  <meta name="description" content="Simulador de combate y hacking 1v1 multijugador en LAN con entorno 100% virtualizado en memoria.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="crt-enabled">
+  <!-- Capa de líneas de exploración CRT y resplandor fosfórico -->
+  <div class="crt-scanlines" id="crt-overlay"></div>
+  <div class="crt-vignette"></div>
+
+  <!-- Barra Superior / Header -->
+  <header class="cyber-header" id="main-header">
+    <div class="header-left">
+      <span class="cyber-logo"><span class="logo-bracket">[</span>HACKWARS<span class="logo-accent">_LAN</span><span class="logo-bracket">]</span></span>
+      <span class="header-tag">SIMULADOR 1v1 VIRTUALIZADO</span>
+    </div>
+
+    <div class="header-center" id="header-match-info" style="display: none;">
+      <span class="badge badge-pulse" id="match-status-badge">COMBATE ACTIVO</span>
+      <span class="header-room-text">SALA: <strong id="header-room-code">----</strong></span>
+      <span class="header-opp-text">OPONENTE: <strong id="header-opponent-name">Buscando...</strong></span>
+    </div>
+
+    <div class="header-right">
+      <button class="cyber-btn btn-sm" id="btn-toggle-crt" title="Activar/Desactivar efecto CRT">CRT: ON</button>
+      <button class="cyber-btn btn-sm" id="btn-toggle-sound" title="Silenciar / Activar sonido">AUDIO: 🔊</button>
+      <button class="cyber-btn btn-sm" id="btn-open-help" title="Ver guía de comandos">MANUAL [?]</button>
+    </div>
+  </header>
+
+  <!-- PANTALLA 1: LOBBY & EMPAREJAMIENTO -->
+  <main class="view-container" id="view-lobby">
+    <div class="lobby-card">
+      <div class="lobby-header">
+        <h1 class="glitch-title" data-text="HACKWARS // LAN">HACKWARS // LAN</h1>
+        <p class="lobby-subtitle">TERMINAL DE ENFRENTAMIENTO CIBERNÉTICO 1v1 POR RED LOCAL</p>
+      </div>
+
+      <div class="lobby-body">
+        <div class="form-group">
+          <label for="input-nickname" class="cyber-label">&gt; INGRESA TU ALIAS / CODICENAME:</label>
+          <input type="text" id="input-nickname" class="cyber-input" placeholder="Ej: ZeroCool, Neo, Cipher" maxlength="15" autocomplete="off" autofocus>
+        </div>
+
+        <div class="lobby-actions-grid">
+          <div class="action-box">
+            <h3>MODO AUTOMÁTICO</h3>
+            <p>Empareja con cualquier partida abierta en tu red o crea una automáticamente.</p>
+            <button class="cyber-btn btn-primary btn-block" id="btn-quick-match">
+              <span class="btn-icon"></span> EMPAREJAMIENTO RÁPIDO
+            </button>
+            <button class="cyber-btn btn-secondary btn-block" id="btn-practice-bot" style="margin-top: 8px;">
+              <span class="btn-icon"></span> SOLO VS BOT IA
+            </button>
+          </div>
+
+          <div class="action-box">
+            <h3>SALA PRIVADA</h3>
+            <p>Crea una sala o únete usando un código de 4 caracteres.</p>
+            <div class="room-input-group">
+              <input type="text" id="input-room-code" class="cyber-input" placeholder="CÓDIGO (ej: AX79)" maxlength="4" style="text-transform: uppercase;">
+              <button class="cyber-btn btn-secondary" id="btn-join-room">UNIRSE / CREAR</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Banner de Información LAN para invitar a Player 2 -->
+        <div class="lan-share-box" id="lan-share-box">
+          <div class="lan-share-header">
+            <span class="lan-icon">🌐</span>
+            <strong>CÓMO JUGAR CON OTRA PERSONA EN TU MISMA RED LAN:</strong>
+          </div>
+          <p class="lan-desc">Tu oponente debe abrir este enlace en su navegador desde su PC/Laptop conectada al mismo Wi-Fi o router:</p>
+          <div class="lan-url-row">
+            <input type="text" id="lan-url-display" class="cyber-input lan-url-input" readonly value="Cargando IP de red...">
+            <button class="cyber-btn btn-sm" id="btn-copy-lan-url">COPIAR ENLACE</button>
+          </div>
+          <span class="lan-note">100% Virtualizado en memoria. Seguro y sin riesgos para los equipos reales.</span>
+        </div>
+      </div>
+
+      <!-- Radar / Estado de Espera en Sala -->
+      <div class="lobby-waiting" id="lobby-waiting-state" style="display: none;">
+        <div class="radar-spinner">
+          <div class="radar-circle circle-1"></div>
+          <div class="radar-circle circle-2"></div>
+          <div class="radar-sweep"></div>
+          <div class="radar-dot"></div>
+        </div>
+        <div class="waiting-info">
+          <h2>SALA ASIGNADA: <span class="highlight-code" id="waiting-room-code">----</span></h2>
+          <p class="blink-text">&gt; Transmitiendo paquetes Beacon en la subred... Esperando conexión del rival.</p>
+          <p class="sub-waiting">Pasa el código <strong id="waiting-room-code-share"></strong> a tu oponente para iniciar el duelo.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- PANTALLA 2: DASHBOARD DE COMBATE (SPLIT-PANE) -->
+  <main class="view-container" id="view-battle" style="display: none;">
+    <div class="battle-grid">
+      
+      <!-- PANE IZQUIERDO: TERMINAL PRINCIPAL (65%) -->
+      <section class="pane-terminal" id="pane-terminal" aria-label="Terminal interactiva">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span class="term-dot"></span>
+            <span>TERMINAL ROOT // NODO VIRTUAL INTERACTIVO</span>
+          </div>
+          <div class="panel-controls">
+            <span class="session-indicator" id="term-session-badge">SESIÓN: LOCAL</span>
+            <button class="cyber-btn btn-xs" id="btn-clear-term" title="Limpiar pantalla (Ctrl+L)">LIMPIAR</button>
+          </div>
+        </div>
+
+        <!-- Área de salida de texto de la terminal -->
+        <div class="terminal-body" id="terminal-output">
+          <div class="term-welcome">
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                          HACKWARS LAN OS v2.4 (x86_64)                       ║
+║                     SISTEMA DE SIMULACIÓN CIBERNÉTICA EN MEMORIA             ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+[*] Subred virtual asignada: 10.13.37.0/24
+[*] Escribe 'help' para visualizar el manual completo de comandos de ataque y defensa.
+[*] Descubre al objetivo con: 'netdiscover' | Inspecciona con: 'nmap &lt;target_ip&gt;'
+--------------------------------------------------------------------------------</div>
+        </div>
+
+        <!-- Barra de progreso ASCII para tareas demoradas -->
+        <div class="task-progress-box" id="task-progress-box" style="display: none;">
+          <div class="task-info-row">
+            <span class="task-label" id="task-label">&gt; Ejecutando operación...</span>
+            <span class="task-percent" id="task-percent">0%</span>
+          </div>
+          <div class="ascii-bar-wrapper">
+            <span class="ascii-bar" id="task-ascii-bar">[....................]</span>
+          </div>
+        </div>
+
+        <!-- Overlay de Congelamiento / Freeze de Terminal -->
+        <div class="freeze-overlay" id="freeze-overlay" style="display: none;">
+          <div class="freeze-icon">🔒⚠️</div>
+          <div class="freeze-title">[CONSOLA CONGELADA]</div>
+          <div class="freeze-desc">&gt; KERNEL STALL INDUCIDO POR EL ATACANTE (<span id="freeze-timer">4</span>s)</div>
+        </div>
+
+        <!-- Fila de Entrada de Comandos -->
+        <div class="terminal-input-container">
+          <span class="prompt-prefix" id="prompt-prefix">root@node:~#</span>
+          <input type="text" id="terminal-input" class="term-input" autocomplete="off" spellcheck="false" autofocus placeholder="Escribe un comando... (Tab para autocompletar, ↑↓ historial)">
+          <button class="btn-exec" id="btn-exec-cmd" title="Ejecutar">&gt;</button>
+        </div>
+      </section>
+
+      <!-- PANE DERECHO: MONITOR DE SISTEMA & SYSLOG (35%) -->
+      <aside class="pane-sidebar" id="pane-sidebar">
+        
+        <!-- MONITOR DEL SISTEMA (TOP RIGHT) -->
+        <section class="panel-card panel-sysmon" id="panel-sysmon">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span class="icon-monitor">⚡</span>
+              <span>MONITOR DE RECURSOS & PUERTOS</span>
+            </div>
+            <span class="node-id-tag" id="mon-hostname">node-sec</span>
+          </div>
+
+          <div class="sysmon-body">
+            <!-- Datos de Red Virtual -->
+            <div class="mon-net-row">
+              <div class="net-item">
+                <span class="net-lbl">IP VIRTUAL:</span>
+                <span class="net-val glow-cyan" id="mon-virtual-ip">10.13.37.--</span>
+              </div>
+              <div class="net-item">
+                <span class="net-lbl">SUBRED:</span>
+                <span class="net-val" id="mon-subnet">10.13.37.0/24</span>
+              </div>
+            </div>
+
+            <!-- Medidor de CPU -->
+            <div class="cpu-monitor-section">
+              <div class="cpu-header">
+                <span class="cpu-lbl">USO DE CPU:</span>
+                <span class="cpu-num" id="mon-cpu-num">3%</span>
+              </div>
+              <div class="cpu-bar-track">
+                <div class="cpu-bar-fill" id="mon-cpu-fill" style="width: 3%;"></div>
+              </div>
+              <div class="cpu-sub">
+                <span>Capacidad: 100%</span>
+                <span id="cpu-status-text" class="status-ok">ESTABLE</span>
+              </div>
+            </div>
+
+            <!-- Tabla de Estado de Puertos -->
+            <div class="ports-matrix-section">
+              <div class="matrix-title">ESTADO DE SERVICIOS / PUERTOS VIRTUALES</div>
+              <div class="ports-grid" id="ports-grid">
+                <!-- Se llena dinámicamente con JS -->
+                <div class="port-card" id="port-card-21">
+                  <div class="port-top">
+                    <span class="port-num">21/TCP</span>
+                    <span class="port-srv">FTP</span>
+                  </div>
+                  <span class="port-status status-open">ABIERTO</span>
+                </div>
+                <div class="port-card" id="port-card-22">
+                  <div class="port-top">
+                    <span class="port-num">22/TCP</span>
+                    <span class="port-srv">SSH</span>
+                  </div>
+                  <span class="port-status status-open">ABIERTO</span>
+                </div>
+                <div class="port-card" id="port-card-80">
+                  <div class="port-top">
+                    <span class="port-num">80/TCP</span>
+                    <span class="port-srv">HTTP</span>
+                  </div>
+                  <span class="port-status status-open">ABIERTO</span>
+                </div>
+                <div class="port-card" id="port-card-3306">
+                  <div class="port-top">
+                    <span class="port-num">3306/TCP</span>
+                    <span class="port-srv">MySQL</span>
+                  </div>
+                  <span class="port-status status-closed">CERRADO</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Procesos Activos (ps) -->
+            <div class="processes-section">
+              <div class="proc-header">
+                <span>PROCESOS ACTIVOS (ps)</span>
+                <span class="proc-count" id="mon-proc-count">4 tareas</span>
+              </div>
+              <div class="proc-table-wrap">
+                <table class="proc-table" id="mon-proc-table">
+                  <thead>
+                    <tr>
+                      <th>PID</th>
+                      <th>COMANDO</th>
+                      <th>%CPU</th>
+                      <th>USUARIO</th>
+                      <th>ACCION</th>
+                    </tr>
+                  </thead>
+                  <tbody id="mon-proc-tbody">
+                    <!-- Filas dinámicas -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- LIVE INTRUSION LOG / SYSLOG (BOTTOM RIGHT) -->
+        <section class="panel-card panel-syslog" id="panel-syslog">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span class="icon-log">🚨</span>
+              <span>FEED DE INTRUSIONES // /var/log/syslog</span>
+            </div>
+            <button class="cyber-btn btn-xs" id="btn-quick-clearlogs" title="Limpiar syslog">LIMPIAR</button>
+          </div>
+
+          <div class="syslog-body" id="syslog-feed">
+            <!-- Entradas de logs con timestamps -->
+            <div class="log-entry log-info">
+              <span class="log-time">[00:00:00]</span>
+              <span class="log-tag tag-info">[INFO]</span>
+              <span class="log-msg">Servicio syslogd en línea. Monitoreando paquetes entrantes...</span>
+            </div>
+          </div>
+        </section>
+
+      </aside>
+    </div>
+  </main>
+
+  <!-- MODAL: GUÍA Y MANUAL DE COMANDOS -->
+  <div class="cyber-modal" id="modal-help" style="display: none;">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>MANUAL DE OPERACIONES // HACKWARS LAN</h2>
+        <button class="btn-close-modal" id="btn-close-help">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="help-grid">
+          <div class="help-col">
+            <h3>🗡️ COMANDOS OFENSIVOS & RECONOCIMIENTO</h3>
+            <ul class="help-list">
+              <li><code>netdiscover</code> : Escanea la subred 10.13.37.0/24 (3s). Revela la IP Virtual del adversario.</li>
+              <li><code>nmap &lt;target_ip&gt;</code> : Escaneo SYN de puertos abiertos de la víctima (4s).</li>
+              <li><code>probe &lt;target_ip&gt; &lt;puerto&gt;</code> : Inspecciona versión, vulnerabilidad y obtiene el payload (3s).</li>
+              <li><code>exploit &lt;ip&gt; &lt;p&gt; &lt;payload&gt;</code> : Inyecta exploit (8s, 40% CPU). Marca puerto como comprometido.</li>
+              <li><code>connect &lt;target_ip&gt;</code> : Abre shell remota interactiva en la máquina víctima.</li>
+              <li><code>submit &lt;flag_hash&gt;</code> : Entrega la bandera capturada para ganar la partida.</li>
+            </ul>
+
+            <h3 style="margin-top: 15px;">🎭 TROLLING & CONTROL DE PANTALLA</h3>
+            <p style="font-size: 0.72rem; color: #8892b0; margin-bottom: 6px;">Requiere haber comprometido al menos 1 puerto o estar en shell remota:</p>
+            <ul class="help-list">
+              <li><code>popup &lt;msg&gt;</code> <em>(alias: <code>alert</code>)</em> : Proyecta un cartel de alerta/pánico en su pantalla.</li>
+              <li><code>freeze</code> : Congela la consola rival con candado por 4s (no puede tipear).</li>
+              <li><code>glitch</code> : Sacude y distorsiona la pantalla del rival con estática CRT (4.5s).</li>
+              <li><code>invert</code> <em>(alias: <code>flip</code>)</em> : Gira e invierte su pantalla 180° de cabeza por 5s.</li>
+              <li><code>chaos</code> <em>(alias: <code>mousechaos</code>)</em> : Desata 8 punteros fantasma que interfieren con su mouse.</li>
+              <li><code>say &lt;mensaje&gt;</code> <em>(alias: <code>msg</code>)</em> : Escribe directamente en su consola.</li>
+            </ul>
+
+            <h3 style="margin-top: 15px;">📂 EXPLORACIÓN & FILESYSTEM</h3>
+            <ul class="help-list">
+              <li><code>ls [ruta]</code> : Lista directorios remotos o locales (ej: <code>ls /home/admin</code>).</li>
+              <li><code>cd &lt;ruta&gt;</code> : Navega por el filesystem (ej: <code>cd /home/admin</code>, <code>cd ..</code>, <code>cd ~</code>).</li>
+              <li><code>cat &lt;archivo&gt;</code> : Lee archivos (ej: <code>cat /home/admin/flag.txt</code>, <code>cat /var/log/syslog</code>).</li>
+              <li><code>rm &lt;archivo&gt;</code> : Borra archivos en el filesystem.</li>
+              <li><code>exit</code> : Cierra la shell remota y vuelve a tu nodo local de forma segura.</li>
+            </ul>
+
+            <h3 style="margin-top: 15px;">🏆 CONDICIONES DE VICTORIA (¡GANA!)</h3>
+            <ul class="help-list">
+              <li><code>submit &lt;flag&gt;</code> : <strong>¡Victoria CTF!</strong> Captura <code>/home/admin/flag.txt</code> y envíala.</li>
+              <li><code>rm /boot/kernel.sys</code> : <strong>¡Victoria Fatal!</strong> En shell remota, destruye su kernel enemigo.</li>
+              <li><code>gane</code> <em>(o <code>win</code>, <code>pwn</code>, <code>deface</code>)</em> : <strong>¡Victoria Easter Egg!</strong> En shell remota rival.</li>
+            </ul>
+          </div>
+
+          <div class="help-col">
+            <h3>🛡️ COMANDOS DEFENSIVOS & MONITOR</h3>
+            <ul class="help-list">
+              <li><code>ps</code> : Muestra procesos locales, CPU y <strong>ataques/exploits entrantes</strong> con su PID.</li>
+              <li><code>kill &lt;pid&gt;</code> : Termina un proceso. <strong>¡Matar un exploit entrante cancela el ataque rival!</strong></li>
+              <li><code>firewall &lt;puerto&gt; &lt;close|open&gt;</code> : Cierra o abre un puerto (+25% CPU overhead, máx 2 cerrados). <strong>Cerrar el puerto expulsa de inmediato a un atacante conectado.</strong></li>
+              <li><code>patch &lt;puerto&gt;</code> : Repara un puerto comprometido y renueva defensas (6s, 30% CPU).</li>
+              <li><code>clearlogs</code> : Limpia tu archivo de logs <code>/var/log/syslog</code> local.</li>
+              <li><code>ifconfig</code> <em>(alias: <code>ip</code>)</em> : Consulta tus IPs, hostname y configuración de puertos locales.</li>
+            </ul>
+
+            <h3 style="margin-top: 15px;">🧪 SIMULADOR DE EFECTOS LOCAL</h3>
+            <ul class="help-list">
+              <li><code>test</code> : Menú de simulación en vivo para probar efectos en tu pantalla.</li>
+              <li><code>test freeze</code> : Prueba el bloqueo y candado en tu propia terminal (4s).</li>
+              <li><code>test popup &lt;msg&gt;</code> : Prueba la ventana emergente roja de intrusión con sirena.</li>
+              <li><code>test glitch</code> : Prueba la sacudida y distorsión CRT de monitor.</li>
+              <li><code>test invert</code> : Prueba la rotación de pantalla 180° de cabeza (5s).</li>
+              <li><code>test chaos</code> : Prueba el enjambre de cursores de mouse falsos (5s).</li>
+            </ul>
+
+            <h3 style="margin-top: 15px;">⌨️ TERMINAL & UTILIDADES</h3>
+            <ul class="help-list">
+              <li><code>help</code> <em>(alias: <code>ayuda</code>)</em> : Muestra la guía completa de comandos en terminal.</li>
+              <li><code>clear</code> <em>(alias: <code>cls</code>)</em> : Limpia la pantalla de la terminal (o presiona <kbd>Ctrl + L</kbd>).</li>
+              <li><kbd>Tab</kbd> : Autocompleta comandos y rutas de archivos comunes en terminal.</li>
+              <li><kbd>↑</kbd> / <kbd>↓</kbd> : Navega por el historial de comandos ejecutados.</li>
+            </ul>
+
+            <div class="help-tip-box" style="margin-top: 12px;">
+              <strong>💡 CONSEJO TÁCTICO:</strong>
+              <p>Monitorea siempre el panel de <em>/var/log/syslog</em> y la lista de procesos (<em>ps</em>). Si ves una alerta roja de ataque entrante, ejecuta rápidamente <code>kill &lt;pid&gt;</code> o <code>firewall &lt;puerto&gt; close</code> para frustrar su intrusión.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: FIN DE PARTIDA (GAME OVER) -->
+  <div class="cyber-modal modal-gameover" id="modal-gameover" style="display: none;">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content modal-glow" id="gameover-card">
+      <div class="gameover-header">
+        <h1 class="gameover-title" id="gameover-title">¡VICTORIA CIBERNÉTICA!</h1>
+        <div class="gameover-badge" id="gameover-badge">MISIÓN COMPLETADA</div>
+      </div>
+      <div class="gameover-body">
+        <p class="gameover-reason" id="gameover-reason">El sistema enemigo fue comprometido exitosamente.</p>
+        <div class="gameover-stats" id="gameover-stats">
+          <!-- Estadísticas dinámicas -->
+        </div>
+        <div class="gameover-actions">
+          <button class="cyber-btn btn-primary" id="btn-rematch">SOLICITAR REVANCHA</button>
+          <button class="cyber-btn btn-secondary" id="btn-return-lobby">VOLVER AL LOBBY</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedores de Efectos Troyanos (Popups y Caos de Mouse) -->
+  <div class="popups-container" id="popups-container"></div>
+  <div id="chaos-container"></div>
+
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/client.js"></script>
+</body>
+</html>
