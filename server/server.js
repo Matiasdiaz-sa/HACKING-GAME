@@ -204,6 +204,24 @@ io.on('connection', (socket) => {
     }
   });
 
+  // Salir de la sala / Cancelar emparejamiento o abandonar partida
+  socket.on('leave_game', () => {
+    const roomId = socketToRoom.get(socket.id);
+    if (roomId) {
+      const room = rooms.get(roomId);
+      if (room) {
+        room.removePlayer(socket.id);
+        if (room.players.size === 0) {
+          rooms.delete(roomId);
+          console.log(`[SALA] Sala ${roomId} eliminada tras salida voluntaria de ${socket.id}`);
+        }
+      }
+      socketToRoom.delete(socket.id);
+      socket.leave(roomId);
+    }
+    socket.emit('game_left');
+  });
+
   // Desconexión
   socket.on('disconnect', () => {
     const roomId = socketToRoom.get(socket.id);

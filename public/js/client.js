@@ -30,7 +30,7 @@
       'popup', 'alert', 'freeze', 'glitch', 'invert', 'flip', 'chaos', 'mousechaos',
       'say', 'msg', 'gane', 'win', 'pwn', 'pwned', 'gg', 'deface',
       'market', 'shop', 'tienda', 'profile', 'stats', 'perfil', 'bounties', 'misiones', 'contratos', 'wallet', 'coins', 'saldo',
-      'academy', 'academia', 'story'
+      'academy', 'academia', 'story', 'cancelar', 'abandonar', 'surrender', 'quit'
     ],
     commonPaths: [
       '/boot/kernel.sys', '/etc/passwd', '/home/admin/flag.txt', '/home/admin/notas.txt',
@@ -100,7 +100,16 @@
     gameoverBadge: document.getElementById('gameover-badge'),
     gameoverReason: document.getElementById('gameover-reason'),
     btnRematch: document.getElementById('btn-rematch'),
-    btnReturnLobby: document.getElementById('btn-return-lobby')
+    btnReturnLobby: document.getElementById('btn-return-lobby'),
+    
+    // Cancelar / Abandonar Partida
+    btnCancelWaiting: document.getElementById('btn-cancel-waiting'),
+    btnCancelMatch: document.getElementById('btn-cancel-match'),
+    btnForfeitMatch: document.getElementById('btn-forfeit-match'),
+    modalConfirmCancel: document.getElementById('modal-confirm-cancel'),
+    btnConfirmCancelYes: document.getElementById('btn-confirm-cancel-yes'),
+    btnConfirmCancelNo: document.getElementById('btn-confirm-cancel-no'),
+    btnCloseConfirmCancel: document.getElementById('btn-close-confirm-cancel')
   };
 
   // ==========================================================================
@@ -404,6 +413,15 @@
       if (window.hackWarsAcademy) window.hackWarsAcademy.openModal();
       printToTerminal('[+] Abriendo HackWars Academy...', 'info');
       return;
+    }
+
+    if (trimmed === 'exit' || trimmed === 'quit' || trimmed === 'cancelar' || trimmed === 'abandonar' || trimmed === 'surrender' || trimmed === 'ff') {
+      if (state.remoteHostIp) {
+        // En sesión remota infiltrada, exit desconecta de la máquina rival y vuelve a localhost
+      } else {
+        openConfirmCancelModal();
+        return;
+      }
     }
 
     // Registrar evento de troyano para contratos diarios si corresponde
@@ -1114,6 +1132,115 @@
   // Volver al Lobby
   dom.btnReturnLobby.addEventListener('click', () => {
     window.location.reload();
+  });
+
+  // ==========================================================================
+  // CANCELACIÓN DE PARTIDA Y SALIDA AL LOBBY
+  // ==========================================================================
+
+  function openConfirmCancelModal() {
+    if (dom.modalConfirmCancel) {
+      dom.modalConfirmCancel.style.display = 'flex';
+      if (window.cyberAudio) window.cyberAudio.playAlert();
+    }
+  }
+
+  function closeConfirmCancelModal() {
+    if (dom.modalConfirmCancel) {
+      dom.modalConfirmCancel.style.display = 'none';
+    }
+  }
+
+  function cancelMatch() {
+    closeConfirmCancelModal();
+    stopProgressBar();
+
+    if (window.cyberAudio) window.cyberAudio.playAlert();
+
+    // Notificar al Cyber-Mentor si había sesión de academia activa
+    if (window.hackWarsAcademy) {
+      window.hackWarsAcademy.exitLesson();
+    }
+
+    // Notificar al servidor autoritativo
+    socket.emit('leave_game');
+
+    // Resetear estado del cliente
+    state.roomId = null;
+    state.remoteHostIp = null;
+    state.currentPath = '/root';
+
+    // Regresar al Lobby
+    dom.viewBattle.style.display = 'none';
+    dom.viewLobby.style.display = 'flex';
+    dom.headerMatchInfo.style.display = 'none';
+    dom.lobbyWaitingState.style.display = 'none';
+
+    // Reactivar acciones del lobby
+    const actionsGrid = document.querySelector('.lobby-actions-grid');
+    if (actionsGrid) {
+      actionsGrid.style.opacity = '1';
+      actionsGrid.style.pointerEvents = 'all';
+    }
+
+    clearTerminal();
+  }
+
+  // Cancelar búsqueda desde pantalla de radar de espera en lobby
+  if (dom.btnCancelWaiting) {
+    dom.btnCancelWaiting.addEventListener('click', () => {
+      cancelMatch();
+    });
+  }
+
+  // Botón cancelar partida en Header
+  if (dom.btnCancelMatch) {
+    dom.btnCancelMatch.addEventListener('click', () => {
+      openConfirmCancelModal();
+    });
+  }
+
+  // Botón salir en barra de herramientas de terminal
+  if (dom.btnForfeitMatch) {
+    dom.btnForfeitMatch.addEventListener('click', () => {
+      openConfirmCancelModal();
+    });
+  }
+
+  // Confirmación de cancelación
+  if (dom.btnConfirmCancelYes) {
+    dom.btnConfirmCancelYes.addEventListener('click', () => {
+      cancelMatch();
+    });
+  }
+
+  if (dom.btnConfirmCancelNo) {
+    dom.btnConfirmCancelNo.addEventListener('click', () => {
+      closeConfirmCancelModal();
+    });
+  }
+
+  if (dom.btnCloseConfirmCancel) {
+    dom.btnCloseConfirmCancel.addEventListener('click', () => {
+      closeConfirmCancelModal();
+    });
+  }
+
+  document.querySelector('#modal-confirm-cancel .modal-backdrop')?.addEventListener('click', () => {
+    closeConfirmCancelModal();
+  });
+
+  socket.on('game_left', () => {
+    // Confirmación del servidor
+    dom.viewBattle.style.display = 'none';
+    dom.viewLobby.style.display = 'flex';
+    dom.headerMatchInfo.style.display = 'none';
+    dom.lobbyWaitingState.style.display = 'none';
+    const actionsGrid = document.querySelector('.lobby-actions-grid');
+    if (actionsGrid) {
+      actionsGrid.style.opacity = '1';
+      actionsGrid.style.pointerEvents = 'all';
+    }
   });
 
   // ==========================================================================

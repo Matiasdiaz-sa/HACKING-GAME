@@ -27,6 +27,9 @@
       <span class="badge badge-pulse" id="match-status-badge">COMBATE ACTIVO</span>
       <span class="header-room-text">SALA: <strong id="header-room-code">----</strong></span>
       <span class="header-opp-text">OPONENTE: <strong id="header-opponent-name">Buscando...</strong></span>
+      <button class="cyber-btn btn-xs btn-danger" id="btn-cancel-match" title="Cancelar combate actual y volver al lobby" style="margin-left: 10px;">
+        ✕ CANCELAR PARTIDA
+      </button>
     </div>
 
     <div class="header-right">
@@ -143,6 +146,11 @@
           <h2>SALA ASIGNADA: <span class="highlight-code" id="waiting-room-code">----</span></h2>
           <p class="blink-text">&gt; Transmitiendo paquetes Beacon en la subred... Esperando conexión del rival.</p>
           <p class="sub-waiting">Pasa el código <strong id="waiting-room-code-share"></strong> a tu oponente para iniciar el duelo.</p>
+          <div style="margin-top: 15px;">
+            <button class="cyber-btn btn-sm btn-danger" id="btn-cancel-waiting" title="Cancelar búsqueda y salir de la sala">
+              <span class="btn-icon">✕</span> CANCELAR BÚSQUEDA / SALIR
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -162,6 +170,7 @@
           <div class="panel-controls">
             <span class="session-indicator" id="term-session-badge">SESIÓN: LOCAL</span>
             <button class="cyber-btn btn-xs" id="btn-clear-term" title="Limpiar pantalla (Ctrl+L)">LIMPIAR</button>
+            <button class="cyber-btn btn-xs btn-danger" id="btn-forfeit-match" title="Abandonar / Cancelar partida y regresar al lobby">SALIR ✕</button>
           </div>
         </div>
 
@@ -799,6 +808,34 @@
             </ul>
             <button class="cyber-btn btn-sm btn-block btn-select-diff" data-diff="nightmare">SELECCIONAR PESADILLA ▶</button>
           </div>
+        </div>
+      </div>
+    </div>
+  <!-- MODAL DE CONFIRMACIÓN PARA CANCELAR PARTIDA -->
+  <div class="cyber-modal" id="modal-confirm-cancel" style="display: none;">
+    <div class="modal-backdrop"></div>
+    <div class="modal-window modal-confirm-window">
+      <div class="modal-header modal-header-danger">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span>⚠️</span>
+          <h2>CANCELAR / ABANDONAR PARTIDA</h2>
+        </div>
+        <button class="modal-close" id="btn-close-confirm-cancel">&times;</button>
+      </div>
+      <div class="modal-body" style="text-align: center; padding: 25px 20px;">
+        <p style="font-size: 15px; color: #fff; margin-bottom: 12px; font-weight: 600;">
+          ¿Estás seguro de que deseas cancelar la partida activa?
+        </p>
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5;">
+          Se cerrará la sesión de red actual y regresarás al lobby principal.<br>Si estás en un combate PvP, se considerará abandono de la conexión.
+        </p>
+        <div style="display: flex; gap: 12px; justify-content: center;">
+          <button class="cyber-btn btn-danger" id="btn-confirm-cancel-yes" style="min-width: 140px; font-weight: 700;">
+            ✕ SÍ, CANCELAR
+          </button>
+          <button class="cyber-btn btn-secondary" id="btn-confirm-cancel-no" style="min-width: 140px;">
+            CONTINUAR DUELO ▶
+          </button>
         </div>
       </div>
     </div>
