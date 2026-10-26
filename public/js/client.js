@@ -28,7 +28,7 @@
       'clear', 'cls', 'ls', 'cd', 'cat', 'rm', 'exit', 'test',
       'popup', 'alert', 'freeze', 'glitch', 'invert', 'flip', 'chaos', 'mousechaos',
       'say', 'msg', 'gane', 'win', 'pwn', 'pwned', 'gg', 'deface',
-      'market', 'shop', 'tienda'
+      'market', 'shop', 'tienda', 'profile', 'stats', 'perfil', 'bounties', 'misiones', 'contratos', 'wallet', 'coins', 'saldo'
     ],
     commonPaths: [
       '/boot/kernel.sys', '/etc/passwd', '/home/admin/flag.txt', '/home/admin/notas.txt',
@@ -340,6 +340,35 @@
       if (window.blackMarket) window.blackMarket.open();
       printToTerminal('[+] Abriendo The Black Market...', 'info');
       return;
+    }
+
+    if (trimmed === 'profile' || trimmed === 'stats' || trimmed === 'perfil') {
+      if (window.hackWarsEconomy) {
+        printToTerminal(window.hackWarsEconomy.formatAsciiProfile(), 'highlight');
+      }
+      return;
+    }
+
+    if (trimmed === 'bounties' || trimmed === 'misiones' || trimmed === 'contratos') {
+      if (window.hackWarsEconomy) {
+        printToTerminal(window.hackWarsEconomy.formatAsciiBounties(), 'highlight');
+      }
+      return;
+    }
+
+    if (trimmed === 'wallet' || trimmed === 'coins' || trimmed === 'saldo') {
+      if (window.hackWarsEconomy) {
+        const p = window.hackWarsEconomy.profile;
+        printToTerminal(`\n🪙 SALDO DISPONIBLE: ${p.bytecoins.toLocaleString()} ฿ | RATING: ${p.elo} ELO\n`, 'info');
+      }
+      return;
+    }
+
+    // Registrar evento de troyano para contratos diarios si corresponde
+    if (trimmed.startsWith('freeze') || trimmed.startsWith('invert') || trimmed.startsWith('popup') || trimmed.startsWith('chaos') || trimmed.startsWith('alert') || trimmed.startsWith('flip')) {
+      if (window.hackWarsEconomy) {
+        window.hackWarsEconomy.triggerBountyEvent('TROJAN');
+      }
     }
 
     // Imprimir comando local en terminal
@@ -908,68 +937,119 @@
     printToTerminal(`\n🪙 ${data.message}`, 'highlight');
   });
 
+  // Función de Kill-Cam / Defacement Overlay dramático
+  function showDefaceKillCam(isWinner, winnerUsername, onFinished) {
+    const overlay = document.getElementById('deface-overlay');
+    const skullEl = document.getElementById('deface-skull-art');
+    const bannerEl = document.getElementById('deface-banner-text');
+    const subtextEl = document.getElementById('deface-subtext-msg');
+
+    if (!overlay || !skullEl || !bannerEl) {
+      onFinished();
+      return;
+    }
+
+    const skullArt = `
+             .-''''''-.
+           .'          '.
+          /   X      X   \\
+         :                :
+         |                |
+         : ',          ,' :
+          \\  '--------'  /
+           '.          .'
+             '-......-'
+               ||||||
+    `;
+    skullEl.textContent = skullArt;
+
+    if (isWinner) {
+      bannerEl.textContent = '¡DEFACEMENT TOTAL & VICTORIA!';
+      bannerEl.style.background = 'var(--color-green)';
+      bannerEl.style.color = '#000';
+      skullEl.style.color = 'var(--color-green)';
+      subtextEl.textContent = `NODO RIVAL CONQUISTADO POR ${state.myUsername} // ZERO-DAY CONFIRMADO`;
+      if (window.cyberAudio) window.cyberAudio.playSuccess();
+    } else {
+      bannerEl.textContent = 'SISTEMA COMPROMETIDO';
+      bannerEl.style.background = 'var(--color-red)';
+      bannerEl.style.color = '#fff';
+      skullEl.style.color = 'var(--color-red)';
+      subtextEl.textContent = `PWNED BY ${winnerUsername || 'OPONENTE'} // ROOT ACCESS SEIZED`;
+      if (window.cyberAudio) window.cyberAudio.playAlarm();
+    }
+
+    overlay.style.display = 'flex';
+
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      onFinished();
+    }, 2400);
+  }
+
   // ==========================================================================
   // FIN DE PARTIDA (GAME OVER)
   // ==========================================================================
   socket.on('game_over', (data) => {
-    dom.modalGameover.style.display = 'flex';
     const isWinner = data.winner === state.myUsername;
 
-    if (isWinner) {
-      dom.gameoverTitle.textContent = '¡VICTORIA CIBERNÉTICA!';
-      dom.gameoverTitle.className = 'gameover-title win';
-      dom.gameoverBadge.textContent = 'OPERACIÓN EXITOSA';
-      dom.gameoverBadge.style.color = '#00ff77';
-      if (window.cyberAudio) window.cyberAudio.playSuccess();
-    } else {
-      dom.gameoverTitle.textContent = 'SISTEMA COMPROMETIDO';
-      dom.gameoverTitle.className = 'gameover-title lose';
-      dom.gameoverBadge.textContent = 'DERROTA DEL NODO';
-      dom.gameoverBadge.style.color = '#ff2a5f';
-      if (window.cyberAudio) window.cyberAudio.playAlarm();
-    }
+    showDefaceKillCam(isWinner, data.winner, () => {
+      dom.modalGameover.style.display = 'flex';
 
-    dom.gameoverReason.textContent = data.reason;
-
-    // Liquidar recompensas en economía y actualizar estadísticas
-    if (window.hackWarsEconomy) {
-      const summary = window.hackWarsEconomy.recordMatch({
-        isWinner,
-        winType: data.winType || 'VICTORY',
-        durationSec: data.durationSec || 0,
-        isBot: !!data.isBotMatch
-      });
-
-      const durEl = document.getElementById('gameover-duration');
-      if (durEl) durEl.textContent = `${data.durationSec || 0} segundos`;
-
-      const eloEl = document.getElementById('gameover-elo-change');
-      if (eloEl) {
-        const sign = summary.eloResult.delta >= 0 ? '+' : '';
-        eloEl.textContent = `${summary.rank.name} (${sign}${summary.eloResult.delta} ELO -> ${summary.eloResult.newElo})`;
-        eloEl.style.color = isWinner ? '#00ff77' : '#ff2a5f';
+      if (isWinner) {
+        dom.gameoverTitle.textContent = '¡VICTORIA CIBERNÉTICA!';
+        dom.gameoverTitle.className = 'gameover-title win';
+        dom.gameoverBadge.textContent = 'OPERACIÓN EXITOSA';
+        dom.gameoverBadge.style.color = '#00ff77';
+      } else {
+        dom.gameoverTitle.textContent = 'SISTEMA COMPROMETIDO';
+        dom.gameoverTitle.className = 'gameover-title lose';
+        dom.gameoverBadge.textContent = 'DERROTA DEL NODO';
+        dom.gameoverBadge.style.color = '#ff2a5f';
       }
 
-      const rewardsList = document.getElementById('gameover-rewards-list');
-      if (rewardsList) {
-        rewardsList.innerHTML = summary.rewards.map(r => `
-          <div class="reward-item">
-            <span>• ${r.label}</span>
-            <span>+${r.amount} ฿</span>
-          </div>
-        `).join('');
-      }
+      dom.gameoverReason.textContent = data.reason;
 
-      // Configurar botón compartir en WhatsApp
-      const btnShareWa = document.getElementById('btn-share-victory-wa');
-      if (btnShareWa) {
-        btnShareWa.onclick = () => {
-          const outcome = isWinner ? '¡Acabo de ganar un duelo 1v1' : '¡Acabo de jugar una partida intensa';
-          const msg = `⚔️ ${outcome} en HackWars en ${data.durationSec || 0}s! ¿Te atreves a desafiarme en terminal? Entra aquí: ${window.location.origin}`;
-          window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
-        };
+      // Liquidar recompensas en economía y actualizar estadísticas
+      if (window.hackWarsEconomy) {
+        const summary = window.hackWarsEconomy.recordMatch({
+          isWinner,
+          winType: data.winType || 'VICTORY',
+          durationSec: data.durationSec || 0,
+          isBot: !!data.isBotMatch
+        });
+
+        const durEl = document.getElementById('gameover-duration');
+        if (durEl) durEl.textContent = `${data.durationSec || 0} segundos`;
+
+        const eloEl = document.getElementById('gameover-elo-change');
+        if (eloEl) {
+          const sign = summary.eloResult.delta >= 0 ? '+' : '';
+          eloEl.textContent = `${summary.rank.name} (${sign}${summary.eloResult.delta} ELO -> ${summary.eloResult.newElo})`;
+          eloEl.style.color = isWinner ? '#00ff77' : '#ff2a5f';
+        }
+
+        const rewardsList = document.getElementById('gameover-rewards-list');
+        if (rewardsList) {
+          rewardsList.innerHTML = summary.rewards.map(r => `
+            <div class="reward-item">
+              <span>• ${r.label}</span>
+              <span>+${r.amount} ฿</span>
+            </div>
+          `).join('');
+        }
+
+        // Configurar botón compartir en WhatsApp
+        const btnShareWa = document.getElementById('btn-share-victory-wa');
+        if (btnShareWa) {
+          btnShareWa.onclick = () => {
+            const outcome = isWinner ? '¡Acabo de ganar un duelo 1v1' : '¡Acabo de jugar una partida intensa';
+            const msg = `⚔️ ${outcome} en HackWars en ${data.durationSec || 0}s! ¿Te atreves a desafiarme en terminal? Entra aquí: ${window.location.origin}`;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+          };
+        }
       }
-    }
+    });
   });
 
   // Revancha
@@ -1022,6 +1102,120 @@
         }
       }
     }
+  });
+
+  // --- MODAL DE CONTRATOS DIARIOS (BOUNTIES) ---
+  const modalBounties = document.getElementById('modal-bounties');
+  const btnOpenBounties = document.getElementById('btn-open-bounties');
+  const btnCloseBounties = document.getElementById('btn-close-bounties');
+  const bountiesContainer = document.getElementById('bounties-list-container');
+
+  function renderBountiesModal() {
+    if (!bountiesContainer || !window.hackWarsEconomy) return;
+    const bounties = window.hackWarsEconomy.profile.bounties || window.hackWarsEconomy.getDefaultBounties();
+    bountiesContainer.innerHTML = bounties.map((b, idx) => {
+      const pct = Math.round((b.progress / b.target) * 100);
+      return `
+        <div class="bounty-item ${b.completed ? 'completed' : ''}">
+          <div class="bounty-header-row">
+            <span class="bounty-title">[#${idx + 1}] ${b.title}</span>
+            <span class="bounty-reward-tag">+${b.reward} ฿</span>
+          </div>
+          <p class="bounty-desc">${b.desc}</p>
+          <div class="bounty-progress-bg">
+            <div class="bounty-progress-fill" style="width: ${pct}%;"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+            <span>Progreso: ${b.progress} / ${b.target}</span>
+            <span style="color: ${b.completed ? 'var(--color-green)' : 'var(--color-amber)'}; font-weight: 700;">
+              ${b.completed ? '✓ CONTRATO CUMPLIDO' : `${pct}%`}
+            </span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  btnOpenBounties?.addEventListener('click', () => {
+    renderBountiesModal();
+    if (modalBounties) modalBounties.style.display = 'flex';
+    if (window.cyberAudio) window.cyberAudio.playSuccess();
+  });
+  btnCloseBounties?.addEventListener('click', () => {
+    if (modalBounties) modalBounties.style.display = 'none';
+  });
+  document.querySelector('#modal-bounties .modal-backdrop')?.addEventListener('click', () => {
+    if (modalBounties) modalBounties.style.display = 'none';
+  });
+
+  // --- MODAL DE FICHA DE AGENTE / CREDENCIAL HACKER ---
+  const modalProfile = document.getElementById('modal-profile');
+  const btnOpenProfile = document.getElementById('btn-open-profile');
+  const btnCloseProfile = document.getElementById('btn-close-profile');
+  const btnCopyHackerCard = document.getElementById('btn-copy-hacker-card');
+
+  function renderProfileModal() {
+    if (!window.hackWarsEconomy) return;
+    const p = window.hackWarsEconomy.profile;
+    const rank = window.hackWarsEconomy.getRankInfo(p.elo);
+    const winrate = p.stats.matchesPlayed > 0 
+      ? ((p.stats.wins / p.stats.matchesPlayed) * 100).toFixed(1) + '%' 
+      : '0.0%';
+
+    const aliasEl = document.getElementById('card-agent-alias');
+    if (aliasEl) aliasEl.textContent = p.username || 'Hacker_Zero';
+
+    const titleEl = document.getElementById('card-agent-title');
+    if (titleEl) titleEl.textContent = p.equippedTitle || '[Script Kiddie]';
+
+    const rankEl = document.getElementById('card-agent-rank');
+    if (rankEl) rankEl.textContent = rank.name;
+
+    const eloEl = document.getElementById('card-agent-elo');
+    if (eloEl) eloEl.textContent = `${p.elo} ELO`;
+
+    const coinsEl = document.getElementById('card-agent-coins');
+    if (coinsEl) coinsEl.textContent = `${p.bytecoins.toLocaleString()} ฿`;
+
+    const wrEl = document.getElementById('card-agent-winrate');
+    if (wrEl) wrEl.textContent = `${winrate} (${p.stats.wins}V - ${p.stats.losses}D)`;
+
+    const kernelsEl = document.getElementById('card-agent-kernels');
+    if (kernelsEl) kernelsEl.textContent = p.stats.kernelsDestroyed;
+
+    const speedEl = document.getElementById('card-agent-speed');
+    if (speedEl) speedEl.textContent = p.stats.fastestWinSec ? `${p.stats.fastestWinSec}s` : 'Sin registrar';
+  }
+
+  btnOpenProfile?.addEventListener('click', () => {
+    renderProfileModal();
+    if (modalProfile) modalProfile.style.display = 'flex';
+    if (window.cyberAudio) window.cyberAudio.playSuccess();
+  });
+  btnCloseProfile?.addEventListener('click', () => {
+    if (modalProfile) modalProfile.style.display = 'none';
+  });
+  document.querySelector('#modal-profile .modal-backdrop')?.addEventListener('click', () => {
+    if (modalProfile) modalProfile.style.display = 'none';
+  });
+
+  btnCopyHackerCard?.addEventListener('click', () => {
+    if (!window.hackWarsEconomy) return;
+    const p = window.hackWarsEconomy.profile;
+    const rank = window.hackWarsEconomy.getRankInfo(p.elo);
+    const textToShare = `🪪 FICHA DE AGENTE HACKWARS // Codename: ${p.username} | Título: ${p.equippedTitle} | División: ${rank.name} (${p.elo} ELO) | Victorias: ${p.stats.wins} | Kernels Destruidos: ${p.stats.kernelsDestroyed} | ¿Te atreves a retarme? Juega en: ${window.location.origin}`;
+    navigator.clipboard.writeText(textToShare).then(() => {
+      const orig = btnCopyHackerCard.textContent;
+      btnCopyHackerCard.textContent = '¡FICHA COPIADA AL PORTAPAPELES!';
+      btnCopyHackerCard.style.background = '#00ff77';
+      btnCopyHackerCard.style.color = '#000';
+      if (window.cyberAudio) window.cyberAudio.playSuccess();
+      setTimeout(() => {
+        btnCopyHackerCard.textContent = orig;
+        btnCopyHackerCard.style.background = '';
+        btnCopyHackerCard.style.color = '';
+      }, 2000);
+    });
   });
 
   // Cargar IP LAN para compartir

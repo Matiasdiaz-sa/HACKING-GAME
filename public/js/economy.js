@@ -32,7 +32,8 @@ class EconomyManager {
         fastestWinSec: null
       },
       dailyStreak: 1,
-      lastDailyCheckDate: new Date().toISOString().split('T')[0]
+      lastDailyCheckDate: new Date().toISOString().split('T')[0],
+      bounties: this.getDefaultBounties()
     };
 
     try {
@@ -43,7 +44,8 @@ class EconomyManager {
           ...defaultProfile,
           ...parsed,
           stats: { ...defaultProfile.stats, ...(parsed.stats || {}) },
-          unlockedItems: parsed.unlockedItems || defaultProfile.unlockedItems
+          unlockedItems: parsed.unlockedItems || defaultProfile.unlockedItems,
+          bounties: parsed.bounties || this.getDefaultBounties()
         };
       }
     } catch (e) {
@@ -167,6 +169,14 @@ class EconomyManager {
     const eloResult = this.updateElo(isWinner, isBot);
     this.saveProfile();
 
+    // Actualizar progreso de contratos diarios
+    if (isWinner) {
+      this.triggerBountyEvent('WIN', { durationSec, isBot });
+      if (winType === 'KERNEL_PANIC') {
+        this.triggerBountyEvent('KERNEL_DESTROYED');
+      }
+    }
+
     return {
       earnedCoins,
       rewards,
@@ -239,12 +249,130 @@ class EconomyManager {
       if (this.profile.dailyStreak === 3) streakBonus = 60;
       if (this.profile.dailyStreak >= 7) streakBonus = 200;
 
+      // Reiniciar contratos diarios para la nueva jornada
+      this.profile.bounties = this.getDefaultBounties();
+
       this.profile.bytecoins += streakBonus;
       this.saveProfile();
       setTimeout(() => {
         this.showToast(`¡Racha Diaria (Día ${this.profile.dailyStreak})! Recibes +${streakBonus} ฿`);
       }, 1500);
     }
+  }
+
+  // Contratos y Misiones Diarias (Daily Bounties)
+  getDefaultBounties() {
+    return [
+      {
+        id: 'bounty_win',
+        title: 'Victoria Táctica',
+        desc: 'Gana 1 combate (PvP o vs Bot IA)',
+        reward: 100,
+        target: 1,
+        progress: 0,
+        completed: false
+      },
+      {
+        id: 'bounty_trojan',
+        title: 'Guerra Psicológica',
+        desc: 'Inyecta 1 troyano (freeze, invert, popup, chaos)',
+        reward: 120,
+        target: 1,
+        progress: 0,
+        completed: false
+      },
+      {
+        id: 'bounty_speed',
+        title: 'Speed-Daemon',
+        desc: 'Gana una partida en menos de 120s',
+        reward: 150,
+        target: 1,
+        progress: 0,
+        completed: false
+      },
+      {
+        id: 'bounty_kernel',
+        title: 'Aniquilación de Núcleo',
+        desc: 'Destruye un kernel (rm /boot/kernel.sys)',
+        reward: 180,
+        target: 1,
+        progress: 0,
+        completed: false
+      }
+    ];
+  }
+
+  triggerBountyEvent(event, metadata = {}) {
+    if (!this.profile.bounties) this.profile.bounties = this.getDefaultBounties();
+    let changed = false;
+
+    this.profile.bounties.forEach(b => {
+      if (b.completed) return;
+      if (event === 'WIN' && b.id === 'bounty_win') {
+        b.progress = Math.min(b.target, b.progress + 1);
+      }
+      if (event === 'WIN' && b.id === 'bounty_speed' && metadata.durationSec && metadata.durationSec <= 120) {
+        b.progress = Math.min(b.target, b.progress + 1);
+      }
+      if (event === 'TROJAN' && b.id === 'bounty_trojan') {
+        b.progress = Math.min(b.target, b.progress + 1);
+      }
+      if (event === 'KERNEL_DESTROYED' && b.id === 'bounty_kernel') {
+        b.progress = Math.min(b.target, b.progress + 1);
+      }
+
+      if (b.progress >= b.target && !b.completed) {
+        b.completed = true;
+        changed = true;
+        this.addBytecoins(b.reward, `Contrato: ${b.title}`);
+      }
+    });
+
+    if (changed) this.saveProfile();
+  }
+
+  formatAsciiProfile() {
+    const p = this.profile;
+    const rank = this.getRankInfo(p.elo);
+    const winrate = p.stats.matchesPlayed > 0 
+      ? ((p.stats.wins / p.stats.matchesPlayed) * 100).toFixed(1) + '%' 
+      : '0.0%';
+    const bestTime = p.stats.fastestWinSec ? `${p.stats.fastestWinSec}s` : 'Sin registrar';
+    const alias = (p.username || 'Hacker_Zero').slice(0, 15);
+    const title = (p.equippedTitle || '[Script Kiddie]').slice(0, 20);
+
+    return `
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                          FICHA OFICIAL DE AGENTE HACKER                      ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║ ALIAS:       ${alias.padEnd(20)} TÍTULO: ${title.padEnd(28)}║
+║ DIVISIÓN:    ${rank.name.padEnd(20)} RATING: ${(p.elo + ' ELO').padEnd(28)}║
+║ BILLETERA:   ${(p.bytecoins + ' ฿').padEnd(20)} RACHA:  ${('Día ' + (p.dailyStreak || 1)).padEnd(28)}║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║ REGISTRO DE COMBATE:                                                         ║
+║  • Partidas: ${p.stats.matchesPlayed.toString().padEnd(16)} • Victorias: ${p.stats.wins} (Winrate: ${winrate})
+║  • Derrotas: ${p.stats.losses.toString().padEnd(16)} • Récord Velocidad: ${bestTime}
+║  • First Bloods: ${p.stats.firstBloods.toString().padEnd(12)} • Kernels Destruidos: ${p.stats.kernelsDestroyed}
+║  • Banderas CTF: ${p.stats.flagsCaptured.toString().padEnd(12)} • Exploits Defendidos: ${p.stats.exploitsDefended}
+╚══════════════════════════════════════════════════════════════════════════════╝`;
+  }
+
+  formatAsciiBounties() {
+    const list = this.profile.bounties || this.getDefaultBounties();
+    const rows = list.map((b, idx) => {
+      const pct = Math.round((b.progress / b.target) * 100);
+      const filled = Math.round(pct / 10);
+      const bar = '█'.repeat(filled) + '░'.repeat(10 - filled);
+      const status = b.completed ? '[COMPLETADO ✓]' : `[${b.progress}/${b.target}]`;
+      return `║ [${idx + 1}] ${b.title} (+${b.reward} ฿)\n║     ${b.desc}\n║     Progreso: [${bar}] ${pct}% ${status}\n║`;
+    });
+
+    return `
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                       CONTRATOS & MISIONES ACTIVAS                           ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+${rows.join('\n')}
+╚══════════════════════════════════════════════════════════════════════════════╝`;
   }
 }
 

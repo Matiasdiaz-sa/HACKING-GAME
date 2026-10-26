@@ -454,3 +454,203 @@
   0%, 100% { box-shadow: 0 0 10px rgba(0, 229, 255, 0.2); }
   50% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.5); }
 }
+
+/* ==========================================================================
+   CONTRATOS DIARIOS (BOUNTIES) & CREDENCIAL DE AGENTE
+   ========================================================================== */
+
+/* Botones en header/lobby */
+.btn-bounties {
+  border-color: var(--color-cyan) !important;
+  color: var(--color-cyan) !important;
+}
+
+.btn-profile {
+  border-color: var(--color-green) !important;
+  color: var(--color-green) !important;
+}
+
+/* Modal de Bounties */
+.bounty-item {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 14px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.bounty-item.completed {
+  border-color: var(--color-green);
+  background: rgba(0, 255, 119, 0.05);
+}
+
+.bounty-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bounty-title {
+  font-family: var(--font-title);
+  font-size: 13px;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.bounty-reward-tag {
+  color: var(--color-amber);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.bounty-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.bounty-progress-bg {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  height: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bounty-progress-fill {
+  background: var(--color-green);
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 8px var(--color-green-glow);
+}
+
+/* Modal Credencial de Agente */
+.hacker-id-card {
+  background: linear-gradient(135deg, rgba(14, 20, 30, 0.95), rgba(7, 10, 16, 0.98));
+  border: 1px solid var(--color-green);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 30px var(--color-green-glow);
+  position: relative;
+  overflow: hidden;
+}
+
+.hacker-id-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 255, 119, 0.3);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.hacker-id-alias {
+  font-family: var(--font-title);
+  font-size: 20px;
+  color: var(--color-green);
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+.hacker-id-title-badge {
+  color: var(--color-cyan);
+  font-size: 12px;
+  border: 1px solid var(--color-cyan);
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.hacker-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.hacker-stat-box {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.hacker-stat-num {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-main);
+  font-family: var(--font-title);
+}
+
+.hacker-stat-name {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   ANIMACIÓN DE VICTORIA / DEFACEMENT OVERLAY (KILL-CAM)
+   ========================================================================== */
+.deface-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(5, 0, 2, 0.96);
+  z-index: 99998;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: defaceFadeIn 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes defaceFadeIn {
+  from { opacity: 0; transform: scale(1.08); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.deface-skull {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.15;
+  color: var(--color-red);
+  text-shadow: 0 0 20px var(--color-red-glow);
+  white-space: pre;
+  margin-bottom: 16px;
+  animation: skullPulse 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes skullPulse {
+  0% { transform: scale(0.98); filter: drop-shadow(0 0 10px #ff2a5f); }
+  100% { transform: scale(1.02); filter: drop-shadow(0 0 25px #ff0055); }
+}
+
+.deface-banner {
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #fff;
+  background: var(--color-red);
+  padding: 8px 24px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(255, 42, 95, 0.6);
+}
+
+.deface-subtext {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--color-cyan);
+  text-align: center;
+  margin-bottom: 20px;
+}
+

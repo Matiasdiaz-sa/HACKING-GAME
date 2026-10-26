@@ -39,6 +39,8 @@
         </div>
       </div>
       <button class="cyber-btn btn-sm btn-market" id="btn-header-market" title="Abrir The Black Market" style="border-color: var(--color-amber); color: var(--color-amber);">MARKET [฿]</button>
+      <button class="cyber-btn btn-sm btn-bounties" id="btn-open-bounties" title="Ver Contratos y Misiones Diarias">CONTRATOS [🎯]</button>
+      <button class="cyber-btn btn-sm btn-profile" id="btn-open-profile" title="Ver Ficha de Agente Hacker">PERFIL [🪪]</button>
       <button class="cyber-btn btn-sm" id="btn-toggle-crt" title="Activar/Desactivar efecto CRT">CRT: ON</button>
       <button class="cyber-btn btn-sm" id="btn-toggle-sound" title="Silenciar / Activar sonido">AUDIO: 🔊</button>
       <button class="cyber-btn btn-sm" id="btn-open-help" title="Ver guía de comandos">MANUAL [?]</button>
@@ -451,6 +453,81 @@
         <!-- Renderizado dinámico desde market.js -->
       </div>
     </div>
+  </div>
+
+  <!-- MODAL: CONTRATOS DIARIOS (BOUNTIES) -->
+  <div class="cyber-modal" id="modal-bounties" style="display: none;">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" style="max-width: 620px;">
+      <div class="modal-header">
+        <div>
+          <h2>CONTRATOS & MISIONES DIARIAS 🎯</h2>
+          <span style="font-size: 12px; color: var(--color-cyan);">Completa misiones para ganar Bytecoins (฿) adicionales</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-bounties">&times;</button>
+      </div>
+      <div class="modal-body" id="bounties-list-container" style="padding-top: 14px;">
+        <!-- Renderizado dinámico de contratos -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: FICHA DE AGENTE / CREDENCIAL HACKER -->
+  <div class="cyber-modal" id="modal-profile" style="display: none;">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2>CREDENCIAL OFICIAL DE AGENTE HACKER 🪪</h2>
+        <button class="btn-close-modal" id="btn-close-profile">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="hacker-id-card" id="hacker-id-card-view">
+          <div class="hacker-id-header">
+            <div>
+              <span style="font-size: 11px; color: var(--text-muted); display: block; letter-spacing: 1px;">AGENT CODENAME:</span>
+              <span class="hacker-id-alias" id="card-agent-alias">Hacker_Zero</span>
+            </div>
+            <span class="hacker-id-title-badge" id="card-agent-title">[Script Kiddie]</span>
+          </div>
+          <div class="hacker-stats-grid">
+            <div class="hacker-stat-box">
+              <div class="hacker-stat-num" id="card-agent-rank" style="color: var(--color-cyan);">Kilobyte</div>
+              <div class="hacker-stat-name">DIVISIÓN / RANGO</div>
+            </div>
+            <div class="hacker-stat-box">
+              <div class="hacker-stat-num" id="card-agent-elo" style="color: var(--color-green);">1000 ELO</div>
+              <div class="hacker-stat-name">RATING COMPETITIVO</div>
+            </div>
+            <div class="hacker-stat-box">
+              <div class="hacker-stat-num" id="card-agent-coins" style="color: var(--color-amber);">200 ฿</div>
+              <div class="hacker-stat-name">SALDO EN BILLETERA</div>
+            </div>
+            <div class="hacker-stat-box">
+              <div class="hacker-stat-num" id="card-agent-winrate">0.0%</div>
+              <div class="hacker-stat-name">RATIO VICTORIAS (WINRATE)</div>
+            </div>
+            <div class="hacker-stat-box">
+              <div class="hacker-stat-num" id="card-agent-kernels" style="color: var(--color-red);">0</div>
+              <div class="hacker-stat-name">KERNELS DESTRUIDOS</div>
+            </div>
+            <div class="hacker-stat-box">
+              <div class="hacker-stat-num" id="card-agent-speed" style="color: #fff;">--</div>
+              <div class="hacker-stat-name">RÉCORD DE VELOCIDAD</div>
+            </div>
+          </div>
+          <button class="cyber-btn btn-primary btn-block" id="btn-copy-hacker-card">
+            📋 COPIAR FICHA DE AGENTE PARA COMPARTIR
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERLAY DE DEFACEMENT & KILL-CAM -->
+  <div class="deface-overlay" id="deface-overlay" style="display: none;">
+    <div class="deface-skull" id="deface-skull-art"></div>
+    <div class="deface-banner" id="deface-banner-text">SYSTEM COMPROMISED</div>
+    <div class="deface-subtext" id="deface-subtext-msg">PWNED BY HACKWARS</div>
   </div>
 
   <!-- Contenedores de Efectos Troyanos (Popups y Caos de Mouse) -->
