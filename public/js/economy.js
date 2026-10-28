@@ -86,6 +86,11 @@ class EconomyManager {
     }
   }
 
+  // Consultar saldo actual de Bytecoins
+  getBalance() {
+    return (this.profile && typeof this.profile.bytecoins === 'number') ? this.profile.bytecoins : 200;
+  }
+
   // Añadir Bytecoins con notificación visual flotante
   addBytecoins(amount, reason = '') {
     if (amount <= 0) return;

@@ -245,14 +245,25 @@
   const cardQuickMatch = document.getElementById('card-quick-match');
 
   function openQuickModesModal() {
-    if (modalQuickModes) {
+    if (!modalQuickModes) return;
+    try {
       // Sincronizar datos del agente en el panel táctico de escuadrón (R6 Style)
       const nick = (dom.inputNickname && dom.inputNickname.value.trim()) || localStorage.getItem('hackwars_alias') || 'ZeroCool';
-      const elo = parseInt(localStorage.getItem('hackwars_elo') || '1000', 10);
-      const coins = window.hackWarsEconomy ? window.hackWarsEconomy.getBalance() : parseInt(localStorage.getItem('hackwars_coins') || '200', 10);
+      let elo = 1000;
+      let coins = 200;
       let rankName = 'BYTE 0';
-      if (window.hackWarsEconomy && typeof window.hackWarsEconomy.getRankInfo === 'function') {
-        rankName = window.hackWarsEconomy.getRankInfo(elo).name;
+
+      if (window.hackWarsEconomy && window.hackWarsEconomy.profile) {
+        elo = window.hackWarsEconomy.profile.elo || 1000;
+        coins = typeof window.hackWarsEconomy.getBalance === 'function' 
+          ? window.hackWarsEconomy.getBalance() 
+          : (window.hackWarsEconomy.profile.bytecoins || 200);
+        if (typeof window.hackWarsEconomy.getRankInfo === 'function') {
+          rankName = window.hackWarsEconomy.getRankInfo(elo).name || 'BYTE 0';
+        }
+      } else {
+        elo = parseInt(localStorage.getItem('hackwars_elo') || '1000', 10);
+        coins = parseInt(localStorage.getItem('hackwars_coins') || '200', 10);
       }
 
       const dispNick = document.getElementById('r6-display-nick');
@@ -261,9 +272,13 @@
       if (dispNick) dispNick.textContent = nick;
       if (dispRank) dispRank.textContent = `${rankName.toUpperCase()} // ${elo} ELO`;
       if (dispCoins) dispCoins.textContent = `${coins} B`;
+    } catch (err) {
+      console.warn('Error sincronizando squad info:', err);
+    }
 
-      modalQuickModes.style.display = 'flex';
-      if (window.cyberAudio) window.cyberAudio.playSuccess();
+    modalQuickModes.style.display = 'flex';
+    if (window.cyberAudio && typeof window.cyberAudio.playSuccess === 'function') {
+      window.cyberAudio.playSuccess();
     }
   }
 
@@ -290,17 +305,37 @@
   document.querySelector('#modal-quick-modes .modal-backdrop')?.addEventListener('click', closeQuickModesModal);
 
   // Opciones dentro del modal táctico de Emparejamiento Rápido:
-  // 1. Duelo 1v1 PvP
+  // 1. Duelo 1v1 PvP (tanto en botón como en tarjeta completa)
+  const cardModePvp = document.getElementById('card-mode-pvp');
+  if (cardModePvp) {
+    cardModePvp.addEventListener('click', () => {
+      closeQuickModesModal();
+      joinMatch('');
+    });
+  }
   document.querySelectorAll('#modal-quick-modes .btn-start-pvp').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       closeQuickModesModal();
       joinMatch('');
     });
   });
 
   // 2. Solo vs Bot IA
+  const cardModeBot = document.getElementById('card-mode-bot');
+  if (cardModeBot) {
+    cardModeBot.addEventListener('click', () => {
+      closeQuickModesModal();
+      const modalDiff = document.getElementById('modal-bot-difficulty');
+      if (modalDiff) {
+        modalDiff.style.display = 'flex';
+        if (window.cyberAudio) window.cyberAudio.playSuccess();
+      }
+    });
+  }
   document.querySelectorAll('#modal-quick-modes .btn-start-bot').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       closeQuickModesModal();
       const modalDiff = document.getElementById('modal-bot-difficulty');
       if (modalDiff) {
@@ -311,8 +346,16 @@
   });
 
   // 3. Modo Academia
+  const cardModeAcademy = document.getElementById('card-mode-academy');
+  if (cardModeAcademy) {
+    cardModeAcademy.addEventListener('click', () => {
+      closeQuickModesModal();
+      if (window.hackWarsAcademy) window.hackWarsAcademy.openModal();
+    });
+  }
   document.querySelectorAll('#modal-quick-modes .btn-start-academy').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       closeQuickModesModal();
       if (window.hackWarsAcademy) window.hackWarsAcademy.openModal();
     });
