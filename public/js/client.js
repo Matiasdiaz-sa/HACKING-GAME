@@ -166,7 +166,7 @@
       bannerContainer.className = 'challenge-banner';
       bannerContainer.innerHTML = `
         <div>
-          <strong>⚔️ ¡DESAFÍO DIRECTO RECIBIDO!</strong><br>
+          <strong>[!] ¡DESAFÍO DIRECTO RECIBIDO!</strong><br>
           Has sido retado a combatir en la sala privada <strong>[${challengeRoom}]</strong>.
         </div>
         <button class="cyber-btn btn-sm" id="btn-quick-accept-challenge" style="background: var(--color-cyan); color: #000; font-weight: 700;">ACEPTAR RETO</button>
@@ -189,7 +189,7 @@
       const challengeUrl = `${window.location.origin}/?join=${code}`;
       navigator.clipboard.writeText(challengeUrl).then(() => {
         const orig = btnCopyChallenge.textContent;
-        btnCopyChallenge.textContent = '¡LINK COPIADO!';
+        btnCopyChallenge.textContent = '[LINK COPIADO]';
         btnCopyChallenge.style.background = '#00ff77';
         btnCopyChallenge.style.color = '#000';
         if (window.cyberAudio) window.cyberAudio.playSuccess();
@@ -212,7 +212,7 @@
         dom.inputRoomCode.value = code;
       }
       const challengeUrl = `${window.location.origin}/?join=${code}`;
-      const msg = `⚔️ Te desafío a un combate de hacking 1v1 en HackWars. Haz clic aquí para entrar a mi sala privada: ${challengeUrl}`;
+      const msg = `[HACKWARS] Te desafío a un combate táctico de hacking 1v1. Entra aquí a mi sala privada: ${challengeUrl}`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
     });
   }
@@ -239,13 +239,29 @@
     return code;
   }
 
-  // --- MODAL: EMPAREJAMIENTO RÁPIDO // MODOS DE JUEGO ---
+  // --- MODAL: EMPAREJAMIENTO RÁPIDO // MODOS DE JUEGO (ESTILO TÁCTICO R6) ---
   const modalQuickModes = document.getElementById('modal-quick-modes');
   const btnCloseQuickModes = document.getElementById('btn-close-quick-modes');
   const cardQuickMatch = document.getElementById('card-quick-match');
 
   function openQuickModesModal() {
     if (modalQuickModes) {
+      // Sincronizar datos del agente en el panel táctico de escuadrón (R6 Style)
+      const nick = (dom.inputNickname && dom.inputNickname.value.trim()) || localStorage.getItem('hackwars_alias') || 'ZeroCool';
+      const elo = parseInt(localStorage.getItem('hackwars_elo') || '1000', 10);
+      const coins = window.hackWarsEconomy ? window.hackWarsEconomy.getBalance() : parseInt(localStorage.getItem('hackwars_coins') || '200', 10);
+      let rankName = 'BYTE 0';
+      if (window.hackWarsEconomy && typeof window.hackWarsEconomy.getRankInfo === 'function') {
+        rankName = window.hackWarsEconomy.getRankInfo(elo).name;
+      }
+
+      const dispNick = document.getElementById('r6-display-nick');
+      const dispRank = document.getElementById('r6-display-rank');
+      const dispCoins = document.getElementById('r6-display-coins');
+      if (dispNick) dispNick.textContent = nick;
+      if (dispRank) dispRank.textContent = `${rankName.toUpperCase()} // ${elo} ELO`;
+      if (dispCoins) dispCoins.textContent = `${coins} B`;
+
       modalQuickModes.style.display = 'flex';
       if (window.cyberAudio) window.cyberAudio.playSuccess();
     }
@@ -273,7 +289,7 @@
   }
   document.querySelector('#modal-quick-modes .modal-backdrop')?.addEventListener('click', closeQuickModesModal);
 
-  // Opciones dentro del modal de Emparejamiento Rápido:
+  // Opciones dentro del modal táctico de Emparejamiento Rápido:
   // 1. Duelo 1v1 PvP
   document.querySelectorAll('#modal-quick-modes .btn-start-pvp').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -302,9 +318,37 @@
     });
   });
 
+  // Botones de acción del panel de escuadrón R6
+  const btnR6CopyLan = document.getElementById('btn-r6-copy-lan');
+  if (btnR6CopyLan) {
+    btnR6CopyLan.addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.origin).then(() => {
+        const orig = btnR6CopyLan.textContent;
+        btnR6CopyLan.textContent = '[ENLACE COPIADO]';
+        btnR6CopyLan.style.background = '#00ff77';
+        btnR6CopyLan.style.color = '#000';
+        if (window.cyberAudio) window.cyberAudio.playSuccess();
+        setTimeout(() => {
+          btnR6CopyLan.textContent = orig;
+          btnR6CopyLan.style.background = '';
+          btnR6CopyLan.style.color = '';
+        }, 2000);
+      });
+    });
+  }
+
+  const btnR6ShareWa = document.getElementById('btn-r6-share-wa');
+  if (btnR6ShareWa) {
+    btnR6ShareWa.addEventListener('click', () => {
+      const msg = `[HACKWARS] Te desafío a un combate táctico de hacking 1v1 en tiempo real. Conéctate a la subred aquí: ${window.location.origin}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+    });
+  }
+
   // --- MODAL: PARTIDA PRIVADA // CONFIGURACIÓN & SALAS ---
   const modalPrivateMatch = document.getElementById('modal-private-match');
   const btnClosePrivateMatch = document.getElementById('btn-close-private-match');
+  const btnPrivateBackLobby = document.getElementById('btn-private-back-lobby');
   const cardPrivateMatch = document.getElementById('card-private-match');
   const btnOpenPrivateModal = document.getElementById('btn-open-private-modal');
   const privateRoomCodeDisplay = document.getElementById('private-room-code-display');
@@ -348,6 +392,9 @@
   if (btnClosePrivateMatch) {
     btnClosePrivateMatch.addEventListener('click', closePrivateModal);
   }
+  if (btnPrivateBackLobby) {
+    btnPrivateBackLobby.addEventListener('click', closePrivateModal);
+  }
   document.querySelector('#modal-private-match .modal-backdrop')?.addEventListener('click', closePrivateModal);
 
   // Generar nuevo código
@@ -375,7 +422,7 @@
       const challengeUrl = `${window.location.origin}/?join=${code}`;
       navigator.clipboard.writeText(challengeUrl).then(() => {
         const orig = btnCopyPrivateLink.textContent;
-        btnCopyPrivateLink.textContent = '¡LINK COPIADO!';
+        btnCopyPrivateLink.textContent = '[ENLACE COPIADO]';
         btnCopyPrivateLink.style.background = '#00ff77';
         btnCopyPrivateLink.style.color = '#000';
         if (window.cyberAudio) window.cyberAudio.playSuccess();
@@ -393,7 +440,7 @@
     btnSharePrivateWa.addEventListener('click', () => {
       const code = privateRoomCodeDisplay.value.trim().toUpperCase();
       const challengeUrl = `${window.location.origin}/?join=${code}`;
-      const msg = `⚔️ Te desafío a un combate de hacking 1v1 en HackWars. Haz clic aquí para entrar a mi sala privada: ${challengeUrl}`;
+      const msg = `[HACKWARS] Te desafío a un combate táctico de hacking 1v1. Entra a mi sala privada aquí: ${challengeUrl}`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
     });
   }
@@ -599,7 +646,7 @@
     if (trimmed === 'wallet' || trimmed === 'coins' || trimmed === 'saldo') {
       if (window.hackWarsEconomy) {
         const p = window.hackWarsEconomy.profile;
-        printToTerminal(`\n🪙 SALDO DISPONIBLE: ${p.bytecoins.toLocaleString()} ฿ | RATING: ${p.elo} ELO\n`, 'info');
+        printToTerminal(`\n[B] SALDO DISPONIBLE: ${p.bytecoins.toLocaleString()} Bytecoins | RATING: ${p.elo} ELO\n`, 'info');
       }
       return;
     }
@@ -901,11 +948,11 @@
 
     popup.innerHTML = `
       <div class="popup-header">
-        <span>⚠️ [INTRUSIÓN // ${from}]</span>
+        <span>[!] [INTRUSIÓN // ${from}]</span>
         <button class="popup-close-btn" title="Cerrar">&times;</button>
       </div>
       <div class="popup-body">
-        <div class="popup-skull">💀</div>
+        <div class="popup-skull">[PWNED]</div>
         <div class="popup-text">${escapeHtml(message)}</div>
       </div>
     `;
@@ -1013,7 +1060,7 @@
   // 6. Mensaje intruso proyectado en terminal
   socket.on('victim_message', (data) => {
     if (window.cyberAudio) window.cyberAudio.playAlarm();
-    printToTerminal(`\n⚠️ [MENSAJE DIRECTO DEL INTRUSO (${data.from})]: "${data.message}"\n`, 'victim-msg');
+    printToTerminal(`\n[!] [MENSAJE DIRECTO DEL INTRUSO (${data.from})]: "${data.message}"\n`, 'victim-msg');
   });
 
   // ==========================================================================
@@ -1198,7 +1245,7 @@
     if (window.hackWarsEconomy) {
       window.hackWarsEconomy.addBytecoins(data.reward, data.message);
     }
-    printToTerminal(`\n🪙 ${data.message}`, 'highlight');
+    printToTerminal(`\n[B] ${data.message}`, 'highlight');
   });
 
   // Función de Kill-Cam / Defacement Overlay dramático
@@ -1309,7 +1356,7 @@
         if (btnShareWa) {
           btnShareWa.onclick = () => {
             const outcome = isWinner ? '¡Acabo de ganar un duelo 1v1' : '¡Acabo de jugar una partida intensa';
-            const msg = `⚔️ ${outcome} en HackWars en ${data.durationSec || 0}s! ¿Te atreves a desafiarme en terminal? Entra aquí: ${window.location.origin}`;
+            const msg = `[HACKWARS] ${outcome} en HackWars en ${data.durationSec || 0}s. Desafíame en terminal: ${window.location.origin}`;
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
           };
         }
@@ -1452,7 +1499,7 @@
   dom.btnToggleSound.addEventListener('click', () => {
     if (!window.cyberAudio) return;
     const isMuted = window.cyberAudio.toggleMute();
-    dom.btnToggleSound.textContent = isMuted ? 'AUDIO: 🔇' : 'AUDIO: 🔊';
+    dom.btnToggleSound.textContent = isMuted ? 'AUDIO: OFF' : 'AUDIO: ON';
     dom.btnToggleSound.style.borderColor = isMuted ? 'var(--text-dim)' : '';
   });
 
@@ -1577,7 +1624,7 @@
     if (!window.hackWarsEconomy) return;
     const p = window.hackWarsEconomy.profile;
     const rank = window.hackWarsEconomy.getRankInfo(p.elo);
-    const textToShare = `🪪 FICHA DE AGENTE HACKWARS // Codename: ${p.username} | Título: ${p.equippedTitle} | División: ${rank.name} (${p.elo} ELO) | Victorias: ${p.stats.wins} | Kernels Destruidos: ${p.stats.kernelsDestroyed} | ¿Te atreves a retarme? Juega en: ${window.location.origin}`;
+    const textToShare = `[FICHA DE AGENTE HACKWARS] // Codename: ${p.username} | Título: ${p.equippedTitle} | División: ${rank.name} (${p.elo} ELO) | Victorias: ${p.stats.wins} | Kernels Destruidos: ${p.stats.kernelsDestroyed} | ¿Te atreves a retarme? Juega en: ${window.location.origin}`;
     navigator.clipboard.writeText(textToShare).then(() => {
       const orig = btnCopyHackerCard.textContent;
       btnCopyHackerCard.textContent = '¡FICHA COPIADA AL PORTAPAPELES!';

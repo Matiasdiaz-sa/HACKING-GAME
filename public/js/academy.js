@@ -16,7 +16,7 @@ class HackWarsAcademy {
         title: 'Fundamentos de Linux & Navegación (FHS)',
         shortTitle: 'Linux & FHS',
         desc: 'Domina los comandos esenciales del kernel para moverte en el árbol de directorios e inspeccionar archivos confidenciales.',
-        icon: '🐧',
+        icon: '[LNX]',
         reward: 50,
         badge: 'CADETE LINUX',
         steps: [
@@ -69,7 +69,7 @@ class HackWarsAcademy {
         title: 'Redes & Reconocimiento de Subred',
         shortTitle: 'Redes & Recon',
         desc: 'Comprende el direccionamiento IP en subredes /24 y mapea los nodos vivos sin alertar al rival.',
-        icon: '🌐',
+        icon: '[NET]',
         reward: 75,
         badge: 'OPERADOR DE RED',
         steps: [
@@ -105,7 +105,7 @@ class HackWarsAcademy {
         title: 'Escaneo de Puertos & Detección de CVEs',
         shortTitle: 'Nmap & CVEs',
         desc: 'Identifica servicios abiertos y realiza banner grabbing para detectar vulnerabilidades históricas reales.',
-        icon: '🔍',
+        icon: '[SCN]',
         reward: 100,
         badge: 'AUDITOR DE VULNERABILIDADES',
         steps: [
@@ -144,7 +144,7 @@ class HackWarsAcademy {
         title: 'Infiltración, Explotación & Guerra Psicológica',
         shortTitle: 'Explotación & Pwn',
         desc: 'Dispara exploits perimetrales, abre una sesión remota e inyecta troyanos desestabilizadores.',
-        icon: '💥',
+        icon: '[PWN]',
         reward: 150,
         badge: 'INFILTRADOR CIBERNÉTICO',
         steps: [
@@ -193,7 +193,7 @@ class HackWarsAcademy {
         title: 'Defensa Activa & Mitigación (Blue Teaming)',
         shortTitle: 'Blue Team & Mitigación',
         desc: 'Analiza registros de auditoría, rastrea procesos maliciosos en memoria y blinda el firewall.',
-        icon: '🛡️',
+        icon: '[DEF]',
         reward: 200,
         badge: 'ESPECIALISTA BLUE TEAM',
         steps: [
@@ -334,10 +334,10 @@ class HackWarsAcademy {
         badgeHtml = '<span class="mod-status-badge badge-done">✓ CUMPLIDO</span>';
         actionBtnHtml = `<button class="cyber-btn btn-sm btn-academy-start" onclick="window.hackWarsAcademy.startLesson('${mod.id}')">REPASAR MÓDULO</button>`;
       } else if (isUnlocked) {
-        badgeHtml = '<span class="mod-status-badge badge-active">⚡ DISPONIBLE</span>';
-        actionBtnHtml = `<button class="cyber-btn btn-sm btn-primary btn-academy-start" onclick="window.hackWarsAcademy.startLesson('${mod.id}')">INICIAR LECCIÓN ▶</button>`;
+        badgeHtml = '<span class="mod-status-badge badge-active">[DISPONIBLE]</span>';
+        actionBtnHtml = `<button class="cyber-btn btn-sm btn-primary btn-academy-start" onclick="window.hackWarsAcademy.startLesson('${mod.id}')">INICIAR LECCIÓN [&gt;]</button>`;
       } else {
-        badgeHtml = '<span class="mod-status-badge badge-locked">🔒 BLOQUEADO</span>';
+        badgeHtml = '<span class="mod-status-badge badge-locked">[BLOQUEADO]</span>';
         actionBtnHtml = `<button class="cyber-btn btn-sm btn-secondary" disabled style="opacity: 0.5;">BLOQUEADO</button>`;
       }
 
@@ -416,7 +416,7 @@ class HackWarsAcademy {
     if (taskText) taskText.textContent = step.task;
     if (expText) expText.textContent = step.explanation;
     if (hintBox) {
-      hintBox.textContent = `💡 SUGERENCIA: ${step.hint}`;
+      hintBox.textContent = `[?] SUGERENCIA: ${step.hint}`;
       hintBox.style.display = 'none';
     }
 
@@ -555,7 +555,7 @@ class HackWarsAcademy {
         <div style="display: flex; gap: 10px; justify-content: center;">
           ${hasNext ? `
             <button class="cyber-btn btn-primary" onclick="document.getElementById('modal-module-victory').remove(); window.hackWarsAcademy.startLesson('${nextMod.id}');">
-              SIGUIENTE MÓDULO ▶
+              SIGUIENTE MÓDULO [&gt;]
             </button>
           ` : `
             <button class="cyber-btn btn-primary" onclick="document.getElementById('modal-module-victory').remove(); window.hackWarsAcademy.openModal();">

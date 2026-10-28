@@ -28,26 +28,26 @@
       <span class="header-room-text">SALA: <strong id="header-room-code">----</strong></span>
       <span class="header-opp-text">OPONENTE: <strong id="header-opponent-name">Buscando...</strong></span>
       <button class="cyber-btn btn-xs btn-danger" id="btn-cancel-match" title="Cancelar combate actual y volver al lobby" style="margin-left: 10px;">
-        ✕ CANCELAR PARTIDA
+        [X] CANCELAR PARTIDA
       </button>
     </div>
 
     <div class="header-right">
       <div class="header-badge-group">
         <button class="economy-badge" id="btn-open-recharge" title="Recargar / Comprar Bytecoins (Simulado)">
-          <span>🪙</span> <span id="header-bytecoins-val">200</span> ฿ <span style="font-size: 9px; opacity: 0.8; margin-left: 2px;">[+]</span>
+          <span class="badge-icon">[B]</span> <span id="header-bytecoins-val">200</span> BYTECOINS <span style="font-size: 9px; opacity: 0.8; margin-left: 2px;">[+]</span>
         </button>
         <div class="rank-badge" id="header-rank-badge">
-          <span id="header-rank-text">Byte 0 • 1000 ELO</span>
+          <span id="header-rank-text">Byte 0 // 1000 ELO</span>
         </div>
       </div>
-      <button class="cyber-btn btn-sm btn-academy" id="btn-header-academy" title="Modo Academia & Story Mode" style="border-color: var(--color-cyan); color: var(--color-cyan);">ACADEMIA [🎓]</button>
-      <button class="cyber-btn btn-sm btn-market" id="btn-header-market" title="Abrir The Black Market" style="border-color: var(--color-amber); color: var(--color-amber);">MARKET [฿]</button>
-      <button class="cyber-btn btn-sm btn-roadmap" id="btn-open-roadmap" title="Ver Roadmap del Proyecto">ROADMAP [🗺️]</button>
-      <button class="cyber-btn btn-sm btn-profile" id="btn-open-profile" title="Ver Ficha de Agente Hacker">PERFIL [🪪]</button>
+      <button class="cyber-btn btn-sm btn-academy" id="btn-header-academy" title="Modo Academia & Story Mode" style="border-color: var(--color-cyan); color: var(--color-cyan);">ACADEMIA [MODO]</button>
+      <button class="cyber-btn btn-sm btn-market" id="btn-header-market" title="Abrir The Black Market" style="border-color: var(--color-amber); color: var(--color-amber);">MERCADO [TIENDA]</button>
+      <button class="cyber-btn btn-sm btn-roadmap" id="btn-open-roadmap" title="Ver Roadmap del Proyecto">ROADMAP [FASES]</button>
+      <button class="cyber-btn btn-sm btn-profile" id="btn-open-profile" title="Ver Ficha de Agente Hacker">PERFIL [AGENTE]</button>
       <button class="cyber-btn btn-sm" id="btn-toggle-crt" title="Activar/Desactivar efecto CRT">CRT: ON</button>
-      <button class="cyber-btn btn-sm" id="btn-toggle-sound" title="Silenciar / Activar sonido">AUDIO: 🔊</button>
-      <button class="cyber-btn btn-sm" id="btn-open-help" title="Ver guía de comandos">MANUAL [?]</button>
+      <button class="cyber-btn btn-sm" id="btn-toggle-sound" title="Silenciar / Activar sonido">AUDIO: ON</button>
+      <button class="cyber-btn btn-sm" id="btn-open-help" title="Ver guía de comandos">MANUAL [INFO]</button>
     </div>
   </header>
 
@@ -56,18 +56,18 @@
     <!-- SIDEBAR DE MISIONES ACTIVAS (LATERAL IZQUIERDO DOCKABLE CON TOGGLE TAB) -->
     <aside class="lobby-missions-sidebar" id="lobby-missions-sidebar">
       <button class="sidebar-toggle-tab" id="btn-toggle-missions-sidebar" title="Ocultar / Mostrar Misiones" aria-label="Alternar panel de misiones">
-        <span class="tab-icon">◀</span>
+        <span class="tab-icon">&lt;</span>
         <span class="tab-hint">MISIONES</span>
       </button>
 
       <div class="sidebar-header">
         <div style="display: flex; align-items: center; gap: 6px;">
-          <span>🎯</span>
-          <h3>MISIONES ACTIVAS</h3>
+          <span class="sidebar-tag">[!]</span>
+          <h3>CONTRATOS ACTIVOS</h3>
         </div>
         <span class="badge-pending" id="sidebar-pending-badge">4 PENDIENTES</span>
       </div>
-      <p class="sidebar-sub">Contratos que faltan completar para ganar Bytecoins (฿):</p>
+      <p class="sidebar-sub">Contratos tácticos para ganar Bytecoins (B):</p>
       
       <div class="sidebar-missions-list" id="sidebar-missions-list">
         <!-- Renderizado dinámico desde client.js -->
@@ -94,7 +94,7 @@
           <!-- CARD 1: EMPAREJAMIENTO RÁPIDO -->
           <div class="action-box interactive-action-card" id="card-quick-match" title="Ver opciones y modos de juego">
             <div class="action-card-header">
-              <span class="action-card-icon">⚡</span>
+              <span class="action-card-icon">[//]</span>
               <div>
                 <h3>EMPAREJAMIENTO RÁPIDO</h3>
                 <span class="action-card-badge">PVP • BOTS • ACADEMIA</span>
@@ -102,14 +102,14 @@
             </div>
             <p>Empareja con cualquier partida abierta o selecciona el modo de juego táctico que prefieras.</p>
             <button class="cyber-btn btn-primary btn-block" id="btn-quick-match">
-              <span class="btn-icon">⚡</span> EMPAREJAMIENTO RÁPIDO
+              <span class="btn-icon">&gt;</span> EMPAREJAMIENTO RÁPIDO
             </button>
           </div>
 
           <!-- CARD 2: PARTIDA PRIVADA -->
           <div class="action-box interactive-action-card" id="card-private-match" title="Crear o unirse a una sala privada">
             <div class="action-card-header">
-              <span class="action-card-icon">🔒</span>
+              <span class="action-card-icon">[#]</span>
               <div>
                 <h3>PARTIDA PRIVADA</h3>
                 <span class="action-card-badge">SALA • CÓDIGO • LINK</span>
@@ -117,7 +117,7 @@
             </div>
             <p>Crea o únete a una sala exclusiva para desafiar a tus amigos con código o enlace de reto.</p>
             <button class="cyber-btn btn-secondary btn-block" id="btn-open-private-modal">
-              <span class="btn-icon">🔑</span> PARTIDA PRIVADA
+              <span class="btn-icon">&gt;</span> PARTIDA PRIVADA
             </button>
             <!-- Input oculto para mantener compatibilidad con enlaces directos -->
             <input type="hidden" id="input-room-code" value="">
@@ -127,7 +127,7 @@
         <!-- Banner para invitar a Player 2 -->
         <div class="lan-share-box" id="lan-share-box">
           <div class="lan-share-header">
-            <span class="lan-icon">🌐</span>
+            <span class="lan-icon">[NET]</span>
             <strong>CÓMO INVITAR A OTRA PERSONA A JUGAR:</strong>
           </div>
           <p class="lan-desc">Tu oponente solo debe abrir este enlace en su navegador desde cualquier dispositivo:</p>
@@ -153,7 +153,7 @@
           <p class="sub-waiting">Pasa el código <strong id="waiting-room-code-share"></strong> a tu oponente para iniciar el duelo.</p>
           <div style="margin-top: 15px;">
             <button class="cyber-btn btn-sm btn-danger" id="btn-cancel-waiting" title="Cancelar búsqueda y salir de la sala">
-              <span class="btn-icon">✕</span> CANCELAR BÚSQUEDA / SALIR
+              <span class="btn-icon">[X]</span> CANCELAR BÚSQUEDA / SALIR
             </button>
           </div>
         </div>
@@ -175,7 +175,7 @@
           <div class="panel-controls">
             <span class="session-indicator" id="term-session-badge">SESIÓN: LOCAL</span>
             <button class="cyber-btn btn-xs" id="btn-clear-term" title="Limpiar pantalla (Ctrl+L)">LIMPIAR</button>
-            <button class="cyber-btn btn-xs btn-danger" id="btn-forfeit-match" title="Abandonar / Cancelar partida y regresar al lobby">SALIR ✕</button>
+            <button class="cyber-btn btn-xs btn-danger" id="btn-forfeit-match" title="Abandonar / Cancelar partida y regresar al lobby">SALIR [X]</button>
           </div>
         </div>
 
@@ -183,19 +183,19 @@
         <div class="academy-mentor-hud" id="academy-mentor-hud" style="display: none;">
           <div class="mentor-hud-top">
             <div class="mentor-hud-badge">
-              <span class="mentor-icon">🤖</span>
+              <span class="mentor-icon">[IA]</span>
               <span class="mentor-callsign">CYBER-MENTOR AI // MODO ACADEMIA</span>
             </div>
             <div class="mentor-hud-meta">
               <span class="mentor-module-tag" id="mentor-module-tag">MÓDULO 1</span>
               <span class="mentor-step-tag" id="mentor-step-tag">PASO 1/5</span>
-              <button class="cyber-btn btn-xs" id="btn-mentor-hint" title="Ver sugerencia">💡 PISTA</button>
-              <button class="cyber-btn btn-xs btn-exit-lesson" id="btn-exit-academy" title="Salir de la lección">SALIR ✕</button>
+              <button class="cyber-btn btn-xs" id="btn-mentor-hint" title="Ver sugerencia">[?] PISTA</button>
+              <button class="cyber-btn btn-xs btn-exit-lesson" id="btn-exit-academy" title="Salir de la lección">SALIR [X]</button>
             </div>
           </div>
           <div class="mentor-hud-content">
             <div class="mentor-task-row">
-              <span class="mentor-arrow">▶</span>
+              <span class="mentor-arrow">&gt;</span>
               <p class="mentor-task-text" id="mentor-task-text">Cargando objetivo...</p>
             </div>
             <p class="mentor-explanation-text" id="mentor-explanation-text"></p>
@@ -229,7 +229,7 @@
 
         <!-- Overlay de Congelamiento / Freeze de Terminal -->
         <div class="freeze-overlay" id="freeze-overlay" style="display: none;">
-          <div class="freeze-icon">🔒⚠️</div>
+          <div class="freeze-icon">[BLOQUEADO]</div>
           <div class="freeze-title">[CONSOLA CONGELADA]</div>
           <div class="freeze-desc">&gt; KERNEL STALL INDUCIDO POR EL ATACANTE (<span id="freeze-timer">4</span>s)</div>
         </div>
@@ -249,7 +249,7 @@
         <section class="panel-card panel-sysmon" id="panel-sysmon">
           <div class="panel-header">
             <div class="panel-title">
-              <span class="icon-monitor">⚡</span>
+              <span class="icon-monitor">[SYS]</span>
               <span>MONITOR DE RECURSOS & PUERTOS</span>
             </div>
             <span class="node-id-tag" id="mon-hostname">node-sec</span>
@@ -349,7 +349,7 @@
         <section class="panel-card panel-syslog" id="panel-syslog">
           <div class="panel-header">
             <div class="panel-title">
-              <span class="icon-log">🚨</span>
+              <span class="icon-log">[ALERTA]</span>
               <span>FEED DE INTRUSIONES // /var/log/syslog</span>
             </div>
             <button class="cyber-btn btn-xs" id="btn-quick-clearlogs" title="Limpiar syslog">LIMPIAR</button>
@@ -380,7 +380,7 @@
       <div class="modal-body">
         <div class="help-grid">
           <div class="help-col">
-            <h3>🗡️ COMANDOS OFENSIVOS & RECONOCIMIENTO</h3>
+            <h3>[+] COMANDOS OFENSIVOS & RECONOCIMIENTO</h3>
             <ul class="help-list">
               <li><code>netdiscover</code> : Escanea la subred 10.13.37.0/24 (3s). Revela la IP Virtual del adversario.</li>
               <li><code>nmap &lt;target_ip&gt;</code> : Escaneo SYN de puertos abiertos de la víctima (4s).</li>
@@ -390,7 +390,7 @@
               <li><code>submit &lt;flag_hash&gt;</code> : Entrega la bandera capturada para ganar la partida.</li>
             </ul>
 
-            <h3 style="margin-top: 15px;">🎭 TROLLING & CONTROL DE PANTALLA</h3>
+            <h3 style="margin-top: 15px;">[~] TROLLING & CONTROL DE PANTALLA</h3>
             <p style="font-size: 0.72rem; color: #8892b0; margin-bottom: 6px;">Requiere haber comprometido al menos 1 puerto o estar en shell remota:</p>
             <ul class="help-list">
               <li><code>popup &lt;msg&gt;</code> <em>(alias: <code>alert</code>)</em> : Proyecta un cartel de alerta/pánico en su pantalla.</li>
@@ -401,7 +401,7 @@
               <li><code>say &lt;mensaje&gt;</code> <em>(alias: <code>msg</code>)</em> : Escribe directamente en su consola.</li>
             </ul>
 
-            <h3 style="margin-top: 15px;">📂 EXPLORACIÓN & FILESYSTEM</h3>
+            <h3 style="margin-top: 15px;">[/] EXPLORACIÓN & FILESYSTEM</h3>
             <ul class="help-list">
               <li><code>ls [ruta]</code> : Lista directorios remotos o locales (ej: <code>ls /home/admin</code>).</li>
               <li><code>cd &lt;ruta&gt;</code> : Navega por el filesystem (ej: <code>cd /home/admin</code>, <code>cd ..</code>, <code>cd ~</code>).</li>
@@ -410,7 +410,7 @@
               <li><code>exit</code> : Cierra la shell remota y vuelve a tu nodo local de forma segura.</li>
             </ul>
 
-            <h3 style="margin-top: 15px;">🏆 CONDICIONES DE VICTORIA (¡GANA!)</h3>
+            <h3 style="margin-top: 15px;">[*] CONDICIONES DE VICTORIA (¡GANA!)</h3>
             <ul class="help-list">
               <li><code>submit &lt;flag&gt;</code> : <strong>¡Victoria CTF!</strong> Captura <code>/home/admin/flag.txt</code> y envíala.</li>
               <li><code>rm /boot/kernel.sys</code> : <strong>¡Victoria Fatal!</strong> En shell remota, destruye su kernel enemigo.</li>
@@ -419,7 +419,7 @@
           </div>
 
           <div class="help-col">
-            <h3>🛡️ COMANDOS DEFENSIVOS & MONITOR</h3>
+            <h3>[#] COMANDOS DEFENSIVOS & MONITOR</h3>
             <ul class="help-list">
               <li><code>ps</code> : Muestra procesos locales, CPU y <strong>ataques/exploits entrantes</strong> con su PID.</li>
               <li><code>kill &lt;pid&gt;</code> : Termina un proceso. <strong>¡Matar un exploit entrante cancela el ataque rival!</strong></li>
@@ -429,7 +429,7 @@
               <li><code>ifconfig</code> <em>(alias: <code>ip</code>)</em> : Consulta tus IPs, hostname y configuración de puertos locales.</li>
             </ul>
 
-            <h3 style="margin-top: 15px;">🧪 SIMULADOR DE EFECTOS LOCAL</h3>
+            <h3 style="margin-top: 15px;">[!] SIMULADOR DE EFECTOS LOCAL</h3>
             <ul class="help-list">
               <li><code>test</code> : Menú de simulación en vivo para probar efectos en tu pantalla.</li>
               <li><code>test freeze</code> : Prueba el bloqueo y candado en tu propia terminal (4s).</li>
@@ -439,7 +439,7 @@
               <li><code>test chaos</code> : Prueba el enjambre de cursores de mouse falsos (5s).</li>
             </ul>
 
-            <h3 style="margin-top: 15px;">⌨️ TERMINAL & UTILIDADES</h3>
+            <h3 style="margin-top: 15px;">[&gt;] TERMINAL & UTILIDADES</h3>
             <ul class="help-list">
               <li><code>help</code> <em>(alias: <code>ayuda</code>)</em> : Muestra la guía completa de comandos en terminal.</li>
               <li><code>clear</code> <em>(alias: <code>cls</code>)</em> : Limpia la pantalla de la terminal (o presiona <kbd>Ctrl + L</kbd>).</li>
@@ -448,7 +448,7 @@
             </ul>
 
             <div class="help-tip-box" style="margin-top: 12px;">
-              <strong>💡 CONSEJO TÁCTICO:</strong>
+              <strong>[*] CONSEJO TÁCTICO:</strong>
               <p>Monitorea siempre el panel de <em>/var/log/syslog</em> y la lista de procesos (<em>ps</em>). Si ves una alerta roja de ataque entrante, ejecuta rápidamente <code>kill &lt;pid&gt;</code> o <code>firewall &lt;puerto&gt; close</code> para frustrar su intrusión.</p>
             </div>
           </div>
@@ -485,7 +485,7 @@
 
         <div class="share-viral-group" style="margin-bottom: 12px;">
           <button class="cyber-btn btn-sm btn-viral-wa btn-block" id="btn-share-victory-wa">
-            📲 COMPARTIR VICTORIA POR WHATSAPP
+            COMPARTIR VICTORIA POR WHATSAPP
           </button>
         </div>
 
@@ -509,9 +509,9 @@
         <button class="btn-close-modal" id="btn-close-market">&times;</button>
       </div>
       <div class="market-header-tabs">
-        <button class="market-tab-btn active" data-category="theme">🎨 TEMAS VISUALES</button>
-        <button class="market-tab-btn" data-category="sound">🔊 SOUNDPACKS TECLADO</button>
-        <button class="market-tab-btn" data-category="title">🏷️ TÍTULOS DE HACKER</button>
+        <button class="market-tab-btn active" data-category="theme">TEMAS VISUALES</button>
+        <button class="market-tab-btn" data-category="sound">SOUNDPACKS TECLADO</button>
+        <button class="market-tab-btn" data-category="title">TÍTULOS DE HACKER</button>
       </div>
       <div class="market-items-grid" id="market-items-grid">
         <!-- Renderizado dinámico desde market.js -->
@@ -525,7 +525,7 @@
     <div class="modal-content" style="max-width: 620px;">
       <div class="modal-header">
         <div>
-          <h2>CONTRATOS & MISIONES DIARIAS 🎯</h2>
+          <h2>CONTRATOS & MISIONES DIARIAS [BOUNTIES]</h2>
           <span style="font-size: 12px; color: var(--color-cyan);">Completa misiones para ganar Bytecoins (฿) adicionales</span>
         </div>
         <button class="btn-close-modal" id="btn-close-bounties">&times;</button>
@@ -541,7 +541,7 @@
     <div class="modal-backdrop"></div>
     <div class="modal-content" style="max-width: 600px;">
       <div class="modal-header">
-        <h2>CREDENCIAL OFICIAL DE AGENTE HACKER 🪪</h2>
+        <h2>CREDENCIAL OFICIAL DE AGENTE HACKER [ID]</h2>
         <button class="btn-close-modal" id="btn-close-profile">&times;</button>
       </div>
       <div class="modal-body">
@@ -580,7 +580,7 @@
             </div>
           </div>
           <button class="cyber-btn btn-primary btn-block" id="btn-copy-hacker-card">
-            📋 COPIAR FICHA DE AGENTE PARA COMPARTIR
+            COPIAR FICHA DE AGENTE PARA COMPARTIR
           </button>
         </div>
       </div>
@@ -593,7 +593,7 @@
     <div class="modal-content" style="max-width: 660px;">
       <div class="modal-header">
         <div>
-          <h2>RECARGA DE BYTECOINS // STORE 🪙</h2>
+          <h2>RECARGA DE BYTECOINS // STORE [B]</h2>
           <span style="font-size: 12px; color: var(--color-amber);">Saldo actual: <strong id="recharge-current-balance">200</strong> ฿</span>
         </div>
         <button class="btn-close-modal" id="btn-close-recharge">&times;</button>
@@ -623,7 +623,7 @@
           </div>
         </div>
         <div style="font-size: 11px; color: var(--color-cyan); text-align: center; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;">
-          ⚡ Transacciones simuladas instantáneas para explorar la tienda y personalizar tu terminal.
+          [*] Transacciones simuladas instantáneas para explorar la tienda y personalizar tu terminal.
         </div>
       </div>
     </div>
@@ -635,7 +635,7 @@
     <div class="modal-content" style="max-width: 680px;">
       <div class="modal-header">
         <div>
-          <h2>HACKWARS // ROADMAP DE DESARROLLO 🗺️</h2>
+          <h2>HACKWARS // ROADMAP DE DESARROLLO [FASES]</h2>
           <span style="font-size: 12px; color: var(--color-cyan);">Hitos cumplidos y próximas expansiones del simulador</span>
         </div>
         <button class="btn-close-modal" id="btn-close-roadmap">&times;</button>
@@ -662,7 +662,7 @@
           <div class="roadmap-phase-card phase-active">
             <div class="roadmap-phase-header">
               <span class="roadmap-phase-title">FASE 2: MODO ACADEMIA & STORY MODE</span>
-              <span class="roadmap-badge progress">⚡ JUGABLE AHORA</span>
+              <span class="roadmap-badge progress">[JUGABLE AHORA]</span>
             </div>
             <ul class="roadmap-list">
               <li>Tutorial interactivo guiado paso a paso para principiantes sin experiencia.</li>
@@ -676,7 +676,7 @@
           <div class="roadmap-phase-card phase-future">
             <div class="roadmap-phase-header">
               <span class="roadmap-phase-title">FASE 3: FREE-FOR-ALL (FFA) & KING OF THE HILL</span>
-              <span class="roadmap-badge future">🔒 PLANIFICADA</span>
+              <span class="roadmap-badge future">[PLANIFICADA]</span>
             </div>
             <ul class="roadmap-list">
               <li>Subred caótica multijugador con 4 a 12 participantes simultáneos.</li>
@@ -689,13 +689,13 @@
           <div class="roadmap-phase-card phase-pets">
             <div class="roadmap-phase-header">
               <span class="roadmap-phase-title">FASE 4: CYBER-MASCOTAS & ACOMPAÑANTES IA</span>
-              <span class="roadmap-badge pets">🐾 A FUTURO</span>
+              <span class="roadmap-badge pets">[A FUTURO]</span>
             </div>
             <ul class="roadmap-list">
               <li>Mascotas hacker virtuales que te acompañan dentro de la terminal:</li>
-              <li>🐱 <strong>Bit-Cat</strong>: Incrementa la velocidad de escaneo SYN en +15%.</li>
-              <li>🦅 <strong>Cyber-Raven</strong>: Alerta temprana de exploits entrantes con graznido sintético.</li>
-              <li>🦊 <strong>Daemon-Fox</strong>: Reduce el costo de CPU de tus herramientas en un 10%.</li>
+              <li>[BIT-CAT]: Incrementa la velocidad de escaneo SYN en +15%.</li>
+              <li>[CYBER-RAVEN]: Alerta temprana de exploits entrantes con graznido sintético.</li>
+              <li>[DAEMON-FOX]: Reduce el costo de CPU de tus herramientas en un 10%.</li>
               <li>Alimentación con Bytecoins, animaciones ASCII en tiempo real y subida de nivel.</li>
             </ul>
           </div>
@@ -710,7 +710,7 @@
     <div class="modal-content modal-glow" style="max-width: 840px;">
       <div class="modal-header">
         <div>
-          <h2>HACKWARS ACADEMY // STORY MODE 🎓</h2>
+          <h2>HACKWARS ACADEMY // STORY MODE [ACADEMIA]</h2>
           <span style="font-size: 12px; color: var(--color-cyan);">Misiones prácticas guiadas para aprender ciberseguridad, redes y Linux desde cero</span>
         </div>
         <button class="btn-close-modal" id="btn-close-academy">&times;</button>
@@ -739,7 +739,7 @@
     <div class="modal-content modal-glow" style="max-width: 680px;">
       <div class="modal-header">
         <div>
-          <h2>SIMULADOR // DIFICULTAD DE LA IA 🤖</h2>
+          <h2>SIMULADOR // DIFICULTAD DE LA IA [MODO]</h2>
           <span style="font-size: 12px; color: var(--color-cyan);">Elige el nivel de agresividad, velocidad y recompensas del bot rival</span>
         </div>
         <button class="btn-close-modal" id="btn-close-bot-diff">&times;</button>
@@ -749,10 +749,10 @@
           <!-- FÁCIL -->
           <div class="bot-diff-card diff-easy" data-diff="easy">
             <div class="diff-header">
-              <span class="diff-icon">🟢</span>
+              <span class="diff-icon">[L1]</span>
               <div>
                 <h3>FÁCIL // SCRIPT KIDDIE</h3>
-                <span class="diff-reward">+40 ฿ • +10 ELO</span>
+                <span class="diff-reward">+40 B // +10 ELO</span>
               </div>
             </div>
             <p class="diff-desc">IA pasiva y lenta. Ideal para principiantes, probar comandos y aprender el flujo táctico sin presión.</p>
@@ -760,16 +760,16 @@
               <li>Ataques pausados cada 45s+</li>
               <li>No destruye tu kernel ni usa firewall</li>
             </ul>
-            <button class="cyber-btn btn-sm btn-block btn-select-diff" data-diff="easy">SELECCIONAR FÁCIL ▶</button>
+            <button class="cyber-btn btn-sm btn-block btn-select-diff" data-diff="easy">SELECCIONAR FÁCIL [&gt;]</button>
           </div>
 
           <!-- NORMAL -->
           <div class="bot-diff-card diff-medium active-default" data-diff="medium">
             <div class="diff-header">
-              <span class="diff-icon">🟡</span>
+              <span class="diff-icon">[L2]</span>
               <div>
                 <h3>NORMAL // HACKER</h3>
-                <span class="diff-reward">+80 ฿ • +25 ELO</span>
+                <span class="diff-reward">+80 B // +25 ELO</span>
               </div>
             </div>
             <p class="diff-desc">Combate equilibrado. La IA explora puertos, lanza troyanos moderados y responde tácticamente.</p>
@@ -777,16 +777,16 @@
               <li>Escaneos y troyanos cada 20-30s</li>
               <li>Defensa perimetral y contraataque básico</li>
             </ul>
-            <button class="cyber-btn btn-sm btn-block btn-primary btn-select-diff" data-diff="medium">SELECCIONAR NORMAL ▶</button>
+            <button class="cyber-btn btn-sm btn-block btn-primary btn-select-diff" data-diff="medium">SELECCIONAR NORMAL [&gt;]</button>
           </div>
 
           <!-- DIFÍCIL -->
           <div class="bot-diff-card diff-hard" data-diff="hard">
             <div class="diff-header">
-              <span class="diff-icon">🔴</span>
+              <span class="diff-icon">[L3]</span>
               <div>
                 <h3>DIFÍCIL // MERCENARIO</h3>
-                <span class="diff-reward">+160 ฿ • +50 ELO</span>
+                <span class="diff-reward">+160 B // +50 ELO</span>
               </div>
             </div>
             <p class="diff-desc">IA veloz y despiadada. Inyecta malware continuo, bloquea puertos atacados e intenta eliminar tu kernel.</p>
@@ -794,16 +794,16 @@
               <li>Infiltración rápida en menos de 20s</li>
               <li>Parcheo activo y troyanos agresivos</li>
             </ul>
-            <button class="cyber-btn btn-sm btn-block btn-select-diff" data-diff="hard">SELECCIONAR DIFÍCIL ▶</button>
+            <button class="cyber-btn btn-sm btn-block btn-select-diff" data-diff="hard">SELECCIONAR DIFÍCIL [&gt;]</button>
           </div>
 
           <!-- PESADILLA -->
           <div class="bot-diff-card diff-nightmare" data-diff="nightmare">
             <div class="diff-header">
-              <span class="diff-icon">💀</span>
+              <span class="diff-icon">[L4]</span>
               <div>
                 <h3>PESADILLA // ZERO-DAY GOD</h3>
-                <span class="diff-reward">+300 ฿ • +100 ELO</span>
+                <span class="diff-reward">+300 B // +100 ELO</span>
               </div>
             </div>
             <p class="diff-desc">Velocidad sobrehumana. Si no blindas tu perímetro o atacas en menos de 30s, el bot te destruirá.</p>
@@ -811,175 +811,338 @@
               <li>Exploitation en 10-15s & caos psicológico</li>
               <li>Mitigación instantánea de malware rival</li>
             </ul>
-            <button class="cyber-btn btn-sm btn-block btn-select-diff" data-diff="nightmare">SELECCIONAR PESADILLA ▶</button>
+            <button class="cyber-btn btn-sm btn-block btn-select-diff" data-diff="nightmare">SELECCIONAR PESADILLA [&gt;]</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: MODOS DE JUEGO // EMPAREJAMIENTO RÁPIDO -->
-  <div class="cyber-modal" id="modal-quick-modes" style="display: none;">
+  <!-- MODAL: MODOS DE JUEGO // EMPAREJAMIENTO RÁPIDO (TACTICAL R6 STYLE) -->
+  <div class="cyber-modal r6-tactical-modal" id="modal-quick-modes" style="display: none;">
     <div class="modal-backdrop"></div>
-    <div class="modal-content modal-glow" style="max-width: 780px;">
-      <div class="modal-header">
-        <div>
-          <h2>EMPAREJAMIENTO RÁPIDO // MODOS DE JUEGO ⚡</h2>
-          <span style="font-size: 12px; color: var(--color-cyan);">Selecciona tu modo de enfrentamiento táctico</span>
-        </div>
-        <button class="btn-close-modal" id="btn-close-quick-modes">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="game-modes-grid">
-          <!-- MODO 1: DUELO 1v1 PVP -->
-          <div class="game-mode-card mode-pvp" id="card-mode-pvp">
-            <div class="mode-header">
-              <span class="mode-icon">⚔️</span>
-              <div>
-                <h3>DUELO 1v1 EN LÍNEA (PVP)</h3>
-                <span class="mode-badge pvp">MULTIJUGADOR • COMPETITIVO</span>
-              </div>
-            </div>
-            <p class="mode-desc">Enfrentamiento en tiempo real contra otro hacker en la subred global. Sube de división ELO y gana Bytecoins capturando la bandera enemiga o destruyendo su kernel.</p>
-            <div class="mode-rewards">
-              <span>🪙 +100 ฿ por Victoria</span>
-              <span>⚡ +25 ELO</span>
-            </div>
-            <button class="cyber-btn btn-primary btn-block btn-start-pvp">
-              BUSCAR PARTIDA 1v1 ▶
-            </button>
-          </div>
-
-          <!-- MODO 2: SOLO VS BOT IA -->
-          <div class="game-mode-card mode-bot" id="card-mode-bot">
-            <div class="mode-header">
-              <span class="mode-icon">🤖</span>
-              <div>
-                <h3>SOLO VS BOT IA</h3>
-                <span class="mode-badge bot">ENTRENAMIENTO • 4 NIVELES</span>
-              </div>
-            </div>
-            <p class="mode-desc">Practica tácticas ofensivas y defensivas en solitario contra la inteligencia artificial reactiva. Dificultades: Fácil, Normal, Difícil y Pesadilla.</p>
-            <div class="mode-rewards">
-              <span>🪙 Hasta +300 ฿</span>
-              <span>⚡ Hasta +100 ELO</span>
-            </div>
-            <button class="cyber-btn btn-secondary btn-block btn-start-bot">
-              ELEGIR DIFICULTAD ▶
-            </button>
-          </div>
-
-          <!-- MODO 3: MODO ACADEMIA -->
-          <div class="game-mode-card mode-academy" id="card-mode-academy">
-            <div class="mode-header">
-              <span class="mode-icon">🎓</span>
-              <div>
-                <h3>MODO ACADEMIA // STORY MODE</h3>
-                <span class="mode-badge academy">CAMPAÑA GUIADA</span>
-              </div>
-            </div>
-            <p class="mode-desc">Aprende ciberseguridad, comandos de Linux y auditoría perimetral paso a paso con el Cyber-Mentor interactivo en 5 módulos prácticos.</p>
-            <div class="mode-rewards">
-              <span>🪙 +650 ฿ Totales</span>
-              <span>📜 Desbloqueo de Badges</span>
-            </div>
-            <button class="cyber-btn btn-secondary btn-block btn-start-academy" style="color: var(--color-cyan); border-color: var(--color-cyan);">
-              ENTRAR A LA ACADEMIA ▶
-            </button>
-          </div>
-
-          <!-- MODO 4: KING OF THE HILL -->
-          <div class="game-mode-card mode-koth mode-locked" id="card-mode-koth">
-            <div class="mode-header">
-              <span class="mode-icon">👑</span>
-              <div>
-                <h3>KING OF THE HILL (KOTH)</h3>
-                <span class="mode-badge locked">PRÓXIMAMENTE • FASE 3</span>
-              </div>
-            </div>
-            <p class="mode-desc">Captura y defiende el nodo central de la subred (10.13.37.254) contra múltiples atacantes reteniendo el acceso root por puntos.</p>
-            <div class="mode-rewards">
-              <span>🔒 En Desarrollo</span>
-              <span>🏆 Torneos Semanales</span>
-            </div>
-            <button class="cyber-btn btn-block" disabled style="opacity: 0.5; cursor: not-allowed;">
-              PRÓXIMAMENTE 🔒
-            </button>
+    <div class="modal-content r6-tactical-content">
+      
+      <!-- COLUMNA PRINCIPAL IZQUIERDA / CENTRAL -->
+      <div class="r6-main-panel">
+        <!-- HEADER ESTILO TACTICAL BREADCRUMB -->
+        <div class="r6-header">
+          <button class="r6-back-btn" id="btn-close-quick-modes" title="Regresar al Lobby">
+            <span class="r6-arrow">&lt;</span>
+          </button>
+          <div class="r6-header-text">
+            <div class="r6-breadcrumbs">LOBBY / JUGAR / <span class="r6-current-crumb">EMPAREJAMIENTO RÁPIDO</span></div>
+            <h1 class="r6-title">EMPAREJAMIENTO RÁPIDO</h1>
+            <p class="r6-desc">Las listas de combate táctico ofrecen enfrentamientos cibernéticos 1v1 en tiempo real, registro competitivo de ELO y recompensas en Bytecoins.</p>
           </div>
         </div>
+
+        <!-- FILA DE TARJETAS VERTICALES TÁCTICAS -->
+        <div class="r6-cards-row">
+          
+          <!-- TARJETA 1: RANKED 1v1 PVP -->
+          <div class="r6-card r6-card-ranked" id="card-mode-pvp">
+            <div class="r6-card-bg r6-bg-pvp"></div>
+            <div class="r6-card-overlay"></div>
+            <div class="r6-card-top">
+              <span class="r6-badge r6-badge-pvp">[CLASIFICATORIA // PVP]</span>
+              <span class="r6-card-num">01</span>
+            </div>
+            <div class="r6-card-bottom">
+              <span class="r6-card-sub">LISTA COMPETITIVA</span>
+              <h2 class="r6-card-title">RANKED 1v1</h2>
+              <p class="r6-card-info">Duelo directo contra otro hacker en la subred pública. Captura la bandera (CTF) o destruye su kernel.</p>
+              <div class="r6-rewards-bar">
+                <span>+100 BYTECOINS</span>
+                <span class="r6-sep">//</span>
+                <span>+25 ELO</span>
+              </div>
+              <button class="cyber-btn btn-primary btn-block btn-start-pvp">
+                BUSCAR PARTIDA [&gt;]
+              </button>
+            </div>
+          </div>
+
+          <!-- TARJETA 2: STANDARD BOT IA -->
+          <div class="r6-card r6-card-standard" id="card-mode-bot">
+            <div class="r6-card-bg r6-bg-bot"></div>
+            <div class="r6-card-overlay"></div>
+            <div class="r6-card-top">
+              <span class="r6-badge r6-badge-bot">[ENTRENAMIENTO // IA]</span>
+              <span class="r6-card-num">02</span>
+            </div>
+            <div class="r6-card-bottom">
+              <span class="r6-card-sub">SIMULADOR EN SOLITARIO</span>
+              <h2 class="r6-card-title">BOT ESTÁNDAR</h2>
+              <p class="r6-card-info">Práctica táctica individual contra un bot autónomo. 4 dificultades: Fácil, Normal, Difícil y Pesadilla.</p>
+              <div class="r6-rewards-bar">
+                <span>HASTA +300 B</span>
+                <span class="r6-sep">//</span>
+                <span>+100 ELO</span>
+              </div>
+              <button class="cyber-btn btn-secondary btn-block btn-start-bot">
+                CONFIGURAR BOT [&gt;]
+              </button>
+            </div>
+          </div>
+
+          <!-- TARJETA 3: ACADEMIA STORY MODE -->
+          <div class="r6-card r6-card-academy" id="card-mode-academy">
+            <div class="r6-card-bg r6-bg-academy"></div>
+            <div class="r6-card-overlay"></div>
+            <div class="r6-card-top">
+              <span class="r6-badge r6-badge-academy">[CAPACITACIÓN // 5 MÓDULOS]</span>
+              <span class="r6-card-num">03</span>
+            </div>
+            <div class="r6-card-bottom">
+              <span class="r6-card-sub">CAMPAÑA INTERACTIVA</span>
+              <h2 class="r6-card-title">ACADEMIA</h2>
+              <p class="r6-card-info">Domina comandos de Linux, escaneo de puertos, CVEs reales y defensa Blue Team con el Cyber-Mentor.</p>
+              <div class="r6-rewards-bar">
+                <span>+650 B TOTALES</span>
+                <span class="r6-sep">//</span>
+                <span>INSIGNIAS</span>
+              </div>
+              <button class="cyber-btn btn-secondary btn-block btn-start-academy" style="color: var(--color-cyan); border-color: var(--color-cyan);">
+                INICIAR LECCIÓN [&gt;]
+              </button>
+            </div>
+          </div>
+
+          <!-- TARJETA 4: KING OF THE HILL -->
+          <div class="r6-card r6-card-locked" id="card-mode-koth">
+            <div class="r6-card-bg r6-bg-koth"></div>
+            <div class="r6-card-overlay"></div>
+            <div class="r6-card-top">
+              <span class="r6-badge r6-badge-locked">[EVENTO // FASE 3]</span>
+              <span class="r6-card-num">04</span>
+            </div>
+            <div class="r6-card-bottom">
+              <span class="r6-card-sub">DOMINACIÓN POR TIEMPO</span>
+              <h2 class="r6-card-title">KING OF HILL</h2>
+              <p class="r6-card-info">Captura y defiende el nodo central de la subred (10.13.37.254) acumulando puntos por segundo retenido.</p>
+              <div class="r6-rewards-bar">
+                <span>FASE 3 ROADMAP</span>
+                <span class="r6-sep">//</span>
+                <span>EN DESARROLLO</span>
+              </div>
+              <button class="cyber-btn btn-block" disabled style="opacity: 0.4; cursor: not-allowed;">
+                BLOQUEADO [//]
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TARJETA INFERIOR TÁCTICA: ESTADO DE SEGURIDAD (COMO EN R6) -->
+        <div class="r6-bottom-notice">
+          <div class="r6-notice-icon">[SEC]</div>
+          <div class="r6-notice-text">
+            <strong>ESTADO DEL ENTORNO // SUBRED SEGURA:</strong>
+            <span>Virtualización en memoria RAM 10.13.37.0/24 aislada. Cero llamadas al sistema anfitrión. Conexión WebSocket cifrada TLS/SSL.</span>
+          </div>
+          <div class="r6-notice-status">[ACTIVO // 100%]</div>
+        </div>
       </div>
+
+      <!-- COLUMNA DERECHA: SQUAD PANEL // SESIÓN DE RED -->
+      <div class="r6-squad-panel">
+        <div class="r6-squad-header">
+          <span class="r6-squad-title">SESIÓN DE RED // SQUAD</span>
+          <span class="r6-squad-status">1/2 Nodos</span>
+        </div>
+
+        <div class="r6-player-card">
+          <div class="r6-player-avatar">[ROOT]</div>
+          <div class="r6-player-info">
+            <span class="r6-player-name" id="r6-display-nick">ZeroCool</span>
+            <span class="r6-player-rank" id="r6-display-rank">BYTE 0 // 1000 ELO</span>
+          </div>
+          <div class="r6-player-coins" id="r6-display-coins">200 B</div>
+        </div>
+
+        <div class="r6-slots-list">
+          <div class="r6-slot-item slot-occupied">
+            <span class="r6-slot-icon">[1]</span>
+            <div class="r6-slot-desc">
+              <strong>NODO LOCAL (TÚ)</strong>
+              <span>10.13.37.X // CONECTADO</span>
+            </div>
+            <span class="r6-slot-ping">&lt;1ms</span>
+          </div>
+
+          <div class="r6-slot-item slot-empty">
+            <span class="r6-slot-icon">[2]</span>
+            <div class="r6-slot-desc">
+              <strong>RANURA DISPONIBLE</strong>
+              <span>ESPERANDO OPONENTE...</span>
+            </div>
+            <span class="r6-slot-state">[LIBRE]</span>
+          </div>
+
+          <div class="r6-slot-item slot-empty slot-dimmed">
+            <span class="r6-slot-icon">[3]</span>
+            <div class="r6-slot-desc">
+              <strong>RANURA DISPONIBLE</strong>
+              <span>MODO DUELO 1v1</span>
+            </div>
+            <span class="r6-slot-state">[OFF]</span>
+          </div>
+
+          <div class="r6-slot-item slot-empty slot-dimmed">
+            <span class="r6-slot-icon">[4]</span>
+            <div class="r6-slot-desc">
+              <strong>RANURA DISPONIBLE</strong>
+              <span>MODO DUELO 1v1</span>
+            </div>
+            <span class="r6-slot-state">[OFF]</span>
+          </div>
+        </div>
+
+        <div class="r6-squad-actions">
+          <span class="r6-actions-lbl">INVITAR OPONENTE A LA SUBRED:</span>
+          <button class="cyber-btn btn-sm btn-block" id="btn-r6-copy-lan">COPIAR ENLACE PÚBLICO</button>
+          <button class="cyber-btn btn-sm btn-block" id="btn-r6-share-wa" style="border-color: var(--color-green); color: var(--color-green);">RETAR POR WHATSAPP</button>
+        </div>
+
+        <div class="r6-squad-footnote">
+          * Rango ELO y estadísticas se sincronizan tras la conclusión de cada duelo táctico.
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <!-- MODAL: PARTIDA PRIVADA // CONFIGURACIÓN & SALAS -->
-  <div class="cyber-modal" id="modal-private-match" style="display: none;">
+  <!-- MODAL: PARTIDA PRIVADA // CONFIGURACIÓN & SALAS (TACTICAL R6 STYLE) -->
+  <div class="cyber-modal r6-tactical-modal" id="modal-private-match" style="display: none;">
     <div class="modal-backdrop"></div>
-    <div class="modal-content modal-glow" style="max-width: 680px;">
-      <div class="modal-header">
-        <div>
-          <h2>PARTIDA PRIVADA // CONFIGURACIÓN DE SALA 🔒</h2>
-          <span style="font-size: 12px; color: var(--color-cyan);">Crea un duelo privado o únete a una sala de un amigo</span>
+    <div class="modal-content r6-tactical-content">
+      
+      <!-- COLUMNA PRINCIPAL IZQUIERDA / CENTRAL -->
+      <div class="r6-main-panel">
+        <!-- HEADER ESTILO TACTICAL BREADCRUMB -->
+        <div class="r6-header">
+          <button class="r6-back-btn" id="btn-close-private-match" title="Regresar al Lobby">
+            <span class="r6-arrow">&lt;</span>
+          </button>
+          <div class="r6-header-text">
+            <div class="r6-breadcrumbs">LOBBY / SALAS / <span class="r6-current-crumb">PARTIDA PRIVADA</span></div>
+            <h1 class="r6-title">PARTIDA PRIVADA</h1>
+            <p class="r6-desc">Crea una sala táctica aislada o únete a una partida cerrada mediante código de acceso de 4 caracteres o enlace directo.</p>
+          </div>
         </div>
-        <button class="btn-close-modal" id="btn-close-private-match">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="private-match-grid">
-          <!-- SECCIÓN 1: CREAR SALA -->
-          <div class="private-option-card">
-            <div class="private-card-header">
-              <span class="private-card-icon">➕</span>
-              <div>
-                <h3>CREAR NUEVA SALA PRIVADA</h3>
-                <span class="private-card-sub">Genera un código y desafía a tus contactos</span>
-              </div>
-            </div>
-            
-            <div class="private-form-row">
-              <label class="cyber-label">&gt; CÓDIGO ASIGNADO A TU SALA:</label>
-              <div class="private-code-row">
-                <input type="text" id="private-room-code-display" class="cyber-input private-code-input" readonly value="----" maxlength="4">
-                <button class="cyber-btn btn-xs" id="btn-refresh-room-code" title="Generar otro código">↻ NUEVO</button>
-              </div>
-            </div>
 
-            <button class="cyber-btn btn-primary btn-block" id="btn-create-private-room" style="margin-top: 10px;">
-              <span class="btn-icon">⚔️</span> CREAR SALA Y ESPERAR RIVAL ▶
-            </button>
+        <!-- FILA DE TARJETAS VERTICALES TÁCTICAS -->
+        <div class="r6-cards-row r6-cards-row-private">
+          
+          <!-- TARJETA 1: CREAR SALA (HOST) -->
+          <div class="r6-card r6-card-host">
+            <div class="r6-card-bg r6-bg-host"></div>
+            <div class="r6-card-overlay"></div>
+            <div class="r6-card-top">
+              <span class="r6-badge r6-badge-cyan">[HOST // SALA PRIVADA]</span>
+              <span class="r6-card-num">01</span>
+            </div>
+            <div class="r6-card-bottom">
+              <span class="r6-card-sub">NUEVA SUBRED AISLADA</span>
+              <h2 class="r6-card-title">CREAR SALA</h2>
+              <p class="r6-card-info">Genera una sala exclusiva y comparte tu código de 4 caracteres o enlace directo para retar a un contacto.</p>
+              
+              <div class="r6-code-box">
+                <span class="r6-code-lbl">CÓDIGO ASIGNADO:</span>
+                <div class="r6-code-inner">
+                  <input type="text" id="private-room-code-display" class="r6-code-input" readonly value="----" maxlength="4">
+                  <button class="cyber-btn btn-xs" id="btn-refresh-room-code" title="Generar otro código">[↻ NUEVO]</button>
+                </div>
+              </div>
 
-            <div class="share-viral-group" style="margin-top: 12px;">
-              <button class="cyber-btn btn-sm btn-viral-link" id="btn-copy-private-link" style="flex: 1;" title="Copiar enlace directo a esta sala">
-                COPIAR ENLACE DE RETO
+              <button class="cyber-btn btn-primary btn-block" id="btn-create-private-room" style="margin-top: 10px;">
+                CREAR SALA Y ESPERAR [&gt;]
               </button>
-              <button class="cyber-btn btn-sm btn-viral-wa" id="btn-share-private-whatsapp" style="flex: 1;" title="Retar a un amigo por WhatsApp">
-                RETAR X WHATSAPP
-              </button>
+
+              <div class="r6-viral-row" style="margin-top: 8px;">
+                <button class="cyber-btn btn-xs" id="btn-copy-private-link" style="flex: 1;">COPIAR ENLACE</button>
+                <button class="cyber-btn btn-xs" id="btn-share-private-whatsapp" style="flex: 1; border-color: var(--color-green); color: var(--color-green);">WHATSAPP</button>
+              </div>
             </div>
           </div>
 
-          <!-- SECCIÓN 2: UNIRSE A SALA EXISTENTE -->
-          <div class="private-option-card">
-            <div class="private-card-header">
-              <span class="private-card-icon">🔑</span>
-              <div>
-                <h3>UNIRSE A SALA EXISTENTE</h3>
-                <span class="private-card-sub">Ingresa el código de 4 caracteres de tu rival</span>
-              </div>
+          <!-- TARJETA 2: UNIRSE A SALA EXISTENTE (CLIENT) -->
+          <div class="r6-card r6-card-join">
+            <div class="r6-card-bg r6-bg-join"></div>
+            <div class="r6-card-overlay"></div>
+            <div class="r6-card-top">
+              <span class="r6-badge r6-badge-green">[CONEXIÓN DIRECTA]</span>
+              <span class="r6-card-num">02</span>
             </div>
+            <div class="r6-card-bottom">
+              <span class="r6-card-sub">ACCESO POR CÓDIGO</span>
+              <h2 class="r6-card-title">UNIRSE A SALA</h2>
+              <p class="r6-card-info">Si tu rival ya creó la sala, introduce aquí su código de 4 caracteres para iniciar la sesión de combate.</p>
+              
+              <div class="r6-code-box">
+                <span class="r6-code-lbl">INTRODUCE EL CÓDIGO:</span>
+                <input type="text" id="input-private-join-code" class="r6-code-input r6-join-input" placeholder="EJ: AX79" maxlength="4" style="text-transform: uppercase;">
+              </div>
 
-            <div class="private-form-row">
-              <label for="input-private-join-code" class="cyber-label">&gt; INGRESA EL CÓDIGO DE SALA:</label>
-              <div class="room-input-group">
-                <input type="text" id="input-private-join-code" class="cyber-input" placeholder="EJ: AX79" maxlength="4" style="text-transform: uppercase;">
-                <button class="cyber-btn btn-secondary" id="btn-submit-private-join">ENTRAR A LA SALA ▶</button>
+              <button class="cyber-btn btn-secondary btn-block" id="btn-submit-private-join" style="margin-top: 10px;">
+                CONECTAR A SALA [&gt;]
+              </button>
+
+              <div class="r6-join-tip">
+                * Si recibiste un enlace por WhatsApp, haz clic en él directamente para autocompletar la conexión.
               </div>
-            </div>
-            
-            <div class="private-join-hint">
-              💡 El código debe tener 4 caracteres (ej: AX79). Si tu rival te envió un enlace por WhatsApp, haz clic en él directamente para entrar sin tipear el código.
             </div>
           </div>
+
+        </div>
+
+        <!-- TARJETA INFERIOR TÁCTICA -->
+        <div class="r6-bottom-notice">
+          <div class="r6-notice-icon">[LAN]</div>
+          <div class="r6-notice-text">
+            <strong>SEGURIDAD EN SALAS PRIVADAS:</strong>
+            <span>Cada sala asigna una instancia aislada en memoria. Las credenciales root y banderas CTF se generan aleatoriamente en cada partida.</span>
+          </div>
+          <div class="r6-notice-status">[MODO PRIVADO]</div>
         </div>
       </div>
+
+      <!-- COLUMNA DERECHA: REGLAS & ESTADO -->
+      <div class="r6-squad-panel">
+        <div class="r6-squad-header">
+          <span class="r6-squad-title">CONFIGURACIÓN DE SALA</span>
+          <span class="r6-squad-status">[PRIVADA]</span>
+        </div>
+
+        <div class="r6-rules-card">
+          <div class="r6-rule-row">
+            <span class="r6-rule-lbl">MODO:</span>
+            <span class="r6-rule-val">DUELO 1v1 CTF</span>
+          </div>
+          <div class="r6-rule-row">
+            <span class="r6-rule-lbl">SUBRED:</span>
+            <span class="r6-rule-val">10.13.37.0/24</span>
+          </div>
+          <div class="r6-rule-row">
+            <span class="r6-rule-lbl">VICTORIA:</span>
+            <span class="r6-rule-val">BANDERA O KERNEL</span>
+          </div>
+          <div class="r6-rule-row">
+            <span class="r6-rule-lbl">VIRTUALIZACIÓN:</span>
+            <span class="r6-rule-val">RAM EN MEMORIA</span>
+          </div>
+        </div>
+
+        <div class="r6-squad-actions" style="margin-top: 20px;">
+          <span class="r6-actions-lbl">CONEXIÓN RÁPIDA:</span>
+          <p style="font-size: 11px; color: var(--text-muted); line-height: 1.4; margin: 0 0 10px 0;">
+            Comparte el código o URL con tu rival desde cualquier navegador web sin instalar nada.
+          </p>
+          <button class="cyber-btn btn-sm btn-block" id="btn-private-back-lobby">VOLVER AL LOBBY [&lt;]</button>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -989,7 +1152,7 @@
     <div class="modal-window modal-confirm-window">
       <div class="modal-header modal-header-danger">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span>⚠️</span>
+          <span style="font-weight: 700;">[!]</span>
           <h2>CANCELAR / ABANDONAR PARTIDA</h2>
         </div>
         <button class="modal-close" id="btn-close-confirm-cancel">&times;</button>
@@ -1003,10 +1166,10 @@
         </p>
         <div style="display: flex; gap: 12px; justify-content: center;">
           <button class="cyber-btn btn-danger" id="btn-confirm-cancel-yes" style="min-width: 140px; font-weight: 700;">
-            ✕ SÍ, CANCELAR
+            [X] SÍ, CANCELAR
           </button>
           <button class="cyber-btn btn-secondary" id="btn-confirm-cancel-no" style="min-width: 140px;">
-            CONTINUAR DUELO ▶
+            CONTINUAR DUELO [&gt;]
           </button>
         </div>
       </div>

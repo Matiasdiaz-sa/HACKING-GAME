@@ -61,7 +61,7 @@ const MARKET_CATALOG = [
     name: 'Cyber Beep Synth',
     desc: 'Tono sintetizado básico ligero por defecto.',
     price: 0,
-    previewText: '🔊 [Beep Default]'
+    previewText: '[AUDIO] Beep Default'
   },
   {
     id: 'sound_cherry_blue',
@@ -69,7 +69,7 @@ const MARKET_CATALOG = [
     name: 'Cherry MX Blue',
     desc: 'Clicks mecánicos audibles, nítidos y ultra satisfactorios.',
     price: 400,
-    previewText: '🔊 [Clicky Switch]'
+    previewText: '[AUDIO] Clicky Switch'
   },
   {
     id: 'sound_model_m',
@@ -77,7 +77,7 @@ const MARKET_CATALOG = [
     name: 'IBM Model M 1984',
     desc: 'Resortes pesados de impacto metálico (Buckling Spring vintage).',
     price: 500,
-    previewText: '🔊 [Heavy Spring]'
+    previewText: '[AUDIO] Heavy Spring'
   },
   {
     id: 'sound_scifi_beeper',
@@ -85,7 +85,7 @@ const MARKET_CATALOG = [
     name: 'Sci-Fi Beeper',
     desc: 'Tonos electrónicos limpios inspirados en películas de ciencia ficción.',
     price: 450,
-    previewText: '🔊 [Crystal Beep]'
+    previewText: '[AUDIO] Crystal Beep'
   },
   {
     id: 'sound_typewriter',
@@ -93,7 +93,7 @@ const MARKET_CATALOG = [
     name: 'Máquina de Escribir',
     desc: 'Martillazos mecánicos metálicos con impacto sólido en la platina.',
     price: 650,
-    previewText: '🔊 [Mechanical Hammer]'
+    previewText: '[AUDIO] Mechanical Hammer'
   },
 
   // --- TÍTULOS DE HACKER DINÁMICOS ---

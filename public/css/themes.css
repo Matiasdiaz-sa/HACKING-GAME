@@ -1516,224 +1516,646 @@
   display: inline-block;
 }
 
-/* --- Grid de Modos de Juego (Modal) --- */
-.game-modes-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin: 8px 0;
+/* ==========================================================================
+   PANTALLA TÁCTICA ESTILO RAINBOW SIX SIEGE (SIN EMOJIS // AAA GAMING UI)
+   ========================================================================== */
+.r6-tactical-modal {
+  align-items: center;
+  justify-content: center;
 }
 
-@media (max-width: 680px) {
-  .game-modes-grid {
-    grid-template-columns: 1fr;
+.r6-tactical-content {
+  width: 95vw !important;
+  max-width: 1320px !important;
+  height: 88vh !important;
+  max-height: 840px !important;
+  background: linear-gradient(135deg, rgba(8, 12, 18, 0.98) 0%, rgba(4, 6, 10, 0.99) 100%) !important;
+  border: 1px solid rgba(0, 229, 255, 0.25) !important;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.9), inset 0 0 100px rgba(0, 0, 0, 0.6) !important;
+  display: grid !important;
+  grid-template-columns: 1fr 280px !important;
+  gap: 24px !important;
+  padding: 24px 28px !important;
+  border-radius: 6px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+@media (max-width: 1040px) {
+  .r6-tactical-content {
+    grid-template-columns: 1fr !important;
+    overflow-y: auto !important;
+    height: 92vh !important;
+    padding: 16px !important;
   }
 }
 
-.game-mode-card {
-  background: rgba(14, 20, 32, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  padding: 16px;
+.r6-main-panel {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  transition: all 0.2s ease;
-  position: relative;
+  height: 100%;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
-.game-mode-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.7);
+@media (max-width: 1040px) {
+  .r6-main-panel {
+    overflow: visible;
+  }
 }
 
-.game-mode-card.mode-pvp {
-  border-color: rgba(0, 255, 119, 0.35);
-}
-.game-mode-card.mode-pvp:hover {
-  border-color: var(--color-green);
-  box-shadow: 0 0 20px rgba(0, 255, 119, 0.25);
-}
-
-.game-mode-card.mode-bot {
-  border-color: rgba(255, 170, 0, 0.35);
-}
-.game-mode-card.mode-bot:hover {
-  border-color: var(--color-amber);
-  box-shadow: 0 0 20px rgba(255, 170, 0, 0.25);
+/* Header táctico con Breadcrumbs y Botón Volver */
+.r6-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 12px;
 }
 
-.game-mode-card.mode-academy {
-  border-color: rgba(0, 229, 255, 0.35);
-}
-.game-mode-card.mode-academy:hover {
-  border-color: var(--color-cyan);
-  box-shadow: 0 0 20px rgba(0, 229, 255, 0.25);
-}
-
-.game-mode-card.mode-locked {
-  opacity: 0.6;
-  border-color: rgba(255, 255, 255, 0.08);
-  background: rgba(10, 14, 22, 0.8);
-}
-.game-mode-card.mode-locked:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-.mode-header {
+.r6-back-btn {
+  width: 38px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-main);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  flex-shrink: 0;
 }
 
-.mode-icon {
-  font-size: 28px;
-  line-height: 1;
+.r6-back-btn:hover {
+  background: var(--color-cyan);
+  color: #000;
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
 }
 
-.mode-header h3 {
-  font-family: var(--font-title);
-  font-size: 13px;
-  margin: 0 0 3px 0;
-  color: var(--text-main);
-  letter-spacing: 0.5px;
+.r6-header-text {
+  display: flex;
+  flex-direction: column;
 }
 
-.mode-badge {
-  font-size: 9px;
+.r6-breadcrumbs {
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 1px;
-  padding: 1px 6px;
-  border-radius: 2px;
-  display: inline-block;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 3px;
 }
 
-.mode-badge.pvp {
-  color: var(--color-green);
-  background: rgba(0, 255, 119, 0.12);
-  border: 1px solid rgba(0, 255, 119, 0.3);
-}
-
-.mode-badge.bot {
-  color: var(--color-amber);
-  background: rgba(255, 170, 0, 0.12);
-  border: 1px solid rgba(255, 170, 0, 0.3);
-}
-
-.mode-badge.academy {
+.r6-current-crumb {
   color: var(--color-cyan);
-  background: rgba(0, 229, 255, 0.12);
-  border: 1px solid rgba(0, 229, 255, 0.3);
 }
 
-.mode-badge.locked {
-  color: var(--text-muted);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.r6-title {
+  font-family: var(--font-title);
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #fff;
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
 }
 
-.mode-desc {
+.r6-desc {
   font-size: 11px;
   color: var(--text-muted);
   line-height: 1.45;
-  flex: 1;
   margin: 0;
+  max-width: 720px;
 }
 
-.mode-rewards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  font-size: 10px;
-  color: var(--text-main);
-  background: rgba(0, 0, 0, 0.3);
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* --- Grid de Partida Privada (Modal) --- */
-.private-match-grid {
+/* Fila de Tarjetas Verticales Tácticas */
+.r6-cards-row {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin: 8px 0;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  flex: 1;
+  align-items: stretch;
+  margin: 10px 0 14px 0;
+  min-height: 420px;
 }
 
-@media (max-width: 680px) {
-  .private-match-grid {
-    grid-template-columns: 1fr;
+.r6-cards-row-private {
+  grid-template-columns: repeat(2, 1fr) !important;
+  max-width: 760px;
+}
+
+@media (max-width: 900px) {
+  .r6-cards-row {
+    grid-template-columns: repeat(2, 1fr);
+    min-height: auto;
   }
 }
 
-.private-option-card {
-  background: rgba(14, 20, 32, 0.95);
-  border: 1px solid rgba(0, 229, 255, 0.25);
-  border-radius: 8px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+@media (max-width: 540px) {
+  .r6-cards-row,
+  .r6-cards-row-private {
+    grid-template-columns: 1fr !important;
+  }
 }
 
-.private-card-header {
+.r6-card {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(12, 16, 24, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 400px;
+}
+
+.r6-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-cyan);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 229, 255, 0.3);
+}
+
+.r6-card.r6-card-ranked:hover {
+  border-color: var(--color-green);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 255, 119, 0.3);
+}
+
+.r6-card.r6-card-locked {
+  cursor: default;
+  opacity: 0.5;
+}
+.r6-card.r6-card-locked:hover {
+  transform: none;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+}
+
+/* Fondos degradados vectoriales tácticos */
+.r6-card-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  transition: transform 0.4s ease;
+}
+
+.r6-card:hover .r6-card-bg {
+  transform: scale(1.04);
+}
+
+.r6-bg-pvp {
+  background: radial-gradient(circle at 50% 20%, rgba(0, 255, 119, 0.22) 0%, transparent 70%),
+              linear-gradient(180deg, rgba(8, 24, 16, 0.7) 0%, rgba(4, 8, 10, 0.98) 100%);
+}
+
+.r6-bg-bot {
+  background: radial-gradient(circle at 50% 20%, rgba(255, 170, 0, 0.2) 0%, transparent 70%),
+              linear-gradient(180deg, rgba(22, 18, 8, 0.7) 0%, rgba(10, 8, 4, 0.98) 100%);
+}
+
+.r6-bg-academy {
+  background: radial-gradient(circle at 50% 20%, rgba(0, 229, 255, 0.22) 0%, transparent 70%),
+              linear-gradient(180deg, rgba(8, 20, 28, 0.7) 0%, rgba(4, 6, 12, 0.98) 100%);
+}
+
+.r6-bg-koth {
+  background: linear-gradient(180deg, rgba(14, 16, 20, 0.6) 0%, rgba(6, 8, 10, 0.98) 100%);
+}
+
+.r6-bg-host {
+  background: radial-gradient(circle at 50% 20%, rgba(0, 229, 255, 0.22) 0%, transparent 70%),
+              linear-gradient(180deg, rgba(6, 18, 26, 0.8) 0%, rgba(4, 6, 12, 0.98) 100%);
+}
+
+.r6-bg-join {
+  background: radial-gradient(circle at 50% 20%, rgba(0, 255, 119, 0.2) 0%, transparent 70%),
+              linear-gradient(180deg, rgba(6, 24, 14, 0.8) 0%, rgba(4, 8, 10, 0.98) 100%);
+}
+
+.r6-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(4, 6, 10, 0.5) 40%, rgba(4, 6, 10, 0.98) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.r6-card-top {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.r6-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.r6-badge-pvp {
+  color: var(--color-green);
+  background: rgba(0, 255, 119, 0.12);
+  border: 1px solid rgba(0, 255, 119, 0.35);
+}
+
+.r6-badge-bot {
+  color: var(--color-amber);
+  background: rgba(255, 170, 0, 0.12);
+  border: 1px solid rgba(255, 170, 0, 0.35);
+}
+
+.r6-badge-academy,
+.r6-badge-cyan {
+  color: var(--color-cyan);
+  background: rgba(0, 229, 255, 0.12);
+  border: 1px solid rgba(0, 229, 255, 0.35);
+}
+
+.r6-badge-green {
+  color: var(--color-green);
+  background: rgba(0, 255, 119, 0.12);
+  border: 1px solid rgba(0, 255, 119, 0.35);
+}
+
+.r6-badge-locked {
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.r6-card-num {
+  font-family: var(--font-title);
+  font-size: 13px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 1px;
+}
+
+.r6-card-bottom {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: auto;
+}
+
+.r6-card-sub {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--color-cyan);
+  text-transform: uppercase;
+}
+
+.r6-card-title {
+  font-family: var(--font-title);
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  margin: 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.r6-card-info {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin: 0 0 6px 0;
+  min-height: 30px;
+}
+
+.r6-rewards-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-main);
+  background: rgba(0, 0, 0, 0.45);
+  padding: 5px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  margin-bottom: 6px;
+}
+
+.r6-sep {
+  color: var(--color-cyan);
+  opacity: 0.6;
+}
+
+/* Tarjeta Inferior de Seguridad Táctica */
+.r6-bottom-notice {
   display: flex;
   align-items: center;
   gap: 12px;
+  background: rgba(10, 16, 26, 0.7);
+  border: 1px solid rgba(0, 229, 255, 0.15);
+  padding: 8px 12px;
+  border-radius: 4px;
 }
 
-.private-card-icon {
-  font-size: 26px;
-  line-height: 1;
-}
-
-.private-card-header h3 {
+.r6-notice-icon {
   font-family: var(--font-title);
-  font-size: 12px;
+  font-size: 10px;
+  font-weight: 900;
   color: var(--color-cyan);
-  margin: 0 0 2px 0;
+  background: rgba(0, 229, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 1px;
+}
+
+.r6-notice-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 10px;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.r6-notice-text strong {
+  color: var(--text-main);
   letter-spacing: 0.5px;
 }
 
-.private-card-sub {
+.r6-notice-status {
   font-size: 10px;
-  color: var(--text-muted);
-  display: block;
+  font-weight: 700;
+  color: var(--color-green);
+  letter-spacing: 1px;
 }
 
-.private-form-row {
+/* Columna Derecha: Squad Panel (Panel de Escuadrón / Sesión) */
+.r6-squad-panel {
+  background: rgba(8, 12, 18, 0.9);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media (max-width: 1040px) {
+  .r6-squad-panel {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-left: 0;
+    padding-top: 18px;
+  }
+}
+
+.r6-squad-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.r6-squad-title {
+  font-family: var(--font-title);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--color-cyan);
+  letter-spacing: 1px;
+}
+
+.r6-squad-status {
+  font-size: 10px;
+  color: var(--text-dim);
+  font-weight: 700;
+}
+
+.r6-player-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(14, 20, 30, 0.8);
+  border: 1px solid rgba(0, 255, 119, 0.2);
+  padding: 8px 10px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.r6-player-avatar {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--color-green);
+  background: rgba(0, 255, 119, 0.1);
+  padding: 4px 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 255, 119, 0.25);
+}
+
+.r6-player-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.r6-player-name {
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.r6-player-rank {
+  font-size: 9px;
+  color: var(--color-cyan);
+  font-weight: 700;
+}
+
+.r6-player-coins {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--color-amber);
+}
+
+/* Slots de Escuadrón / Nodos */
+.r6-slots-list {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.private-code-row {
+.r6-slot-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(12, 16, 24, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.r6-slot-item.slot-occupied {
+  border-color: rgba(0, 255, 119, 0.25);
+  background: rgba(0, 255, 119, 0.03);
+}
+
+.r6-slot-item.slot-empty {
+  border-style: dashed;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.r6-slot-item.slot-dimmed {
+  opacity: 0.45;
+}
+
+.r6-slot-icon {
+  color: var(--text-dim);
+  font-weight: 700;
+  font-size: 10px;
+}
+
+.r6-slot-desc {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.r6-slot-desc strong {
+  font-size: 10px;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.r6-slot-desc span {
+  font-size: 9px;
+  color: var(--text-dim);
+}
+
+.r6-slot-state {
+  font-size: 9px;
+  color: var(--text-dim);
+  font-weight: 700;
+}
+
+.r6-slot-ping {
+  font-size: 9px;
+  color: var(--color-green);
+  font-weight: 700;
+}
+
+.r6-squad-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.r6-actions-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+}
+
+.r6-squad-footnote {
+  font-size: 9px;
+  color: var(--text-dim);
+  line-height: 1.4;
+  margin-top: 10px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.06);
+  padding-top: 8px;
+}
+
+/* Elementos Partida Privada */
+.r6-code-box {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  padding: 8px 10px;
+  border-radius: 4px;
+  margin: 8px 0;
+}
+
+.r6-code-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--color-cyan);
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.r6-code-inner {
   display: flex;
   gap: 8px;
   align-items: center;
 }
 
-.private-code-input {
-  font-size: 20px !important;
-  font-weight: 700;
-  letter-spacing: 6px;
+.r6-code-input {
+  font-size: 18px !important;
+  font-weight: 800;
+  letter-spacing: 5px;
   text-align: center;
   color: var(--color-green) !important;
-  border-color: var(--color-green) !important;
-  text-shadow: 0 0 8px rgba(0, 255, 119, 0.4);
-  padding: 6px 12px;
+  border: 1px solid var(--color-green) !important;
+  background: rgba(0, 20, 10, 0.6) !important;
+  padding: 4px 8px;
+  width: 100%;
+  border-radius: 3px;
 }
 
-.private-join-hint {
-  font-size: 11px;
-  color: var(--text-muted);
-  line-height: 1.4;
-  border-left: 2px solid var(--color-cyan);
-  padding-left: 8px;
-  background: rgba(0, 229, 255, 0.04);
-  padding: 8px;
-  border-radius: 0 4px 4px 0;
+.r6-join-input {
+  color: var(--color-cyan) !important;
+  border-color: var(--color-cyan) !important;
+  background: rgba(0, 15, 25, 0.6) !important;
 }
+
+.r6-viral-row {
+  display: flex;
+  gap: 8px;
+}
+
+.r6-join-tip {
+  font-size: 9px;
+  color: var(--text-dim);
+  line-height: 1.4;
+  margin-top: 8px;
+}
+
+.r6-rules-card {
+  background: rgba(14, 20, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.r6-rule-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+}
+
+.r6-rule-lbl {
+  color: var(--text-dim);
+  font-weight: 700;
+}
+
+.r6-rule-val {
+  color: var(--color-cyan);
+  font-weight: 700;
+}
+
 
 

@@ -241,7 +241,7 @@ class EconomyManager {
 
     const toast = document.createElement('div');
     toast.className = 'coin-toast';
-    toast.innerHTML = `<span style="font-size: 18px;">🪙</span> <span>${message}</span>`;
+    toast.innerHTML = `<span style="font-size: 14px; font-weight: 800; color: var(--color-green);">[+]</span> <span>${message}</span>`;
     document.body.appendChild(toast);
 
     setTimeout(() => {
