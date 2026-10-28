@@ -619,6 +619,7 @@
     // Cambiar vista del Lobby a la Terminal de Combate
     dom.viewLobby.style.display = 'none';
     dom.viewBattle.style.display = 'block';
+    document.body.classList.add('in-battle');
 
     // Actualizar barra de estado superior
     dom.headerMatchInfo.style.display = 'flex';
@@ -1460,6 +1461,7 @@
     dom.viewLobby.style.display = 'flex';
     dom.headerMatchInfo.style.display = 'none';
     dom.lobbyWaitingState.style.display = 'none';
+    document.body.classList.remove('in-battle');
 
     // Reactivar acciones del lobby
     const actionsGrid = document.querySelector('.lobby-actions-grid');
@@ -1521,6 +1523,7 @@
     dom.viewLobby.style.display = 'flex';
     dom.headerMatchInfo.style.display = 'none';
     dom.lobbyWaitingState.style.display = 'none';
+    document.body.classList.remove('in-battle');
     const actionsGrid = document.querySelector('.lobby-actions-grid');
     if (actionsGrid) {
       actionsGrid.style.opacity = '1';

@@ -226,6 +226,49 @@
 }
 
 /* ==========================================================================
+   ESTADO EN COMBATE / HUD DESPEJADO Y TÁCTICO
+   Oculta elementos irrelevantes durante la partida (Economía, Tienda, Perfil, Roadmap, Academia)
+   ========================================================================== */
+body.in-battle .header-badge-group,
+body.in-battle #btn-header-academy,
+body.in-battle #btn-header-market,
+body.in-battle #btn-open-roadmap,
+body.in-battle #btn-open-profile {
+  display: none !important;
+}
+
+body.in-battle .cyber-header {
+  background: rgba(4, 7, 12, 0.98) !important;
+  border-bottom: 1px solid rgba(0, 255, 119, 0.4) !important;
+  box-shadow: 0 2px 14px rgba(0, 255, 119, 0.12) !important;
+  padding: 0 18px !important;
+}
+
+body.in-battle #header-match-info {
+  display: flex !important;
+  align-items: center;
+  gap: 14px;
+  background: rgba(0, 255, 119, 0.05);
+  border: 1px solid rgba(0, 255, 119, 0.25);
+  padding: 3px 12px;
+  border-radius: 4px;
+}
+
+body.in-battle #btn-cancel-match {
+  margin-left: 8px;
+  border-color: #ff2a5f !important;
+  color: #ff2a5f !important;
+  background: rgba(255, 42, 95, 0.12) !important;
+  transition: all 0.2s ease;
+}
+
+body.in-battle #btn-cancel-match:hover {
+  background: #ff2a5f !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(255, 42, 95, 0.6) !important;
+}
+
+/* ==========================================================================
    SIDEBAR LATERAL DE MISIONES / CONTRATOS (LOBBY - DOCKABLE IZQUIERDA)
    ========================================================================== */
 .lobby-missions-sidebar {
