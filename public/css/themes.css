@@ -1715,46 +1715,46 @@
 
 .r6-bg-pvp {
   background-image: url('../img/mode_ranked.jpg');
-  background-position: center 20%;
+  background-position: center 30%;
 }
 
 .r6-bg-bot {
   background-image: url('../img/mode_bot.jpg');
-  background-position: center 15%;
+  background-position: center 38%;
 }
 
 .r6-bg-academy {
   background-image: url('../img/mode_academy.jpg');
-  background-position: center 25%;
+  background-position: center 35%;
 }
 
 .r6-bg-koth {
   background-image: url('../img/mode_private.jpg');
-  background-position: center top;
-  filter: grayscale(70%) brightness(0.4);
+  background-position: center 40%;
+  filter: grayscale(70%) brightness(0.35);
 }
 
 .r6-bg-host {
   background-image: url('../img/mode_private.jpg');
-  background-position: center top;
+  background-position: center 42%;
 }
 
 .r6-bg-join {
   background-image: url('../img/mode_ranked.jpg');
-  background-position: center 25%;
+  background-position: center 30%;
 }
 
 .r6-card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(4, 8, 14, 0.25) 0%, rgba(4, 8, 14, 0.6) 42%, rgba(4, 6, 10, 0.98) 85%);
+  background: linear-gradient(180deg, rgba(4, 8, 14, 0.15) 0%, rgba(4, 8, 14, 0.45) 42%, rgba(4, 6, 10, 0.98) 84%);
   z-index: 1;
   pointer-events: none;
   transition: background 0.3s ease;
 }
 
 .r6-card:hover .r6-card-overlay {
-  background: linear-gradient(180deg, rgba(4, 8, 14, 0.15) 0%, rgba(4, 8, 14, 0.45) 42%, rgba(4, 6, 10, 0.96) 85%);
+  background: linear-gradient(180deg, rgba(4, 8, 14, 0.05) 0%, rgba(4, 8, 14, 0.35) 42%, rgba(4, 6, 10, 0.95) 84%);
 }
 
 /* Miniaturas visuales descriptivas para tarjetas del Lobby */
