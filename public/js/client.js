@@ -229,9 +229,202 @@
   const savedName = localStorage.getItem('hackwars_alias');
   if (savedName) dom.inputNickname.value = savedName;
 
-  // Unirse a Partida Rápida
-  dom.btnQuickMatch.addEventListener('click', () => {
-    joinMatch('');
+  // Helper para generar código de sala de 4 caracteres
+  function generateRandomRoomCode() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = '';
+    for (let i = 0; i < 4; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
+  }
+
+  // --- MODAL: EMPAREJAMIENTO RÁPIDO // MODOS DE JUEGO ---
+  const modalQuickModes = document.getElementById('modal-quick-modes');
+  const btnCloseQuickModes = document.getElementById('btn-close-quick-modes');
+  const cardQuickMatch = document.getElementById('card-quick-match');
+
+  function openQuickModesModal() {
+    if (modalQuickModes) {
+      modalQuickModes.style.display = 'flex';
+      if (window.cyberAudio) window.cyberAudio.playSuccess();
+    }
+  }
+
+  function closeQuickModesModal() {
+    if (modalQuickModes) modalQuickModes.style.display = 'none';
+  }
+
+  if (dom.btnQuickMatch) {
+    dom.btnQuickMatch.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openQuickModesModal();
+    });
+  }
+
+  if (cardQuickMatch) {
+    cardQuickMatch.addEventListener('click', () => {
+      openQuickModesModal();
+    });
+  }
+
+  if (btnCloseQuickModes) {
+    btnCloseQuickModes.addEventListener('click', closeQuickModesModal);
+  }
+  document.querySelector('#modal-quick-modes .modal-backdrop')?.addEventListener('click', closeQuickModesModal);
+
+  // Opciones dentro del modal de Emparejamiento Rápido:
+  // 1. Duelo 1v1 PvP
+  document.querySelectorAll('#modal-quick-modes .btn-start-pvp').forEach(btn => {
+    btn.addEventListener('click', () => {
+      closeQuickModesModal();
+      joinMatch('');
+    });
+  });
+
+  // 2. Solo vs Bot IA
+  document.querySelectorAll('#modal-quick-modes .btn-start-bot').forEach(btn => {
+    btn.addEventListener('click', () => {
+      closeQuickModesModal();
+      const modalDiff = document.getElementById('modal-bot-difficulty');
+      if (modalDiff) {
+        modalDiff.style.display = 'flex';
+        if (window.cyberAudio) window.cyberAudio.playSuccess();
+      }
+    });
+  });
+
+  // 3. Modo Academia
+  document.querySelectorAll('#modal-quick-modes .btn-start-academy').forEach(btn => {
+    btn.addEventListener('click', () => {
+      closeQuickModesModal();
+      if (window.hackWarsAcademy) window.hackWarsAcademy.openModal();
+    });
+  });
+
+  // --- MODAL: PARTIDA PRIVADA // CONFIGURACIÓN & SALAS ---
+  const modalPrivateMatch = document.getElementById('modal-private-match');
+  const btnClosePrivateMatch = document.getElementById('btn-close-private-match');
+  const cardPrivateMatch = document.getElementById('card-private-match');
+  const btnOpenPrivateModal = document.getElementById('btn-open-private-modal');
+  const privateRoomCodeDisplay = document.getElementById('private-room-code-display');
+  const btnRefreshRoomCode = document.getElementById('btn-refresh-room-code');
+  const btnCreatePrivateRoom = document.getElementById('btn-create-private-room');
+  const btnCopyPrivateLink = document.getElementById('btn-copy-private-link');
+  const btnSharePrivateWa = document.getElementById('btn-share-private-whatsapp');
+  const inputPrivateJoinCode = document.getElementById('input-private-join-code');
+  const btnSubmitPrivateJoin = document.getElementById('btn-submit-private-join');
+
+  function openPrivateModal() {
+    if (privateRoomCodeDisplay) {
+      if (!privateRoomCodeDisplay.value || privateRoomCodeDisplay.value === '----') {
+        privateRoomCodeDisplay.value = generateRandomRoomCode();
+      }
+      if (dom.inputRoomCode) dom.inputRoomCode.value = privateRoomCodeDisplay.value;
+    }
+    if (modalPrivateMatch) {
+      modalPrivateMatch.style.display = 'flex';
+      if (window.cyberAudio) window.cyberAudio.playSuccess();
+    }
+  }
+
+  function closePrivateModal() {
+    if (modalPrivateMatch) modalPrivateMatch.style.display = 'none';
+  }
+
+  if (btnOpenPrivateModal) {
+    btnOpenPrivateModal.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openPrivateModal();
+    });
+  }
+
+  if (cardPrivateMatch) {
+    cardPrivateMatch.addEventListener('click', () => {
+      openPrivateModal();
+    });
+  }
+
+  if (btnClosePrivateMatch) {
+    btnClosePrivateMatch.addEventListener('click', closePrivateModal);
+  }
+  document.querySelector('#modal-private-match .modal-backdrop')?.addEventListener('click', closePrivateModal);
+
+  // Generar nuevo código
+  if (btnRefreshRoomCode && privateRoomCodeDisplay) {
+    btnRefreshRoomCode.addEventListener('click', () => {
+      privateRoomCodeDisplay.value = generateRandomRoomCode();
+      if (dom.inputRoomCode) dom.inputRoomCode.value = privateRoomCodeDisplay.value;
+      if (window.cyberAudio) window.cyberAudio.playBeep(800, 0.05);
+    });
+  }
+
+  // Crear sala privada y esperar rival
+  if (btnCreatePrivateRoom && privateRoomCodeDisplay) {
+    btnCreatePrivateRoom.addEventListener('click', () => {
+      const code = privateRoomCodeDisplay.value.trim().toUpperCase() || generateRandomRoomCode();
+      closePrivateModal();
+      joinMatch(code);
+    });
+  }
+
+  // Copiar link de reto privado
+  if (btnCopyPrivateLink && privateRoomCodeDisplay) {
+    btnCopyPrivateLink.addEventListener('click', () => {
+      const code = privateRoomCodeDisplay.value.trim().toUpperCase();
+      const challengeUrl = `${window.location.origin}/?join=${code}`;
+      navigator.clipboard.writeText(challengeUrl).then(() => {
+        const orig = btnCopyPrivateLink.textContent;
+        btnCopyPrivateLink.textContent = '¡LINK COPIADO!';
+        btnCopyPrivateLink.style.background = '#00ff77';
+        btnCopyPrivateLink.style.color = '#000';
+        if (window.cyberAudio) window.cyberAudio.playSuccess();
+        setTimeout(() => {
+          btnCopyPrivateLink.textContent = orig;
+          btnCopyPrivateLink.style.background = '';
+          btnCopyPrivateLink.style.color = '';
+        }, 2000);
+      });
+    });
+  }
+
+  // Retar por WhatsApp
+  if (btnSharePrivateWa && privateRoomCodeDisplay) {
+    btnSharePrivateWa.addEventListener('click', () => {
+      const code = privateRoomCodeDisplay.value.trim().toUpperCase();
+      const challengeUrl = `${window.location.origin}/?join=${code}`;
+      const msg = `⚔️ Te desafío a un combate de hacking 1v1 en HackWars. Haz clic aquí para entrar a mi sala privada: ${challengeUrl}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+    });
+  }
+
+  // Unirse a sala existente por código
+  if (btnSubmitPrivateJoin && inputPrivateJoinCode) {
+    btnSubmitPrivateJoin.addEventListener('click', () => {
+      const code = inputPrivateJoinCode.value.trim().toUpperCase();
+      if (!code || code.length !== 4) {
+        alert('Por favor ingresa un código de sala válido de 4 caracteres (ej: AX79).');
+        return;
+      }
+      closePrivateModal();
+      joinMatch(code);
+    });
+
+    inputPrivateJoinCode.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        btnSubmitPrivateJoin.click();
+      }
+    });
+  }
+
+  // Cerrar modales con tecla Escape
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeQuickModesModal();
+      closePrivateModal();
+      const modalDiff = document.getElementById('modal-bot-difficulty');
+      if (modalDiff && modalDiff.style.display !== 'none') modalDiff.style.display = 'none';
+    }
   });
 
   // Modo Práctica / Simulador contra Bot IA con Selección de Dificultad
@@ -280,15 +473,17 @@
     socket.emit('start_bot_game', { username, difficulty });
   }
 
-  // Unirse con Código de Sala
-  dom.btnJoinRoom.addEventListener('click', () => {
-    const code = dom.inputRoomCode.value.trim().toUpperCase();
-    if (!code) {
-      alert('Ingresa un código de 4 caracteres o usa Emparejamiento Rápido.');
-      return;
-    }
-    joinMatch(code);
-  });
+  // Unirse con Código de Sala (fallback si existe)
+  if (dom.btnJoinRoom) {
+    dom.btnJoinRoom.addEventListener('click', () => {
+      const code = (dom.inputRoomCode ? dom.inputRoomCode.value : '').trim().toUpperCase();
+      if (!code) {
+        openPrivateModal();
+        return;
+      }
+      joinMatch(code);
+    });
+  }
 
   function joinMatch(roomCode) {
     const username = (dom.inputNickname.value || 'Hacker_' + Math.floor(Math.random() * 900 + 100)).trim();

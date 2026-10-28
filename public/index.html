@@ -91,31 +91,36 @@
         </div>
 
         <div class="lobby-actions-grid">
-          <div class="action-box">
-            <h3>MODO AUTOMÁTICO</h3>
-            <p>Empareja con cualquier partida abierta o crea una automáticamente.</p>
+          <!-- CARD 1: EMPAREJAMIENTO RÁPIDO -->
+          <div class="action-box interactive-action-card" id="card-quick-match" title="Ver opciones y modos de juego">
+            <div class="action-card-header">
+              <span class="action-card-icon">⚡</span>
+              <div>
+                <h3>EMPAREJAMIENTO RÁPIDO</h3>
+                <span class="action-card-badge">PVP • BOTS • ACADEMIA</span>
+              </div>
+            </div>
+            <p>Empareja con cualquier partida abierta o selecciona el modo de juego táctico que prefieras.</p>
             <button class="cyber-btn btn-primary btn-block" id="btn-quick-match">
-              <span class="btn-icon"></span> EMPAREJAMIENTO RÁPIDO
-            </button>
-            <button class="cyber-btn btn-secondary btn-block" id="btn-practice-bot" style="margin-top: 8px;">
-              <span class="btn-icon"></span> SOLO VS BOT IA
-            </button>
-            <button class="cyber-btn btn-block btn-academy" id="btn-open-academy" style="margin-top: 8px; border-color: var(--color-cyan); color: var(--color-cyan);">
-              <span class="btn-icon">🎓</span> MODO ACADEMIA // STORY MODE
+              <span class="btn-icon">⚡</span> EMPAREJAMIENTO RÁPIDO
             </button>
           </div>
 
-          <div class="action-box">
-            <h3>SALA PRIVADA</h3>
-            <p>Crea una sala o únete usando un código de 4 caracteres.</p>
-            <div class="room-input-group">
-              <input type="text" id="input-room-code" class="cyber-input" placeholder="CÓDIGO (ej: AX79)" maxlength="4" style="text-transform: uppercase;">
-              <button class="cyber-btn btn-secondary" id="btn-join-room">UNIRSE / CREAR</button>
+          <!-- CARD 2: PARTIDA PRIVADA -->
+          <div class="action-box interactive-action-card" id="card-private-match" title="Crear o unirse a una sala privada">
+            <div class="action-card-header">
+              <span class="action-card-icon">🔒</span>
+              <div>
+                <h3>PARTIDA PRIVADA</h3>
+                <span class="action-card-badge">SALA • CÓDIGO • LINK</span>
+              </div>
             </div>
-            <div class="share-viral-group" style="margin-top: 10px;">
-              <button class="cyber-btn btn-sm btn-viral-link" id="btn-copy-challenge-link" style="flex: 1;" title="Copiar enlace directo a esta sala">COPIAR LINK DE RETO</button>
-              <button class="cyber-btn btn-sm btn-viral-wa" id="btn-share-whatsapp" style="flex: 1;" title="Retar a un amigo por WhatsApp">RETAR X WHATSAPP</button>
-            </div>
+            <p>Crea o únete a una sala exclusiva para desafiar a tus amigos con código o enlace de reto.</p>
+            <button class="cyber-btn btn-secondary btn-block" id="btn-open-private-modal">
+              <span class="btn-icon">🔑</span> PARTIDA PRIVADA
+            </button>
+            <!-- Input oculto para mantener compatibilidad con enlaces directos -->
+            <input type="hidden" id="input-room-code" value="">
           </div>
         </div>
 
@@ -811,6 +816,173 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- MODAL: MODOS DE JUEGO // EMPAREJAMIENTO RÁPIDO -->
+  <div class="cyber-modal" id="modal-quick-modes" style="display: none;">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content modal-glow" style="max-width: 780px;">
+      <div class="modal-header">
+        <div>
+          <h2>EMPAREJAMIENTO RÁPIDO // MODOS DE JUEGO ⚡</h2>
+          <span style="font-size: 12px; color: var(--color-cyan);">Selecciona tu modo de enfrentamiento táctico</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-quick-modes">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="game-modes-grid">
+          <!-- MODO 1: DUELO 1v1 PVP -->
+          <div class="game-mode-card mode-pvp" id="card-mode-pvp">
+            <div class="mode-header">
+              <span class="mode-icon">⚔️</span>
+              <div>
+                <h3>DUELO 1v1 EN LÍNEA (PVP)</h3>
+                <span class="mode-badge pvp">MULTIJUGADOR • COMPETITIVO</span>
+              </div>
+            </div>
+            <p class="mode-desc">Enfrentamiento en tiempo real contra otro hacker en la subred global. Sube de división ELO y gana Bytecoins capturando la bandera enemiga o destruyendo su kernel.</p>
+            <div class="mode-rewards">
+              <span>🪙 +100 ฿ por Victoria</span>
+              <span>⚡ +25 ELO</span>
+            </div>
+            <button class="cyber-btn btn-primary btn-block btn-start-pvp">
+              BUSCAR PARTIDA 1v1 ▶
+            </button>
+          </div>
+
+          <!-- MODO 2: SOLO VS BOT IA -->
+          <div class="game-mode-card mode-bot" id="card-mode-bot">
+            <div class="mode-header">
+              <span class="mode-icon">🤖</span>
+              <div>
+                <h3>SOLO VS BOT IA</h3>
+                <span class="mode-badge bot">ENTRENAMIENTO • 4 NIVELES</span>
+              </div>
+            </div>
+            <p class="mode-desc">Practica tácticas ofensivas y defensivas en solitario contra la inteligencia artificial reactiva. Dificultades: Fácil, Normal, Difícil y Pesadilla.</p>
+            <div class="mode-rewards">
+              <span>🪙 Hasta +300 ฿</span>
+              <span>⚡ Hasta +100 ELO</span>
+            </div>
+            <button class="cyber-btn btn-secondary btn-block btn-start-bot">
+              ELEGIR DIFICULTAD ▶
+            </button>
+          </div>
+
+          <!-- MODO 3: MODO ACADEMIA -->
+          <div class="game-mode-card mode-academy" id="card-mode-academy">
+            <div class="mode-header">
+              <span class="mode-icon">🎓</span>
+              <div>
+                <h3>MODO ACADEMIA // STORY MODE</h3>
+                <span class="mode-badge academy">CAMPAÑA GUIADA</span>
+              </div>
+            </div>
+            <p class="mode-desc">Aprende ciberseguridad, comandos de Linux y auditoría perimetral paso a paso con el Cyber-Mentor interactivo en 5 módulos prácticos.</p>
+            <div class="mode-rewards">
+              <span>🪙 +650 ฿ Totales</span>
+              <span>📜 Desbloqueo de Badges</span>
+            </div>
+            <button class="cyber-btn btn-secondary btn-block btn-start-academy" style="color: var(--color-cyan); border-color: var(--color-cyan);">
+              ENTRAR A LA ACADEMIA ▶
+            </button>
+          </div>
+
+          <!-- MODO 4: KING OF THE HILL -->
+          <div class="game-mode-card mode-koth mode-locked" id="card-mode-koth">
+            <div class="mode-header">
+              <span class="mode-icon">👑</span>
+              <div>
+                <h3>KING OF THE HILL (KOTH)</h3>
+                <span class="mode-badge locked">PRÓXIMAMENTE • FASE 3</span>
+              </div>
+            </div>
+            <p class="mode-desc">Captura y defiende el nodo central de la subred (10.13.37.254) contra múltiples atacantes reteniendo el acceso root por puntos.</p>
+            <div class="mode-rewards">
+              <span>🔒 En Desarrollo</span>
+              <span>🏆 Torneos Semanales</span>
+            </div>
+            <button class="cyber-btn btn-block" disabled style="opacity: 0.5; cursor: not-allowed;">
+              PRÓXIMAMENTE 🔒
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PARTIDA PRIVADA // CONFIGURACIÓN & SALAS -->
+  <div class="cyber-modal" id="modal-private-match" style="display: none;">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content modal-glow" style="max-width: 680px;">
+      <div class="modal-header">
+        <div>
+          <h2>PARTIDA PRIVADA // CONFIGURACIÓN DE SALA 🔒</h2>
+          <span style="font-size: 12px; color: var(--color-cyan);">Crea un duelo privado o únete a una sala de un amigo</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-private-match">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="private-match-grid">
+          <!-- SECCIÓN 1: CREAR SALA -->
+          <div class="private-option-card">
+            <div class="private-card-header">
+              <span class="private-card-icon">➕</span>
+              <div>
+                <h3>CREAR NUEVA SALA PRIVADA</h3>
+                <span class="private-card-sub">Genera un código y desafía a tus contactos</span>
+              </div>
+            </div>
+            
+            <div class="private-form-row">
+              <label class="cyber-label">&gt; CÓDIGO ASIGNADO A TU SALA:</label>
+              <div class="private-code-row">
+                <input type="text" id="private-room-code-display" class="cyber-input private-code-input" readonly value="----" maxlength="4">
+                <button class="cyber-btn btn-xs" id="btn-refresh-room-code" title="Generar otro código">↻ NUEVO</button>
+              </div>
+            </div>
+
+            <button class="cyber-btn btn-primary btn-block" id="btn-create-private-room" style="margin-top: 10px;">
+              <span class="btn-icon">⚔️</span> CREAR SALA Y ESPERAR RIVAL ▶
+            </button>
+
+            <div class="share-viral-group" style="margin-top: 12px;">
+              <button class="cyber-btn btn-sm btn-viral-link" id="btn-copy-private-link" style="flex: 1;" title="Copiar enlace directo a esta sala">
+                COPIAR ENLACE DE RETO
+              </button>
+              <button class="cyber-btn btn-sm btn-viral-wa" id="btn-share-private-whatsapp" style="flex: 1;" title="Retar a un amigo por WhatsApp">
+                RETAR X WHATSAPP
+              </button>
+            </div>
+          </div>
+
+          <!-- SECCIÓN 2: UNIRSE A SALA EXISTENTE -->
+          <div class="private-option-card">
+            <div class="private-card-header">
+              <span class="private-card-icon">🔑</span>
+              <div>
+                <h3>UNIRSE A SALA EXISTENTE</h3>
+                <span class="private-card-sub">Ingresa el código de 4 caracteres de tu rival</span>
+              </div>
+            </div>
+
+            <div class="private-form-row">
+              <label for="input-private-join-code" class="cyber-label">&gt; INGRESA EL CÓDIGO DE SALA:</label>
+              <div class="room-input-group">
+                <input type="text" id="input-private-join-code" class="cyber-input" placeholder="EJ: AX79" maxlength="4" style="text-transform: uppercase;">
+                <button class="cyber-btn btn-secondary" id="btn-submit-private-join">ENTRAR A LA SALA ▶</button>
+              </div>
+            </div>
+            
+            <div class="private-join-hint">
+              💡 El código debe tener 4 caracteres (ej: AX79). Si tu rival te envió un enlace por WhatsApp, haz clic en él directamente para entrar sin tipear el código.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL DE CONFIRMACIÓN PARA CANCELAR PARTIDA -->
   <div class="cyber-modal" id="modal-confirm-cancel" style="display: none;">
     <div class="modal-backdrop"></div>
